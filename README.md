@@ -1,10 +1,13 @@
 # API-project
 API project mod 4
-# `<name of application here>`
+# `Meetup Clone`
+
+![Screen Shot 2022-08-24 at 3 20 13 PM](https://user-images.githubusercontent.com/106854883/186526375-37f8e85f-818a-4c47-9f7d-0eb1a08f93ec.png)
+
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+
 
 ## API Documentation
 
