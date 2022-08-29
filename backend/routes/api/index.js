@@ -1,11 +1,7 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-router.post('/test', function(req, res) {
-    res.json({ requestBody: req.body });
-  });
-
-
-module.exports = router;
+const { restoreUser } = require("../../utils/auth.js");
+router.use(restoreUser);
 
 /*
 
@@ -15,7 +11,6 @@ DevTools console. Make a request to /api/test with the POST method,
  a body of { hello: 'world' }, a "Content-Type" header, 
  and an XSRF-TOKEN header with the value of the XSRF-TOKEN cookie located in your DevTools.
 
-
 fetch('/api/test', {
   method: "POST",
   headers: {
@@ -24,7 +19,32 @@ fetch('/api/test', {
   },
   body: JSON.stringify({ hello: 'world' })
 }).then(res => res.json()).then(data => console.log(data));
-
-
-
 */
+/********SET TOKEN COOKIE*************** */
+
+const { setTokenCookie } = require("../../utils/auth.js");
+const { User } = require("../../db/models");
+
+router.get("/set-token-cookie", async (_req, res) => {
+    const user = await User.findOne({
+        where: {
+            username: "Demo-lition",
+        },
+    });
+    setTokenCookie(res, user);
+    return res.json({ user });
+});
+
+
+router.get("/restore-user", (req, res) => {
+  console.log('test')
+  return res.json(req.user);
+});
+
+router.post("/test", function (req, res) {
+  res.json({ requestBody: req.body });
+});
+
+
+
+module.exports = router;
