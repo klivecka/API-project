@@ -23,13 +23,14 @@ router.post("/", async (req, res, next) => {
     });
 });
 
-module.exports = router;
+router.delete(
+    '/',
+    (_req, res) => {
+      res.clearCookie('token');
+      return res.json({ message: 'success' });
+    }
+  );
 
-// fetch('/api/session', {
-//     method: 'POST',
-//     headers: {
-//       "Content-Type": "application/json",
-//       "XSRF-TOKEN": "hVcxJosr-CCZlc6NHtAIt42LBpw-u9xCWMIw"
-//     },
-//     body: JSON.stringify({ credential: 'Demo-lition', password: 'password' })
-//   }).then(res => res.json()).then(data => console.log(data));
+
+
+module.exports = router;
