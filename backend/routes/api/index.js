@@ -25,19 +25,32 @@ fetch('/api/test', {
 const { setTokenCookie } = require("../../utils/auth.js");
 const { User } = require("../../db/models");
 
-router.get("/set-token-cookie", async (_req, res) => {
-    const user = await User.findOne({
-        where: {
-            username: "Demo-lition",
-        },
-    });
-    setTokenCookie(res, user);
-    return res.json({ user });
-});
+// //TESTROUTE
+// router.get("/set-token-cookie", async (_req, res) => {
+//     const user = await User.findOne({
+//         where: {
+//             username: "Demo-lition",
+//         },
+//     });
+//     setTokenCookie(res, user);
+//     return res.json({ user });
+// });
+
+// //REQUIRE AUTH
+
+// const { requireAuth } = require('../../utils/auth.js');
+// router.get(
+//   '/require-auth',
+//   requireAuth,
+//   (req, res) => {
+//     return res.json(req.user);
+//   }
+// );
+
+
 
 
 router.get("/restore-user", (req, res) => {
-  console.log('test')
   return res.json(req.user);
 });
 
