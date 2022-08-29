@@ -3,6 +3,7 @@ const { setTokenCookie, restoreUser } = require("../../utils/auth");
 const { User } = require("../../db/models");
 const router = express.Router();
 
+//SIGN IN ROUTE
 router.post("/", async (req, res, next) => {
     const { credential, password } = req.body;
 
@@ -22,7 +23,7 @@ router.post("/", async (req, res, next) => {
         user,
     });
 });
-
+//SIGN OUT ROUTE
 router.delete(
     '/',
     (_req, res) => {
@@ -30,6 +31,7 @@ router.delete(
       return res.json({ message: 'success' });
     }
   );
+
 
 
 
