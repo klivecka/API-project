@@ -32,18 +32,18 @@ module.exports = (sequelize, DataTypes) => {
             },
             type: {
                 type: DataTypes.STRING,
-                // validate: {
-                //     validType() {
-                //         if (
-                //             this.type !== "Online" &&
-                //             this.type !== "In person"
-                //         ) {
-                //             throw new Error(
-                //                 "Type must be 'Online' or 'In person'"
-                //             );
-                //         }
-                //     },
-                // },
+                validate: {
+                    validType() {
+                        if (
+                            this.type !== "Online" &&
+                            this.type !== "In person"
+                        ) {
+                            throw new Error(
+                                "Type must be 'Online' or 'In person'"
+                            );
+                        }
+                    },
+                },
             },
             private: {
                 type: DataTypes.BOOLEAN,

@@ -9,7 +9,7 @@ module.exports = {
                     organizerId: 3,
                     about: "lets hang out and play guitar hero my guys! awesome fun times or everyone and free soda",
                     type: "In person",
-                    private: "no",
+                    private: true,
                     city: "Salt Lake City",
                     state: "UT",
                     numMembers: 10,
@@ -27,7 +27,7 @@ module.exports = {
                     previewImage: "../assets/Football.jpeg",
                 },
                 {
-                    name: "online d and d meetup",
+                    name: "d and d meetup",
                     organizerId: 2,
                     about: "this is an online group that meets to play dungeions and dragons on zoom. its really fun come hang with us fellow nerds,",
                     type: "Online",
