@@ -3,17 +3,17 @@ const { setTokenCookie, restoreUser } = require("../../utils/auth");
 const { User } = require("../../db/models");
 const router = express.Router();
 
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
+const { check } = require("express-validator");
+const { handleValidationErrors } = require("../../utils/validation");
 const validateLogin = [
-  check('credential')
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage('Please provide a valid email or username.'),
-  check('password')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a password.'),
-  handleValidationErrors
+    check("credential")
+        .exists({ checkFalsy: true })
+        .notEmpty()
+        .withMessage("Please provide a valid email or username."),
+    check("password")
+        .exists({ checkFalsy: true })
+        .withMessage("Please provide a password."),
+    handleValidationErrors,
 ];
 
 //SIGN IN ROUTE
@@ -37,30 +37,23 @@ router.post("/", validateLogin, async (req, res, next) => {
     });
 });
 //SIGN OUT ROUTE
-router.delete(
-    '/',
-    (_req, res) => {
-      res.clearCookie('token');
-      return res.json({ message: 'success' });
-    }
-  );
+router.delete("/", (_req, res) => {
+    res.clearCookie("token");
+    return res.json({ message: "success" });
+});
 
-  //RESTORE SESSION USER
-  router.get(
-    '/',
-    restoreUser,
-    (req, res) => {
-      const { user } = req;
-      if (user) {
+//RESTORE SESSION USER
+router.get("/", restoreUser, (req, res) => {
+    const { user } = req;
+    if (user) {
         return res.json({
-          user: user.toSafeObject()
+            user: user.toSafeObject(),
         });
-      } else return res.json({});
-    }
-  );
+    } else return res.json({});
+});
 
 //VALIDATION FOR THE REQUEST BODY
 
-
-
 module.exports = router;
+module.exports = validateLogin;
+// module.exports =  validateLogin
