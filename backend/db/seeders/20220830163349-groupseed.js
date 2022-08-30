@@ -1,5 +1,4 @@
 "use strict";
-
 module.exports = {
     async up(queryInterface, Sequelize) {
         return queryInterface.bulkInsert(
@@ -10,7 +9,7 @@ module.exports = {
                     organizerId: 3,
                     about: "lets hang out and play guitar hero my guys! awesome fun times or everyone and free soda",
                     type: "In person",
-                    private: true,
+                    private: "no",
                     city: "Salt Lake City",
                     state: "UT",
                     numMembers: 10,

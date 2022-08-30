@@ -1,5 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Validator } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Group extends Model {
         /**
@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 validate: {
                     len: [0, 60],
+                    msg: "Name must be 60 characters or less",
                 },
             },
             organizerId: {
@@ -26,25 +27,27 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 validate: {
                     len: [50, 5000],
+                    msg: "About must be 50 characters or more",
                 },
             },
             type: {
                 type: DataTypes.STRING,
-                validate: {
-                    validType() {
-                        if (
-                            this.type !== "Online" ||
-                            this.type !== "In person"
-                        ) {
-                            throw new Error(
-                                "Type must be 'Online' or 'In person'"
-                            );
-                        }
-                    },
-                },
+                // validate: {
+                //     validType() {
+                //         if (
+                //             this.type !== "Online" &&
+                //             this.type !== "In person"
+                //         ) {
+                //             throw new Error(
+                //                 "Type must be 'Online' or 'In person'"
+                //             );
+                //         }
+                //     },
+                // },
             },
             private: {
                 type: DataTypes.BOOLEAN,
+                msg: "Private must be a boolean",
             },
             city: {
                 type: DataTypes.STRING,
@@ -53,9 +56,6 @@ module.exports = (sequelize, DataTypes) => {
             state: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                validate: {
-                  len: [2, 2],
-                }
             },
             numMembers: {
                 type: DataTypes.INTEGER,
