@@ -54,6 +54,7 @@ module.exports = {
     },
 
     async down(queryInterface, Sequelize) {
+      await queryInterface.bulkDelete('Groups', null, {});
         /**
          * Add commands to revert seed here.
          *
