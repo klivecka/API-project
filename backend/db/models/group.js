@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
                     },
                 },
             },
-            isPrivate: {
+            private: {
                 type: DataTypes.BOOLEAN,
             },
             city: {
