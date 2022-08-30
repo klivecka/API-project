@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            Group.belongsTo(models.User, {
+                foreignKey: "organizerId",
+            });
         }
     }
     Group.init(
@@ -16,20 +18,16 @@ module.exports = (sequelize, DataTypes) => {
             name: {
                 type: DataTypes.STRING,
                 validate: {
-                    len: [0, 60]
+                    len: [0, 60],
                 },
             },
             organizerId: {
                 type: DataTypes.INTEGER,
-                references: {
-                    model: 'Users',
-                    key: 'id'
-                }
             },
             about: {
                 type: DataTypes.STRING,
                 validate: {
-                    len: [50, 5000]
+                    len: [50, 5000],
                 },
             },
             type: {
