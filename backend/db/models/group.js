@@ -13,11 +13,11 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: "organizerId",
             });
             Group.belongsToMany(models.User, {
-                through: models.Membership
-            })
+                through: models.Membership,
+            });
             Group.hasMany(models.GroupImage, {
-                foreignKey: "groupId"
-            })
+                foreignKey: "groupId",
+            });
         }
     }
     Group.init(
@@ -25,7 +25,10 @@ module.exports = (sequelize, DataTypes) => {
             name: {
                 type: DataTypes.STRING,
                 validate: {
-                    len: [0, 60],
+                    len: {
+                        args: [0, 60],
+                        msg: "Name must be 60 characters or less",
+                    },
                 },
             },
             organizerId: {
@@ -70,6 +73,13 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Group",
+            scopes: {
+                editGroup: {
+                    attributes: {
+                        exclude: ["numMembers"],
+                    },
+                },
+            },
         }
     );
     return Group;

@@ -67,11 +67,54 @@ router.get("/:groupId", async (req, res, next) => {
 });
 
 //EDIT A GROUP
-router.put("/:groupId", [restoreUser, requireAuth], async (req, res, next) => {
+router.put("/:groupId", restoreUser, async (req, res, next) => {
+    const { user } = req;
+    const userId = user.toSafeObject().id;
+
     const { name, about, type, private, city, state } = req.body;
     const groupId = req.params.groupId;
+    const group = await Group.scope("editGroup").findByPk(groupId);
+    if (!group) {
+        res.status(404);
+        res.json({
+            message: "Group couldn't be found",
+            statusCode: 404,
+        });
+    }
+    if (group.organizerId !== userId) {
+        throw new Error("not authorized");
+    }
+    const errors = {};
 
-    const group = await Group.findByPk(groupId);
+    if (name.length > 60) {
+        errors.name = "Name must be 60 characters or less";
+    }
+    // console.log("\n")
+    // console.log(errors)
+    // console.log("\n")
+    if (about.length < 50) {
+        errors.about = "About must be 50 characters or more";
+    }
+    if (type !== "Online" && type !== "In person") {
+        errors.type = "Type must be 'Online' or 'In person'";
+    }
+    if (private !== true && private !== false) {
+        errors.private = "Private must be a boolean";
+    }
+    if (!city) {
+        errors.city = "City is required";
+    }
+    if (!state) {
+        errors.state = "State is required";
+    }
+    if (Object.keys(errors).length) {
+        res.status = 400;
+        res.json({
+            message: "Validation Error",
+            statusCode: 400,
+            errors: errors,
+        });
+    }
 
     group.set({
         name: name,
@@ -81,6 +124,7 @@ router.put("/:groupId", [restoreUser, requireAuth], async (req, res, next) => {
         city: city,
         state: state,
     });
+    await group.save();
     res.json(group);
 });
 
@@ -101,7 +145,7 @@ router.get("/", async (req, res, next) => {
             group.previewImage = imageUrl.url;
         }
         if (!imageUrl) {
-            group.previewImage = "no image"
+            group.previewImage = "no image";
         }
 
         // group.previewImage = group.previewImage.url
@@ -144,4 +188,14 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
     }
 });
 
+//DELETE A GROUP
+router.delete("/:groupId", async (req, res, next) => {
+    const groupId = req.params.groupId;
+    const group = await Group.findByPk(groupId);
+    await group.destroy();
+    res.json({
+        message: "Successfully deleted",
+        statusCode: 200,
+    });
+});
 module.exports = router;

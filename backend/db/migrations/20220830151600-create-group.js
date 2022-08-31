@@ -9,7 +9,7 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             name: {
-                type: Sequelize.STRING,
+                type: Sequelize.STRING(60),
                 allowNull: false,
             },
             organizerId: {
