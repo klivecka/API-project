@@ -171,6 +171,38 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
             city: city,
             state: state,
         });
+        const errors = {};
+
+    if (name.length > 60) {
+        errors.name = "Name must be 60 characters or less";
+    }
+    // console.log("\n")
+    // console.log(errors)
+    // console.log("\n")
+    if (about.length < 50) {
+        errors.about = "About must be 50 characters or more";
+    }
+    if (type !== "Online" && type !== "In person") {
+        errors.type = "Type must be 'Online' or 'In person'";
+    }
+    if (private !== true && private !== false) {
+        errors.private = "Private must be a boolean";
+    }
+    if (!city) {
+        errors.city = "City is required";
+    }
+    if (!state) {
+        errors.state = "State is required";
+    }
+    if (Object.keys(errors).length) {
+        res.status = 400;
+        res.json({
+            message: "Validation Error",
+            statusCode: 400,
+            errors: errors,
+        });
+    }
+
         await newGroup.save();
         const resGroup = await Group.findByPk(newGroup.id, {
             include: [
