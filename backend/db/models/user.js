@@ -53,11 +53,11 @@ module.exports = (sequelize, DataTypes) => {
     User.init(
         {
             firstName: {
-                type: Sequelize.STRING,
+                type: DataTypes.STRING,
                 allowNull: false,
             },
             lastName: {
-                type: Sequelize.STRING,
+                type: DataTypes.STRING,
                 allowNull: false,
             },
             email: {

@@ -51,16 +51,19 @@ router.get("/:groupId", async (req, res, next) => {
             {
                 model: GroupImage,
             },
+            {
+                model: User,
+                as: "Organizer",
+            },
         ],
     });
-    const user = await User.findOne({
-        attributes: ["id"],
-        where: {
-            id: group.organizerId,
-        },
-    });
-    groupArray.push(group, user)
-    res.json(groupArray);
+    // const user = await User.findOne({
+    //     attributes: ["id", "firstName", "lastName"],
+    //     where: {
+    //         id: group.organizerId,
+    //     },
+    // });
+    res.json(group);
 });
 
 //EDIT A GROUP
@@ -83,12 +86,33 @@ router.put("/:groupId", async (req, res, next) => {
 
 //GET ALL GROUPS
 router.get("/", async (req, res, next) => {
-    const groups = await Group.findAll({});
-    res.json(groups);
+    let result = [];
+    let groups = await Group.findAll();
+    for (let i = 0; i < groups.length; i++) {
+        let group = groups[i].toJSON();
+        let imageUrl = await GroupImage.findOne({
+            attributes: ["url"],
+            where: {
+                groupId: group.id,
+                preview: true,
+            },
+        });
+        if (imageUrl) {
+            group.previewImage = imageUrl.url;
+        }
+        if (!imageUrl) {
+            group.previewImage = "no image"
+        }
+
+        // group.previewImage = group.previewImage.url
+        // console.log('GROIUPGORUGOGJROA', group)
+        result.push(group);
+    }
+    res.json(result);
 });
 
 //CREATE A GROUP
-router.post("/", restoreUser, async (req, res, next) => {
+router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
     const { user } = req;
     const { name, about, type, private, city, state } = req.body;
     if (user) {
@@ -104,7 +128,19 @@ router.post("/", restoreUser, async (req, res, next) => {
             state: state,
         });
         await newGroup.save();
-        res.json(newGroup);
+        const resGroup = await Group.findByPk(newGroup.id, {
+            include: [
+                {
+                    model: GroupImage,
+                },
+                {
+                    model: User,
+                    as: "Organizer",
+                },
+            ],
+        });
+
+        res.json(resGroup);
     }
 });
 
