@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const { requireAuth } = require("../../utils/auth");
-const { Group, User, Membership } = require("../../db/models");
+const { Group, User, Membership, GroupImage } = require("../../db/models");
 const { validateLogin } = require("./session");
 const { restoreUser } = require("../../utils/auth");
+const groupimage = require("../../db/models/groupimage");
+const group = require("../../db/models/group");
 // const validateLogin = require("./session")
 
 //GET ALL GROUPS ORGANIZED AND JOINED BY CURRENT USER
@@ -43,29 +45,40 @@ router.get("/current", restoreUser, async (req, res, next) => {
 //GET GROUP DETAILS BY GROUP ID
 router.get("/:groupId", async (req, res, next) => {
     const groupId = req.params.groupId;
-
-    const group = await Group.findByPk(groupId);
-
-    res.json(group);
+    const groupArray = [];
+    const group = await Group.findByPk(groupId, {
+        include: [
+            {
+                model: GroupImage,
+            },
+        ],
+    });
+    const user = await User.findOne({
+        attributes: ["id"],
+        where: {
+            id: group.organizerId,
+        },
+    });
+    groupArray.push(group, user)
+    res.json(groupArray);
 });
 
 //EDIT A GROUP
 router.put("/:groupId", async (req, res, next) => {
-const { name, about, type, private, city, state } = req.body;
-const groupId = req.params.groupId;
+    const { name, about, type, private, city, state } = req.body;
+    const groupId = req.params.groupId;
 
-const group = await Group.findByPk(groupId);
+    const group = await Group.findByPk(groupId);
 
-group.set({
-    name: name,
-    about: about,
-    type: type,
-    private: private,
-    city: city,
-    state: state
-})
-res.json(group)
-
+    group.set({
+        name: name,
+        about: about,
+        type: type,
+        private: private,
+        city: city,
+        state: state,
+    });
+    res.json(group);
 });
 
 //GET ALL GROUPS

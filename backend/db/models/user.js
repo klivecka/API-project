@@ -46,23 +46,19 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: "organizerId",
             });
             User.belongsToMany(models.Group, {
-                through: models.Membership
-            })
+                through: models.Membership,
+            });
         }
     }
     User.init(
         {
-            username: {
-                type: DataTypes.STRING,
+            firstName: {
+                type: Sequelize.STRING,
                 allowNull: false,
-                validate: {
-                    len: [4, 30],
-                    isNotEmail(value) {
-                        if (Validator.isEmail(value)) {
-                            throw new Error("Cannot be an email.");
-                        }
-                    },
-                },
+            },
+            lastName: {
+                type: Sequelize.STRING,
+                allowNull: false,
             },
             email: {
                 type: DataTypes.STRING,
