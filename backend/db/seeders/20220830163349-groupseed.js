@@ -13,7 +13,7 @@ module.exports = {
                     city: "Salt Lake City",
                     state: "UT",
                     numMembers: 10,
-                    previewImage: "../assets/Guitar-hero-iii-cover-image.jpeg",
+
                 },
                 {
                     name: "Lets play some soccer",
