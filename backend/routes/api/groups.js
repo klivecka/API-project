@@ -160,7 +160,38 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
     const { user } = req;
     const { name, about, type, private, city, state } = req.body;
     if (user) {
+        const errors = {};
         const userId = user.toSafeObject().id;
+
+        if (name.length > 60) {
+            errors.name = "Name must be 60 characters or less";
+        }
+        // console.log("\n")
+        // console.log(errors)
+        // console.log("\n")
+        if (about.length < 50) {
+            errors.about = "About must be 50 characters or more";
+        }
+        if (type !== "Online" && type !== "In person") {
+            errors.type = "Type must be 'Online' or 'In person'";
+        }
+        if (private !== true && private !== false) {
+            errors.private = "Private must be a boolean";
+        }
+        if (!city) {
+            errors.city = "City is required";
+        }
+        if (!state) {
+            errors.state = "State is required";
+        }
+        if (Object.keys(errors).length) {
+            res.status = 400;
+            res.json({
+                message: "Validation Error",
+                statusCode: 400,
+                errors: errors,
+            });
+        }
         // console.log(req.body)
         const newGroup = Group.build({
             organizerId: userId,
@@ -171,37 +202,7 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
             city: city,
             state: state,
         });
-        const errors = {};
-
-    if (name.length > 60) {
-        errors.name = "Name must be 60 characters or less";
-    }
-    // console.log("\n")
-    // console.log(errors)
-    // console.log("\n")
-    if (about.length < 50) {
-        errors.about = "About must be 50 characters or more";
-    }
-    if (type !== "Online" && type !== "In person") {
-        errors.type = "Type must be 'Online' or 'In person'";
-    }
-    if (private !== true && private !== false) {
-        errors.private = "Private must be a boolean";
-    }
-    if (!city) {
-        errors.city = "City is required";
-    }
-    if (!state) {
-        errors.state = "State is required";
-    }
-    if (Object.keys(errors).length) {
-        res.status = 400;
-        res.json({
-            message: "Validation Error",
-            statusCode: 400,
-            errors: errors,
-        });
-    }
+ 
 
         await newGroup.save();
         const resGroup = await Group.findByPk(newGroup.id, {
@@ -224,12 +225,12 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
 router.delete("/:groupId", async (req, res, next) => {
     const groupId = req.params.groupId;
     const group = await Group.findByPk(groupId);
-    if(!group) {
-        res.status = 404
+    if (!group) {
+        res.status = 404;
         res.json({
-            "message": "Group couldn't be found",
-            "statusCode": 404
-          })
+            message: "Group couldn't be found",
+            statusCode: 404,
+        });
     }
     await group.destroy();
     res.json({
