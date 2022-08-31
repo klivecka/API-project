@@ -55,5 +55,5 @@ router.get("/", restoreUser, (req, res) => {
 //VALIDATION FOR THE REQUEST BODY
 
 module.exports = router;
-module.exports = validateLogin;
+// module.exports = validateLogin;
 // module.exports =  validateLogin
