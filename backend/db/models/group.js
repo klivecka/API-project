@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
             Group.belongsToMany(models.User, {
                 through: models.Membership
             })
+            Group.hasMany(models.GroupImage, {
+                foreignKey: "groupId"
+            })
         }
     }
     Group.init(
@@ -61,9 +64,6 @@ module.exports = (sequelize, DataTypes) => {
             },
             numMembers: {
                 type: DataTypes.INTEGER,
-            },
-            previewImage: {
-                type: DataTypes.STRING,
             },
         },
         {
