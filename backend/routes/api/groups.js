@@ -192,6 +192,13 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
 router.delete("/:groupId", async (req, res, next) => {
     const groupId = req.params.groupId;
     const group = await Group.findByPk(groupId);
+    if(!group) {
+        res.status = 404
+        res.json({
+            "message": "Group couldn't be found",
+            "statusCode": 404
+          })
+    }
     await group.destroy();
     res.json({
         message: "Successfully deleted",
