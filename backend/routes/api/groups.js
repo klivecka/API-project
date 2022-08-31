@@ -67,7 +67,7 @@ router.get("/:groupId", async (req, res, next) => {
 });
 
 //EDIT A GROUP
-router.put("/:groupId", async (req, res, next) => {
+router.put("/:groupId", [restoreUser, requireAuth], async (req, res, next) => {
     const { name, about, type, private, city, state } = req.body;
     const groupId = req.params.groupId;
 
