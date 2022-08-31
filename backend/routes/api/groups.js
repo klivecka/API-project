@@ -20,18 +20,18 @@ router.get("/current", restoreUser, async (req, res, next) => {
         groupArray.push(...groupsOrg);
 
         const groupIds = await Membership.findAll({
-            attributes: ['groupId'],
+            attributes: ["groupId"],
             where: {
-                userId: userId
+                userId: userId,
             },
         });
 
         for (groupId of groupIds) {
             let id = groupId.groupId;
-            let group = await Group.findByPk(id)
-            groupArray.push(group)
+            let group = await Group.findByPk(id);
+            groupArray.push(group);
         }
-       
+
         // console.log('groupIdx', groupIds)
 
         // groupArray.push(groupsMem);
@@ -41,23 +41,38 @@ router.get("/current", restoreUser, async (req, res, next) => {
 });
 
 //GET GROUP DETAILS BY GROUP ID
-router.get('/:groupId', async (req, res, next) => {
-    const groupId = req.params.groupId
+router.get("/:groupId", async (req, res, next) => {
+    const groupId = req.params.groupId;
 
-    const group = await Group.findByPk(groupId)
+    const group = await Group.findByPk(groupId);
 
-    res.json(group)
+    res.json(group);
+});
+
+//EDIT A GROUP
+router.put("/:groupId", async (req, res, next) => {
+const { name, about, type, private, city, state } = req.body;
+const groupId = req.params.groupId;
+
+const group = await Group.findByPk(groupId);
+
+group.set({
+    name: name,
+    about: about,
+    type: type,
+    private: private,
+    city: city,
+    state: state
 })
+res.json(group)
 
-
-
+});
 
 //GET ALL GROUPS
 router.get("/", async (req, res, next) => {
     const groups = await Group.findAll({});
     res.json(groups);
 });
-
 
 //CREATE A GROUP
 router.post("/", restoreUser, async (req, res, next) => {
