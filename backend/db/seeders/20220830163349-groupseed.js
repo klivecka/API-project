@@ -24,7 +24,6 @@ module.exports = {
                     city: "Cottonwood Heights",
                     state: "UT",
                     numMembers: 30,
-                    previewImage: "../assets/Football.jpeg",
                 },
                 {
                     name: "d and d meetup",
@@ -35,7 +34,6 @@ module.exports = {
                     city: "Any City",
                     state: "US",
                     numMembers: 100,
-                    previewImage: "../assets/dice.jpeg",
                 },
             ],
             {}

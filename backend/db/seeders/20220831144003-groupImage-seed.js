@@ -8,12 +8,17 @@ module.exports = {
         {
           groupId: 1,
           url: "../assets/Guitar-hero-iii-cover-image.jpeg",
-          
+          preview: true
         },
         {
-          userId: 1,
           groupId: 2,
-          status: "active"
+          url: "../assets/Football.jpeg",
+          preview: true
+        },
+        {
+          groupId: 3,
+          url: "../assets/dice.jpeg",
+          preview: true
         }
       ]
     )
