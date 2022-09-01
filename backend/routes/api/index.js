@@ -14,6 +14,7 @@ router.use("/session", sessionRouter);
 router.use("/users", usersRouter);
 router.use("/groups", groupsRouter);
 
+
 /*
 
 Test this route by navigating to 

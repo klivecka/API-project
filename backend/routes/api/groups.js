@@ -11,7 +11,6 @@ const {
 } = require("../../db/models");
 const { validateLogin } = require("./session");
 const { restoreUser } = require("../../utils/auth");
-const groupimage = require("../../db/models/groupimage");
 // const group = require("../../db/models/group");
 // const group = require("../../db/models/group");
 // const validateLogin = require("./session")
@@ -81,7 +80,10 @@ router.get("/current", restoreUser, async (req, res, next) => {
 router.get("/:groupId", async (req, res, next) => {
     const groupId = req.params.groupId;
     const groupArray = [];
-    const group = await Group.findByPk(groupId, {
+    const group = await Group.findOne({
+        where: {
+            id: groupId
+        },
         include: [
             {
                 model: GroupImage,
@@ -109,6 +111,26 @@ router.get("/:groupId", async (req, res, next) => {
     //     },
     // });
     res.json(group);
+});
+
+//GET ALL VENUES FOR A GROUP BY GROUP ID
+router.get("/:groupId/venues", async (req, res, next) => {
+    const resObj = {};
+    const groupId = req.params.groupId;
+    const venues = await Venue.findAll({
+        where: {
+            groupId: groupId,
+        },
+    });
+    if (!venues) {
+        res.status(404);
+        res.json({
+            message: "Group couldn't be found",
+            statusCode: 404,
+        });
+    }
+    resObj.Venues = venues
+    res.json(resObj)
 });
 
 //EDIT A GROUP
