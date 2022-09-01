@@ -6,91 +6,106 @@ module.exports = (sequelize, DataTypes) => {
         toSafeObject() {
             const { id, username, email } = this; // context will be the User instance
             return { id, username, email };
-          }
-          validatePassword(password) {
+        }
+        validatePassword(password) {
             return bcrypt.compareSync(password, this.hashedPassword.toString());
-          }
-          static getCurrentUserById(id) {
+        }
+        static getCurrentUserById(id) {
             return User.scope("currentUser").findByPk(id);
-          }
-          static async login({ credential, password }) {
-            const { Op } = require('sequelize');
-            const user = await User.scope('loginUser').findOne({
-              where: {
-                [Op.or]: {
-                  username: credential,
-                  email: credential
-                }
-              }
+        }
+        static async login({ credential, password }) {
+            const { Op } = require("sequelize");
+            const user = await User.scope("loginUser").findOne({
+                where: {
+                    [Op.or]: {
+                        username: credential,
+                        email: credential,
+                    },
+                },
             });
             if (user && user.validatePassword(password)) {
-              return await User.scope('currentUser').findByPk(user.id);
+                return await User.scope("currentUser").findByPk(user.id);
             }
-          }
-          static async signup({ username, email, password }) {
+        }
+        static async signup({ username, email, password }) {
             const hashedPassword = bcrypt.hashSync(password);
             const user = await User.create({
-              username,
-              email,
-              hashedPassword
+                username,
+                email,
+                hashedPassword,
             });
-            return await User.scope('currentUser').findByPk(user.id);
-          }
+            return await User.scope("currentUser").findByPk(user.id);
+        }
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            User.hasMany(models.Group, {
+                foreignKey: "organizerId",
+            });
+            User.belongsToMany(models.Group, {
+                through: models.Membership,
+            });
         }
     }
     User.init(
         {
+            firstName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            lastName: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
             username: {
-              type: DataTypes.STRING,
-              allowNull: false,
-              validate: {
-                len: [4, 30],
-                isNotEmail(value) {
-                  if (Validator.isEmail(value)) {
-                    throw new Error("Cannot be an email.");
-                  }
-                }
-              }
+                type: DataTypes.STRING,
+                allowNull: false,
+                unique: true,
             },
             email: {
-              type: DataTypes.STRING,
-              allowNull: false,
-              validate: {
-                len: [3, 256]
-              }
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    len: [3, 256],
+                },
+                unique: {
+                    args: true,
+                    msg: "User already exists with the specified email",
+                },
             },
             hashedPassword: {
-              type: DataTypes.STRING.BINARY,
-              allowNull: false,
-              validate: {
-                len: [60, 60]
-              }
-            }
-          },
-          {
+                type: DataTypes.STRING.BINARY,
+                allowNull: false,
+                validate: {
+                    len: [60, 60],
+                },
+            },
+        },
+        {
             sequelize,
             modelName: "User",
             defaultScope: {
-              attributes: {
-                exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
-              }
+                attributes: {
+                    exclude: [
+                        "hashedPassword",
+                        "email",
+                        "createdAt",
+                        "updatedAt",
+                    ],
+                },
             },
             scopes: {
-              currentUser: {
-                attributes: { exclude: ["hashedPassword"] }
-              },
-              loginUser: {
-                attributes: {}
-              }
-            }
-          }
-        );
+                currentUser: {
+                    attributes: { exclude: ["hashedPassword"] },
+                },
+                loginUser: {
+                    attributes: {},
+                },
+            },
+        }
+    );
     return User;
 };
