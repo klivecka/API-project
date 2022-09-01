@@ -2,32 +2,36 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-
+    
     return queryInterface.bulkInsert(
-      "Memberships",
+      "Venues", 
       [
         {
-          userId:1,
           groupId: 1,
-          status: "active"
+          address: "6696 Farts Avenue",
+          city: "omaha",
+          state: "WI",
+          lat: 42.4039403,
+          lon: 33.3847628
         },
         {
-          userId: 1,
           groupId: 2,
-          status: "active"
+          address: "6696 blaaaa Avenue",
+          city: "jonestown",
+          state: "NE",
+          lat: 44.4039403,
+          lon: 13.3847628
         },
         {
-          userId: 2,
-          groupId: 2,
-          status: "active"
-        },
-        {
-          userId: 3,
-          groupId: 1,
-          status: "active"
+          groupId: 3,
+          address: "44444 fds Avenue",
+          city: "SLC",
+          state: "UT",
+          lat: 40.4039403,
+          lon: -22.3847628
         }
       ]
-    )
+    
     /**
      * Add seed commands here.
      *
@@ -37,6 +41,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+    )
   },
 
   async down (queryInterface, Sequelize) {

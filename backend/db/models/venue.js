@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model, STRING
+  Model, STRING, INET, INTEGER
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Venue extends Model {
@@ -10,10 +10,15 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Venue.belongsTo(models.Group, {
+        foreignKey: "groupId"
+      })
     }
   }
   Venue.init({
+    groupId: {
+      type: INTEGER,
+    },
     address: {
       type: DataTypes.STRING,
       allowNull: false
@@ -29,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     lat: {
       type: DataTypes.DECIMAL
     },
-    lat: {
+    lon: {
       type: DataTypes.DECIMAL
     }
   }, {

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { requireAuth } = require("../../utils/auth");
+const { Op } = require("sequelize");
 const { Group, User, Membership, GroupImage } = require("../../db/models");
 const { validateLogin } = require("./session");
 const { restoreUser } = require("../../utils/auth");
@@ -11,7 +12,9 @@ const group = require("../../db/models/group");
 //GET ALL GROUPS ORGANIZED AND JOINED BY CURRENT USER
 router.get("/current", restoreUser, async (req, res, next) => {
     const { user } = req;
+    const groupObj = {}
     const groupArray = [];
+    const result = []
     if (user) {
         const userId = user.toSafeObject().id;
         const groupsOrg = await Group.findAll({
@@ -24,21 +27,45 @@ router.get("/current", restoreUser, async (req, res, next) => {
         const groupIds = await Membership.findAll({
             attributes: ["groupId"],
             where: {
-                userId: userId,
-            },
+                userId: {
+                    [Op.eq]:[userId],
+            },}
         });
 
         for (groupId of groupIds) {
             let id = groupId.groupId;
-            let group = await Group.findByPk(id);
-            groupArray.push(group);
+            let group = await Group.findOne({
+                where: {
+                    id: id,
+                    organizerId: {
+                        [Op.ne]:[userId]
+                    }
+                }
+            });
+            if(group) groupArray.push(group);
         }
-
+        for (let i = 0; i < groupArray.length; i++) {
+            let ele = groupArray[i].toJSON();
+            let imageUrl = await GroupImage.findOne({
+                attributes: ["url"],
+                where: {
+                    groupId: ele.id,
+                    preview: true,
+                },
+            });
+            if (imageUrl) {
+                ele.previewImage = imageUrl.url;
+            }
+            if (!imageUrl) {
+                ele.previewImage = "no image";
+            }
+            result.push(ele)
+        }
         // console.log('groupIdx', groupIds)
 
         // groupArray.push(groupsMem);
-
-        res.json(groupArray);
+        groupObj.Groups = result
+        res.json(groupObj);
     }
 });
 
@@ -137,6 +164,7 @@ router.put("/:groupId", restoreUser, async (req, res, next) => {
 
 //GET ALL GROUPS
 router.get("/", async (req, res, next) => {
+    let resultObj = {};
     let result = [];
     let groups = await Group.findAll();
     for (let i = 0; i < groups.length; i++) {
@@ -159,7 +187,8 @@ router.get("/", async (req, res, next) => {
         // console.log('GROIUPGORUGOGJROA', group)
         result.push(group);
     }
-    res.json(result);
+    resultObj.Groups = result
+    res.json(resultObj);
 });
 
 //CREATE A GROUP
