@@ -64,12 +64,6 @@ router.get("/:groupId", async (req, res, next) => {
             statusCode: 404,
         });
     }
-    // const user = await User.findOne({
-    //     attributes: ["id", "firstName", "lastName"],
-    //     where: {
-    //         id: group.organizerId,
-    //     },
-    // });
     res.json(group);
 });
 
