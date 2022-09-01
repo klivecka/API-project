@@ -57,6 +57,13 @@ router.get("/:groupId", async (req, res, next) => {
             },
         ],
     });
+    if (!group) {
+        res.status = 404;
+        res.json({
+            message: "Group couldn't be found",
+            statusCode: 404,
+        });
+    }
     // const user = await User.findOne({
     //     attributes: ["id", "firstName", "lastName"],
     //     where: {
@@ -202,7 +209,6 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
             city: city,
             state: state,
         });
- 
 
         await newGroup.save();
         const resGroup = await Group.findByPk(newGroup.id, {
