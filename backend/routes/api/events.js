@@ -14,8 +14,7 @@ const {
 } = require("../../db/models");
 const { validateLogin } = require("./session");
 const { restoreUser } = require("../../utils/auth");
-const attendance = require("../../db/models/attendance");
-const e = require("express");
+// const e = require("express");
 
 //GET ALL EVENTS
 router.get("/", async (req, res, next) => {
@@ -136,9 +135,7 @@ router.post(
             },
         });
         userIds = attendData.map((user) => user.userId);
-        console.log("\n");
-        console.log(userId);
-        console.log("\n");
+    
         if (!userIds.includes(userId)) {
             res.status(403);
             res.json({
