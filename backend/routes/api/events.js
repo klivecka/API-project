@@ -9,29 +9,53 @@ const {
     GroupImage,
     Venue,
     Event,
+    Attendance,
+    EventImage,
 } = require("../../db/models");
 const { validateLogin } = require("./session");
 const { restoreUser } = require("../../utils/auth");
+const attendance = require("../../db/models/attendance");
+const e = require("express");
 
 router.get("/", async (req, res, next) => {
     const events = await Event.findAll({
         include: [
             {
                 model: Group,
-                attributes: ["id", "name", "city", "state"]
+                attributes: ["id", "name", "city", "state"],
             },
             {
                 model: Venue,
-                attributes: ["id", "city", "state"]
+                attributes: ["id", "city", "state"],
             },
         ],
     });
+    let result = [];
+    for (let i = 0; i < events.length; i++) {
+        let attCount = 0;
+        let event = events[i].toJSON();
+        let eventId = event.id;
+        const attendRows = await Attendance.findAll({
+            where: {
+                eventId: eventId,
+                status: "member",
+            },
+        });
+        attCount = attendRows.length;
+        event.numAttending = attCount;
 
-    
+        let eventImg = await EventImage.findOne({
+            attributes: ["url"],
+            where: {
+                eventId: eventId,
+                preview: "true",
+            },
+        });
+        event.previewImage = eventImg.url;
+        result.push(event);
+    }
 
-    let eventObj = events.toJSON()
-
-    res.json(events)
+    res.json(result);
 });
 
 module.exports = router;
