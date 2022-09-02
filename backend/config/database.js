@@ -20,3 +20,5 @@ module.exports = {
     }
   }
 };
+
+//heroku pg:reset DATABASE_URL destroys Database in heroku

@@ -1,28 +1,31 @@
-const { validationResult } = require('express-validator');
+const { validationResult } = require("express-validator");
 const handleValidationErrors = (req, res, next) => {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
-      const errors = validationErrors
-      .array()
-      .map((error) => `${error.param} : ${error.msg}`);
-  
+        const errorsArray = validationErrors.array();
+        const errors = {};
+        // .map((error) => `${error.param} : ${error.msg}`);
+        for (error of errorsArray) {
+            if (error.param === "credential") {
+                errors.email = error.msg;
+            } else errors[error.param] = error.msg;
+        }
 
-      const err = {}
-      err.message = "Validation error";
-      err.statusCode = 400;
-      err.errors = errors
-      res.status(400)
-      res.json(err)
+        const err = {};
+        err.message = "Validation error";
+        err.statusCode = 400;
+        err.errors = errors;
+        res.status(400);
+        res.json(err);
     }
     next();
-  };
-  
-  module.exports = {
-    handleValidationErrors
-  };
+};
 
+module.exports = {
+    handleValidationErrors,
+};
 
-  // const { body, validationResult } = require('express-validator');
+// const { body, validationResult } = require('express-validator');
 
 // app.post(
 //   '/user',
