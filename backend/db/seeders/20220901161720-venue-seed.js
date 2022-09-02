@@ -12,7 +12,7 @@ module.exports = {
           city: "omaha",
           state: "WI",
           lat: 42.4039403,
-          lon: 33.3847628
+          lng: 33.3847628
         },
         {
           groupId: 2,
@@ -20,7 +20,7 @@ module.exports = {
           city: "jonestown",
           state: "NE",
           lat: 44.4039403,
-          lon: 13.3847628
+          lng: 13.3847628
         },
         {
           groupId: 3,
@@ -28,7 +28,7 @@ module.exports = {
           city: "SLC",
           state: "UT",
           lat: 40.4039403,
-          lon: -22.3847628
+          lng: -22.3847628
         }
       ]
     

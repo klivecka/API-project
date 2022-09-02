@@ -82,7 +82,7 @@ router.get("/:groupId", async (req, res, next) => {
     const groupArray = [];
     const group = await Group.findOne({
         where: {
-            id: groupId
+            id: groupId,
         },
         include: [
             {
@@ -129,8 +129,81 @@ router.get("/:groupId/venues", async (req, res, next) => {
             statusCode: 404,
         });
     }
-    resObj.Venues = venues
-    res.json(resObj)
+    resObj.Venues = venues;
+    res.json(resObj);
+});
+
+//CREATE A NEW VENUE FOR A GROUP BASED ON A GROUP ID
+router.post("/:groupId/venues", async (req, res, next) => {
+    const groupId = req.params.groupId;
+    const { address, city, state, lat, lng } = req.body;
+    const groupCheck = await Group.findByPk(groupId);
+    if (!groupCheck) {
+        res.status(404),
+            res.json({
+                message: "Group couldn't be found",
+                statusCode: 404,
+            });
+    }
+
+//BODY VALIDATION ERRORS
+    const errors = {};
+    if (!address) {
+        errors.address = "Street address is required";
+    }
+    if (!city) {
+        errors.city = "City is required";
+    }
+    if (!state) {
+        errors.state = "State is required";
+    }
+    const latAbs = Math.abs(lat)
+    const latString = latAbs.toString();
+    if (
+        latAbs > 90 ||
+        latString[2] !== "." ||
+        latString.length !== 10
+    ) {
+        errors.lat = "Latitude is not valid";
+    }
+    const lngAbs = Math.abs(lng)
+    const lngString = lngAbs.toString();
+    const lngStringSplit = lngString.split(".");
+
+    if (
+        lng > 180 ||
+        lngStringSplit[0].length < 2 ||
+        lngStringSplit[0].length > 3 ||
+        lngStringSplit[1].length !== 7
+    ) {
+        errors.lat = "Longitude is not valid";
+    }
+    const newVenue = Venue.build({
+        groupId: groupId,
+        address: address,
+        city: city,
+        state: state,
+        lat: lat,
+        lng: lng,
+    });
+    if (Object.keys(errors).length) {
+        res.status(404);
+        res.json({
+            message: "Validation Error",
+            statusCode: 400,
+            errors: errors,
+        });
+    }
+
+    newVenue.save();
+    const venueRes = await Venue.findOne({
+        where: {
+            groupId: groupId,
+            address: address,
+            city: city
+        }
+    })
+    res.json(venueRes);
 });
 
 //EDIT A GROUP

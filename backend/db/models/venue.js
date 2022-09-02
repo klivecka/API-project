@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     lat: {
       type: DataTypes.DECIMAL
     },
-    lon: {
+    lng: {
       type: DataTypes.DECIMAL
     }
   }, {
