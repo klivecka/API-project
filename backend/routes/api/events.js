@@ -17,6 +17,12 @@ const { restoreUser } = require("../../utils/auth");
 const attendance = require("../../db/models/attendance");
 const e = require("express");
 
+
+
+
+
+
+//GET ALL EVENTS
 router.get("/", async (req, res, next) => {
     const events = await Event.findAll({
         include: [
@@ -30,6 +36,7 @@ router.get("/", async (req, res, next) => {
             },
         ],
     });
+    let resultObj = {}
     let result = [];
     for (let i = 0; i < events.length; i++) {
         let attCount = 0;
@@ -54,8 +61,8 @@ router.get("/", async (req, res, next) => {
         event.previewImage = eventImg.url;
         result.push(event);
     }
-
-    res.json(result);
+    resultObj.Events = result
+    res.json(resultObj);
 });
 
 module.exports = router;

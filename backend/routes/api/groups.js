@@ -8,12 +8,62 @@ const {
     Membership,
     GroupImage,
     Venue,
+    Event,
+    EventImage,
+    Attendance
 } = require("../../db/models");
 const { validateLogin } = require("./session");
 const { restoreUser } = require("../../utils/auth");
 // const group = require("../../db/models/group");
 // const group = require("../../db/models/group");
 // const validateLogin = require("./session")
+
+//GET ALL EVENTS SPECIFIED BY GROUP ID **********EVENTS
+router.get("/:groupId/events", async (req, res, next) => {
+    const groupId = req.params.groupId;
+    const events = await Event.findAll({
+        where: {
+            groupId: groupId,
+        },
+        include: [
+            {
+                model: Group,
+                attributes: ["id", "name", "city", "state"],
+            },
+            {
+                model: Venue,
+                attributes: ["id", "city", "state"],
+            },
+        ],
+    });
+    let resultObj = {};
+    let result = [];
+    for (let i = 0; i < events.length; i++) {
+        let attCount = 0;
+        let event = events[i].toJSON();
+        let eventId = event.id;
+        const attendRows = await Attendance.findAll({
+            where: {
+                eventId: eventId,
+                status: "member",
+            },
+        });
+        attCount = attendRows.length;
+        event.numAttending = attCount;
+
+        let eventImg = await EventImage.findOne({
+            attributes: ["url"],
+            where: {
+                eventId: eventId,
+                preview: "true",
+            },
+        });
+        event.previewImage = eventImg.url;
+        result.push(event);
+    }
+    resultObj.Events = result
+    res.json(resultObj);
+});
 
 //GET ALL GROUPS ORGANIZED AND JOINED BY CURRENT USER
 router.get("/current", restoreUser, async (req, res, next) => {
@@ -140,7 +190,7 @@ router.post("/:groupId/venues", async (req, res, next) => {
             });
     }
 
-//BODY VALIDATION ERRORS
+    //BODY VALIDATION ERRORS
     const errors = {};
     if (!address) {
         errors.address = "Street address is required";
@@ -151,16 +201,12 @@ router.post("/:groupId/venues", async (req, res, next) => {
     if (!state) {
         errors.state = "State is required";
     }
-    const latAbs = Math.abs(lat)
+    const latAbs = Math.abs(lat);
     const latString = latAbs.toString();
-    if (
-        latAbs > 90 ||
-        latString[2] !== "." ||
-        latString.length !== 10
-    ) {
+    if (latAbs > 90 || latString[2] !== "." || latString.length !== 10) {
         errors.lat = "Latitude is not valid";
     }
-    const lngAbs = Math.abs(lng)
+    const lngAbs = Math.abs(lng);
     const lngString = lngAbs.toString();
     const lngStringSplit = lngString.split(".");
 
@@ -194,9 +240,9 @@ router.post("/:groupId/venues", async (req, res, next) => {
         where: {
             groupId: groupId,
             address: address,
-            city: city
-        }
-    })
+            city: city,
+        },
+    });
     res.json(venueRes);
 });
 
