@@ -14,9 +14,7 @@ const {
 } = require("../../db/models");
 const { validateLogin } = require("./session");
 const { restoreUser } = require("../../utils/auth");
-// const group = require("../../db/models/group");
-// const group = require("../../db/models/group");
-// const validateLogin = require("./session")
+
 
 //GET ALL EVENTS SPECIFIED BY GROUP ID **********EVENTS
 router.get("/:groupId/events", async (req, res, next) => {
@@ -120,7 +118,7 @@ router.post(
         }
         let priceString = price.toString();
         let priceSplit = priceString.split(".");
-        if (!priceString.includes(".") || priceSplit[1].length !== 2) {
+        if (!priceString.includes(".") || priceSplit[1].length > 2) {
             errors.price = "Price is invalid";
         }
         if (!description) {
