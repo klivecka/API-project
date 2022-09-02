@@ -21,7 +21,7 @@ const { restoreUser } = require("../../utils/auth");
 //GET ALL EVENTS SPECIFIED BY GROUP ID **********EVENTS
 router.get("/:groupId/events", async (req, res, next) => {
     const groupId = req.params.groupId;
-    const groupTest = await Group.findByPk(groupId)
+    const groupTest = await Group.findByPk(groupId);
     if (!groupTest) {
         res.status(404);
         res.json({
@@ -29,7 +29,7 @@ router.get("/:groupId/events", async (req, res, next) => {
             statusCode: 404,
         });
     }
-    
+
     const events = await Event.findAll({
         where: {
             groupId: groupId,
@@ -74,6 +74,27 @@ router.get("/:groupId/events", async (req, res, next) => {
     resultObj.Events = result;
     res.json(resultObj);
 });
+
+//CREATE AN EVENT FOR A GROUP BY GROUP ID ************** EVENTS
+
+router.post(
+    "/:groupId/events",
+    [restoreUser, requireAuth],
+    async (req, res, next) => {
+        const groupId = req.params.groupId;
+        const { user } = req;
+        const {
+            venueId,
+            name,
+            type,
+            capacity,
+            price,
+            description,
+            startDate,
+            endDate,
+        } = req.body;
+    }
+);
 
 //GET ALL GROUPS ORGANIZED AND JOINED BY CURRENT USER
 router.get("/current", restoreUser, async (req, res, next) => {
@@ -271,8 +292,13 @@ router.put("/:groupId", restoreUser, async (req, res, next) => {
             statusCode: 404,
         });
     }
+    //below is authorization
     if (group.organizerId !== userId) {
-        throw new Error("not authorized");
+        res.status(403);
+        res.json({
+            message: "Forbidden",
+            statusCode: 403,
+        });
     }
     const errors = {};
 
