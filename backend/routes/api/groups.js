@@ -10,7 +10,7 @@ const {
     Venue,
     Event,
     EventImage,
-    Attendance
+    Attendance,
 } = require("../../db/models");
 const { validateLogin } = require("./session");
 const { restoreUser } = require("../../utils/auth");
@@ -21,6 +21,15 @@ const { restoreUser } = require("../../utils/auth");
 //GET ALL EVENTS SPECIFIED BY GROUP ID **********EVENTS
 router.get("/:groupId/events", async (req, res, next) => {
     const groupId = req.params.groupId;
+    const groupTest = await Group.findByPk(groupId)
+    if (!groupTest) {
+        res.status(404);
+        res.json({
+            message: "Group couldn't be found",
+            statusCode: 404,
+        });
+    }
+    
     const events = await Event.findAll({
         where: {
             groupId: groupId,
@@ -36,6 +45,7 @@ router.get("/:groupId/events", async (req, res, next) => {
             },
         ],
     });
+
     let resultObj = {};
     let result = [];
     for (let i = 0; i < events.length; i++) {
@@ -61,7 +71,7 @@ router.get("/:groupId/events", async (req, res, next) => {
         event.previewImage = eventImg.url;
         result.push(event);
     }
-    resultObj.Events = result
+    resultObj.Events = result;
     res.json(resultObj);
 });
 
