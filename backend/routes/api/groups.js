@@ -127,9 +127,6 @@ router.post(
             errors.description = "Description is required";
         }
         let date = new Date();
-        console.log("\n");
-        console.log(date);
-        console.log("\n");
         let startDateConvert = new Date(startDate);
         if (startDateConvert < date) {
             errors.startDate = "Start date must be in the future";
@@ -217,9 +214,9 @@ router.get("/current", [restoreUser, requireAuth], async (req, res, next) => {
             }
             result.push(ele);
         }
-        // console.log('groupIdx', groupIds)
 
-        // groupArray.push(groupsMem);
+
+
         groupObj.Groups = result;
         res.json(groupObj);
     }
@@ -378,9 +375,7 @@ router.put("/:groupId", [restoreUser, requireAuth], async (req, res, next) => {
     if (name.length > 60) {
         errors.name = "Name must be 60 characters or less";
     }
-    // console.log("\n")
-    // console.log(errors)
-    // console.log("\n")
+
     if (about.length < 50) {
         errors.about = "About must be 50 characters or more";
     }
@@ -438,8 +433,7 @@ router.get("/", async (req, res, next) => {
             group.previewImage = "no image";
         }
 
-        // group.previewImage = group.previewImage.url
-        // console.log('GROIUPGORUGOGJROA', group)
+
         result.push(group);
     }
     resultObj.Groups = result;
@@ -522,7 +516,7 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
                 errors: errors,
             });
         }
-        // console.log(req.body)
+
         const newGroup = Group.build({
             organizerId: userId,
             name: name,

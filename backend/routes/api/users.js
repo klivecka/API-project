@@ -59,9 +59,7 @@ router.post("/", validateSignup, async (req, res) => {
     userObj.token = token;
 
     // const userObj = userRes.userRes
-    console.log("\n");
-    console.log(userObj);
-    console.log("\n");
+
     return res.json(userObj);
 });
 
