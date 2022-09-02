@@ -254,7 +254,7 @@ router.get("/:groupId", async (req, res, next) => {
     res.json(group);
 });
 
-//GET ALL VENUES FOR A GROUP BY GROUP ID
+//GET ALL VENUES FOR A GROUP BY GROUP ID ************** VENUES
 router.get("/:groupId/venues", async (req, res, next) => {
     const resObj = {};
     const groupId = req.params.groupId;
@@ -274,7 +274,7 @@ router.get("/:groupId/venues", async (req, res, next) => {
     res.json(resObj);
 });
 
-//CREATE A NEW VENUE FOR A GROUP BASED ON A GROUP ID
+//CREATE A NEW VENUE FOR A GROUP BASED ON A GROUP ID ************** VENUES
 router.post(
     "/:groupId/venues",
     [restoreUser, requireAuth],
