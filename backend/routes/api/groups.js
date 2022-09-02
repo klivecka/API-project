@@ -93,11 +93,76 @@ router.post(
             startDate,
             endDate,
         } = req.body;
+        const groupCheck = await Group.findByPk(groupId);
+        if (!groupCheck) {
+            res.status(404),
+                res.json({
+                    message: "Group couldn't be found",
+                    statusCode: 404,
+                });
+        }
+        const errors = {};
+        const venueCheck = await Venue.findByPk(venueId);
+        if (!venueCheck) {
+            errors.venueId = "Venue does not exist";
+        }
+        if (name.length < 5) {
+            errors.name = "Name must be at least 5 characters";
+        }
+        if (type !== "Online" && type !== "In person") {
+            errors.type = "Type must be Online or In person";
+        }
+        if (!Number.isInteger(capacity)) {
+            errors.capacity = "Capacity must be an integer";
+        }
+        let priceString = price.toString();
+        let priceSplit = priceString.split(".");
+        if (!priceString.includes(".") || priceSplit[1].length !== 2) {
+            errors.price = "Price is invalid";
+        }
+        if (!description) {
+            errors.description = "Description is required";
+        }
+        let date = new Date();
+        console.log('\n')
+        console.log(date)
+        console.log('\n')
+        let startDateConvert = new Date(startDate)
+        if (startDateConvert < date) {
+            errors.startDate = "Start date must be in the future";
+        }
+        if (endDate < startDate) {
+            errors.endDate = "End date is less than start date"
+        }
+        if (Object.keys(errors).length) {
+            res.status(400);
+            res.json({
+                message: "Validation Error",
+                statusCode: 400,
+                errors: errors,
+            });
+        }
+
+        const newEvent = Event.build({
+            groupId: groupId,
+            venueId: venueId,
+            name: name,
+            type: type,
+            capacity: capacity,
+            price: price,
+            description: description,
+            startDate: startDate,
+            endDate: endDate,
+        });
+        await newEvent.save();
+        const eventId = newEvent.id;
+        eventRes = await Event.scope("eventDetails").findByPk(eventId);
+        res.json(eventRes);
     }
 );
 
 //GET ALL GROUPS ORGANIZED AND JOINED BY CURRENT USER
-router.get("/current", restoreUser, async (req, res, next) => {
+router.get("/current", [restoreUser, requireAuth], async (req, res, next) => {
     const { user } = req;
     const groupObj = {};
     const groupArray = [];
@@ -209,76 +274,80 @@ router.get("/:groupId/venues", async (req, res, next) => {
 });
 
 //CREATE A NEW VENUE FOR A GROUP BASED ON A GROUP ID
-router.post("/:groupId/venues", async (req, res, next) => {
-    const groupId = req.params.groupId;
-    const { address, city, state, lat, lng } = req.body;
-    const groupCheck = await Group.findByPk(groupId);
-    if (!groupCheck) {
-        res.status(404),
+router.post(
+    "/:groupId/venues",
+    [restoreUser, requireAuth],
+    async (req, res, next) => {
+        const groupId = req.params.groupId;
+        const { address, city, state, lat, lng } = req.body;
+        const groupCheck = await Group.findByPk(groupId);
+        if (!groupCheck) {
+            res.status(404),
+                res.json({
+                    message: "Group couldn't be found",
+                    statusCode: 404,
+                });
+        }
+
+        //BODY VALIDATION ERRORS
+        const errors = {};
+        if (!address) {
+            errors.address = "Street address is required";
+        }
+        if (!city) {
+            errors.city = "City is required";
+        }
+        if (!state) {
+            errors.state = "State is required";
+        }
+        const latAbs = Math.abs(lat);
+        const latString = latAbs.toString();
+        if (latAbs > 90 || latString[2] !== "." || latString.length !== 10) {
+            errors.lat = "Latitude is not valid";
+        }
+        const lngAbs = Math.abs(lng);
+        const lngString = lngAbs.toString();
+        const lngStringSplit = lngString.split(".");
+
+        if (
+            lng > 180 ||
+            lngStringSplit[0].length < 2 ||
+            lngStringSplit[0].length > 3 ||
+            lngStringSplit[1].length !== 7
+        ) {
+            errors.lat = "Longitude is not valid";
+        }
+        if (Object.keys(errors).length) {
+            res.status(404);
             res.json({
-                message: "Group couldn't be found",
-                statusCode: 404,
+                message: "Validation Error",
+                statusCode: 400,
+                errors: errors,
             });
-    }
-
-    //BODY VALIDATION ERRORS
-    const errors = {};
-    if (!address) {
-        errors.address = "Street address is required";
-    }
-    if (!city) {
-        errors.city = "City is required";
-    }
-    if (!state) {
-        errors.state = "State is required";
-    }
-    const latAbs = Math.abs(lat);
-    const latString = latAbs.toString();
-    if (latAbs > 90 || latString[2] !== "." || latString.length !== 10) {
-        errors.lat = "Latitude is not valid";
-    }
-    const lngAbs = Math.abs(lng);
-    const lngString = lngAbs.toString();
-    const lngStringSplit = lngString.split(".");
-
-    if (
-        lng > 180 ||
-        lngStringSplit[0].length < 2 ||
-        lngStringSplit[0].length > 3 ||
-        lngStringSplit[1].length !== 7
-    ) {
-        errors.lat = "Longitude is not valid";
-    }
-    const newVenue = Venue.build({
-        groupId: groupId,
-        address: address,
-        city: city,
-        state: state,
-        lat: lat,
-        lng: lng,
-    });
-    if (Object.keys(errors).length) {
-        res.status(404);
-        res.json({
-            message: "Validation Error",
-            statusCode: 400,
-            errors: errors,
-        });
-    }
-
-    await newVenue.save();
-    const venueRes = await Venue.findOne({
-        where: {
+        }
+        const newVenue = Venue.build({
             groupId: groupId,
             address: address,
             city: city,
-        },
-    });
-    res.json(venueRes);
-});
+            state: state,
+            lat: lat,
+            lng: lng,
+        });
+
+        await newVenue.save();
+        const venueRes = await Venue.findOne({
+            where: {
+                groupId: groupId,
+                address: address,
+                city: city,
+            },
+        });
+        res.json(venueRes);
+    }
+);
 
 //EDIT A GROUP
-router.put("/:groupId", restoreUser, async (req, res, next) => {
+router.put("/:groupId", [restoreUser, requireAuth], async (req, res, next) => {
     const { user } = req;
     const userId = user.toSafeObject().id;
 
@@ -374,40 +443,46 @@ router.get("/", async (req, res, next) => {
 });
 
 //ADD AN IMAGE TO A GROUP
-router.post("/:groupId/images", restoreUser, async (req, res, next) => {
-    const { user } = req;
-    const userId = user.toSafeObject().id;
-    const groupId = req.params.groupId;
-    const { url, previewImage } = req.body;
-    const groupData = await Group.findByPk(groupId);
-    if (!groupData) {
-        res.status(404);
+router.post(
+    "/:groupId/images",
+    [restoreUser, requireAuth],
+    async (req, res, next) => {
+        const { user } = req;
+        const userId = user.toSafeObject().id;
+        const groupId = req.params.groupId;
+        const { url, preview } = req.body;
+        const groupData = await Group.findByPk(groupId);
+        if (!groupData) {
+            res.status(404);
+            res.json({
+                message: "Group couldn't be found",
+                statusCode: 404,
+            });
+        }
+        if (groupData.organizerId !== userId) {
+            res.status(403);
+            res.json({
+                message: "Forbidden",
+                statusCode: 403,
+            });
+        }
+
+        const newImage = GroupImage.build({
+            groupId: groupId,
+            url: url,
+            preview: preview,
+        });
+
+        await newImage.save();
+        resObj = {};
+        (resObj.id = newImage.id),
+            (resObj.url = newImage.url),
+            (resObj.preview = newImage.preview);
         res.json({
-            message: "Group couldn't be found",
-            statusCode: 404,
+            ...resObj,
         });
     }
-    if (groupData.organizerId !== userId) {
-        res.json({
-            message: "not authorized",
-        });
-    }
-
-    const newImage = GroupImage.build({
-        groupId: groupId,
-        url: url,
-        preview: previewImage,
-    });
-
-    await newImage.save();
-    resObj = {};
-    (resObj.id = newImage.id),
-        (resObj.url = newImage.url),
-        (resObj.preview = newImage.preview);
-    res.json({
-        ...resObj,
-    });
-});
+);
 
 //CREATE A GROUP
 router.post("/", [restoreUser, requireAuth], async (req, res, next) => {

@@ -52,7 +52,8 @@ module.exports = (sequelize, DataTypes) => {
                 validate: {
                     futureDate() {
                         let date = new Date();
-                        if (this.startDate > date) {
+                        let startDateConvert = new Date(this.startDate)
+                        if (startDateConvert < date) {
                             throw new Error("Date must be in the future")
                         }
                     }
