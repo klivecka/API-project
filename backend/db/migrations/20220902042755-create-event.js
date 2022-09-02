@@ -27,17 +27,25 @@ module.exports = {
             name: {
                 type: Sequelize.STRING,
             },
-            description: {
-                type: Sequelize.STRING,
-            },
             type: {
                 type: Sequelize.STRING,
+                validate: {
+                    rightType(){
+                        if (this.type !== "Online" && this.type !== "In person"){
+                            throw new Error("Type must be Online or In person")
+                        }
+                    }
+                }
             },
             capacity: {
                 type: Sequelize.INTEGER,
             },
             price: {
                 type: Sequelize.INTEGER,
+            },
+            description: {
+                type: Sequelize.STRING,
+                allowNull: false,
             },
             startDate: {
                 type: Sequelize.DATE,

@@ -27,7 +27,13 @@ module.exports = (sequelize, DataTypes) => {
                 return await User.scope("currentUser").findByPk(user.id);
             }
         }
-        static async signup({ firstName, lastName, username, email, password }) {
+        static async signup({
+            firstName,
+            lastName,
+            username,
+            email,
+            password,
+        }) {
             const hashedPassword = bcrypt.hashSync(password);
             const user = await User.create({
                 firstName,
@@ -51,8 +57,8 @@ module.exports = (sequelize, DataTypes) => {
                 through: models.Membership,
             });
             User.hasMany(models.Attendance, {
-                foreignKey: "userId"
-            }),
+                foreignKey: "userId",
+            });
         }
     }
     User.init(
@@ -104,7 +110,14 @@ module.exports = (sequelize, DataTypes) => {
             },
             scopes: {
                 currentUser: {
-                    attributes: { exclude: ["hashedPassword", "createdAt", "updatedAt", "username"] },
+                    attributes: {
+                        exclude: [
+                            "hashedPassword",
+                            "createdAt",
+                            "updatedAt",
+                            "username",
+                        ],
+                    },
                 },
                 loginUser: {
                     attributes: {},

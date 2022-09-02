@@ -32,9 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             name: {
                 type: DataTypes.STRING,
-            },
-            description: {
-                type: DataTypes.STRING,
+                allowNull: false,
             },
             type: {
                 type: DataTypes.STRING,
@@ -43,18 +41,42 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
             },
             price: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.DECIMAL,
+            },
+            description: {
+                type: DataTypes.STRING,
+                allowNull: false,
             },
             startDate: {
                 type: DataTypes.DATE,
+                validate: {
+                    futureDate() {
+                        let date = new Date();
+                        if (this.startDate > date) {
+                            throw new Error("Date must be in the future")
+                        }
+                    }
+                }
             },
             endDate: {
                 type: DataTypes.DATE,
+                validate: {
+                    afterStart() {
+                        if (this.endDate < this.startDate) {
+                            throw new Error("End date is less than start date")
+                        }
+                    }
+                }
             },
         },
         {
             sequelize,
             modelName: "Event",
+            defaultScope: {
+                attributes: {
+                    exclude: ["createdAt", "updatedAt"]
+                }
+            }
         }
     );
     return Event;
