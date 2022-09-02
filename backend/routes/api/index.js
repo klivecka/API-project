@@ -2,6 +2,7 @@ const router = require("express").Router();
 const sessionRouter = require("./session.js");
 const usersRouter = require("./users.js");
 const groupsRouter = require("./groups.js");
+const venuesRouter = require("./venues.js");
 const { requireAuth } = require("../../utils/auth");
 
 router.get("/test", requireAuth, (req, res) => {
@@ -13,6 +14,8 @@ router.get("/test", requireAuth, (req, res) => {
 router.use("/session", sessionRouter);
 router.use("/users", usersRouter);
 router.use("/groups", groupsRouter);
+router.use("/venues", venuesRouter);
+
 
 /*
 
