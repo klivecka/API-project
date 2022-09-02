@@ -46,9 +46,6 @@ router.put("/:venueId", restoreUser, async (req, res, next) => {
     const lngAbs = Math.abs(lng);
     const lngString = lngAbs.toString();
     const lngStringSplit = lngString.split(".");
-    console.log('\n')
-    console.log(lngAbs)
-    console.log('\n')
     if (
         lngAbs > 180 ||
         lngStringSplit[0].length < 2 ||
