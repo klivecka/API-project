@@ -53,7 +53,10 @@ router.get("/", async (req, res, next) => {
                 preview: "true",
             },
         });
-        event.previewImage = eventImg.url;
+        if (!eventImg) {
+            event.previewImage = null
+        }
+        else  event.previewImage = eventImg.url;
         result.push(event);
     }
     resultObj.Events = result;
@@ -71,11 +74,11 @@ router.get("/:eventId", async (req, res, next) => {
         include: [
             {
                 model: Group,
-                attributes: ["id", "name", "city", "state"],
+                attributes: ["id", "name", "private", "city", "state"],
             },
             {
                 model: Venue,
-                attributes: ["id", "city", "state"],
+                attributes: ["id", "address", "city", "state", "lat", "lng"],
             },
             {
                 model: EventImage,

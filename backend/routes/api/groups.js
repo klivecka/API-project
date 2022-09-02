@@ -68,7 +68,10 @@ router.get("/:groupId/events", async (req, res, next) => {
                 preview: "true",
             },
         });
-        event.previewImage = eventImg.url;
+        if (!eventImg) {
+            event.previewImage = null
+        }
+        else event.previewImage = eventImg.url;
         result.push(event);
     }
     resultObj.Events = result;
@@ -124,15 +127,15 @@ router.post(
             errors.description = "Description is required";
         }
         let date = new Date();
-        console.log('\n')
-        console.log(date)
-        console.log('\n')
-        let startDateConvert = new Date(startDate)
+        console.log("\n");
+        console.log(date);
+        console.log("\n");
+        let startDateConvert = new Date(startDate);
         if (startDateConvert < date) {
             errors.startDate = "Start date must be in the future";
         }
         if (endDate < startDate) {
-            errors.endDate = "End date is less than start date"
+            errors.endDate = "End date is less than start date";
         }
         if (Object.keys(errors).length) {
             res.status(400);
@@ -237,6 +240,7 @@ router.get("/:groupId", async (req, res, next) => {
             {
                 model: User,
                 as: "Organizer",
+                attributes: ["id", "firstName", "lastName"],
             },
             {
                 model: Venue,
@@ -511,7 +515,7 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
             errors.state = "State is required";
         }
         if (Object.keys(errors).length) {
-            res.status(404);
+            res.status(400);
             res.json({
                 message: "Validation Error",
                 statusCode: 400,

@@ -46,14 +46,16 @@ router.put("/:venueId", restoreUser, async (req, res, next) => {
     const lngAbs = Math.abs(lng);
     const lngString = lngAbs.toString();
     const lngStringSplit = lngString.split(".");
-
+    console.log('\n')
+    console.log(lngAbs)
+    console.log('\n')
     if (
-        lng > 180 ||
+        lngAbs > 180 ||
         lngStringSplit[0].length < 2 ||
         lngStringSplit[0].length > 3 ||
         lngStringSplit[1].length !== 7
     ) {
-        errors.lat = "Longitude is not valid";
+        errors.lng = "Longitude is not valid";
     }
     if (Object.keys(errors).length) {
         res.status(404);
