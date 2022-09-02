@@ -189,7 +189,7 @@ router.post("/:groupId/venues", async (req, res, next) => {
         });
     }
 
-    newVenue.save();
+    await newVenue.save();
     const venueRes = await Venue.findOne({
         where: {
             groupId: groupId,
