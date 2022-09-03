@@ -84,6 +84,7 @@ router.post(
     async (req, res, next) => {
         const groupId = req.params.groupId;
         const { user } = req;
+        const userId = user.toSafeObject().id;
         const {
             venueId,
             name,
@@ -155,6 +156,14 @@ router.post(
         });
         await newEvent.save();
         const eventId = newEvent.id;
+
+        const newAttend = Attendance.build({
+            eventId: eventId,
+            userId: userId,
+            status: "co-host"
+        })
+        await newAttend.save()
+
         eventRes = await Event.scope("eventDetails").findByPk(eventId);
         res.json(eventRes);
     }
