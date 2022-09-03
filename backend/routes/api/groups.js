@@ -567,35 +567,31 @@ router.get("/:groupId/members", async (req, res, next) => {
             statusCode: 404,
         });
     }
-    const userIds = await Membership.findAll({
-        attributes: ["userId", "status", "groupId"],
+    const groupUsers = await Group.findOne({
         where: {
-            groupId: groupId,
+            id: groupId,
         },
+        include: {
+            model: User,
+            attributes: ["id","firstName", "lastName"],
+        }
     });
 
-    const memberArray = [];
-    for (user of userIds) {
-        let userInfo = await User.findOne({
-            attributes: ["id", "firstName", "lastName"],
-            where: {
-                id: user.userId,
-            },
-        });
-        memberArray.push(userInfo);
+    const result = {}
+    const newArray = []
+    membersArray = groupUsers.Users
+    // delete result.Members
+    for (member of membersArray) {
+        let newObj = {}
+        let {id, firstName, lastName } = member
+        newObj.id = id;
+        newObj.firstName = firstName;
+        newObj.lastName = lastName;
+        let status = member.Membership.status
+        newObj.Membership = {}
+        newObj.Membership.status = status
+        newArray.push(newObj)
     }
-    memberArray2 = [];
-    for (member of memberArray) {
-        memberJson = member.toJSON();
-        for (user of userIds) {
-            if ((user.userId = memberJson.id)) {
-                memberJson.Membership = { status: user.status };
-            }
-        }
-        memberArray2.push(memberJson);
-    }
-
-    const members = {};
-    members.Members = memberArray2;
-    res.json(userIds);
+    result.Members = newArray
+    res.json(result);
 });

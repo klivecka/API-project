@@ -63,7 +63,6 @@ router.get("/", async (req, res, next) => {
 
 //GET DETAILS OF AN EVENT SPECIFIED BY EVENT ID
 
-
 router.get("/:eventId", async (req, res, next) => {
     const eventId = req.params.eventId;
     const eventDeets = await Event.scope("eventDetails").findOne({
@@ -136,7 +135,7 @@ router.post(
             },
         });
         userIds = attendData.map((user) => user.userId);
-    
+
         if (!userIds.includes(userId)) {
             res.status(403);
             res.json({
@@ -235,8 +234,8 @@ router.put("/:eventId", [restoreUser, requireAuth], async (req, res, next) => {
         endDate: endDate,
     });
     await eventCheck.save();
-    const event = await Event.scope("eventDetails").findByPk(eventId)
-    res.json(event)
+    const event = await Event.scope("eventDetails").findByPk(eventId);
+    res.json(event);
 });
 
 module.exports = router;
