@@ -15,7 +15,6 @@ const {
 const { validateLogin } = require("./session");
 const { restoreUser } = require("../../utils/auth");
 
-
 //GET ALL EVENTS SPECIFIED BY GROUP ID **********EVENTS
 router.get("/:groupId/events", async (req, res, next) => {
     const groupId = req.params.groupId;
@@ -67,9 +66,8 @@ router.get("/:groupId/events", async (req, res, next) => {
             },
         });
         if (!eventImg) {
-            event.previewImage = null
-        }
-        else event.previewImage = eventImg.url;
+            event.previewImage = null;
+        } else event.previewImage = eventImg.url;
         result.push(event);
     }
     resultObj.Events = result;
@@ -119,9 +117,9 @@ router.post(
         }
         let priceString = price.toString();
         let priceSplit = priceString.split(".");
-        if (!Number.isInteger(price*100)) {
+        if (!Number.isInteger(price * 100)) {
             errors.price = "Price is invalid";
-            console.log(priceString, priceSplit)
+            console.log(priceString, priceSplit);
         }
         if (!description) {
             errors.description = "Description is required";
@@ -160,9 +158,9 @@ router.post(
         const newAttend = Attendance.build({
             eventId: eventId,
             userId: userId,
-            status: "co-host"
-        })
-        await newAttend.save()
+            status: "co-host",
+        });
+        await newAttend.save();
 
         eventRes = await Event.scope("eventDetails").findByPk(eventId);
         res.json(eventRes);
@@ -222,8 +220,6 @@ router.get("/current", [restoreUser, requireAuth], async (req, res, next) => {
             }
             result.push(ele);
         }
-
-
 
         groupObj.Groups = result;
         res.json(groupObj);
@@ -441,7 +437,6 @@ router.get("/", async (req, res, next) => {
             group.previewImage = "no image";
         }
 
-
         result.push(group);
     }
     resultObj.Groups = result;
@@ -561,3 +556,39 @@ router.delete("/:groupId", async (req, res, next) => {
 });
 module.exports = router;
 
+//GET ALL MEMBERSHIPS OF A GROUP BY A GROUP ID
+router.get("/:groupId/members", async (req, res, next) => {
+    const groupId = req.params.groupId;
+    const userIds = await Membership.findAll({
+        attributes: ["userId", "status"],
+        where: {
+            groupId: groupId,
+        },
+    });
+    const memberArray = [];
+    for (user of userIds) {
+        let userInfo = await User.findOne({
+            attributes: ["id", "firstName", "lastName"],
+            where: {
+                id: user.userId,
+            },
+        });
+        memberArray.push(userInfo);
+    }
+    memberArray2 = []
+    for (member of memberArray) {
+        memberJson = member.toJSON()
+        for (user of userIds) {
+            if ((user.userId = memberJson.id)) {
+                memberJson.Membership = { status: user.status };
+            }
+            
+        }
+        memberArray2.push(memberJson)
+    }
+    
+    
+    const members = {};
+    members.Members = memberArray2;
+    res.json(members);
+});

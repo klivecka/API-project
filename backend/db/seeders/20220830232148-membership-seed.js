@@ -9,22 +9,22 @@ module.exports = {
         {
           userId:1,
           groupId: 1,
-          status: "active"
+          status: "co-host"
         },
         {
           userId: 1,
           groupId: 2,
-          status: "active"
+          status: "member"
         },
         {
           userId: 2,
           groupId: 2,
-          status: "active"
+          status: "pending"
         },
         {
           userId: 3,
           groupId: 1,
-          status: "active"
+          status: "member"
         }
       ]
     )
