@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { requireAuth } = require("../../utils/auth");
+const { requireAuth, restoreUser, validGroup } = require("../../utils/auth");
 const { Op } = require("sequelize");
 const {
     Group,
@@ -13,7 +13,8 @@ const {
     Attendance,
 } = require("../../db/models");
 const { validateLogin } = require("./session");
-const { restoreUser } = require("../../utils/auth");
+
+
 
 //GET ALL EVENTS SPECIFIED BY GROUP ID **********EVENTS
 router.get("/:groupId/events", async (req, res, next) => {
@@ -557,41 +558,132 @@ router.delete("/:groupId", async (req, res, next) => {
 module.exports = router;
 
 //GET ALL MEMBERSHIPS OF A GROUP BY A GROUP ID *****************MEMBERSHIPS
-router.get("/:groupId/members", async (req, res, next) => {
+router.get("/:groupId/members", [restoreUser, validGroup], async (req, res, next) => {
     const groupId = req.params.groupId;
-    const groupCheck = await Group.findByPk(groupId);
-    if (!groupCheck) {
-        res.status(404);
-        res.json({
-            message: "Group couldn't be found",
-            statusCode: 404,
-        });
-    }
+    const { user } = req;
+    const userId = user.toSafeObject().id;
+
+    // const groupCheck = await Group.findByPk(groupId);
+    // if (!groupCheck) {
+    //     res.status(404);
+    //     res.json({
+    //         message: "Group couldn't be found",
+    //         statusCode: 404,
+    //     });
+    // }
+
     const groupUsers = await Group.findOne({
         where: {
             id: groupId,
         },
         include: {
             model: User,
-            attributes: ["id","firstName", "lastName"],
-        }
+            attributes: ["id", "firstName", "lastName"],
+        },
+    });
+    const userCoHost = await Membership.findOne({
+        attributes: ["status"],
+        where: {
+            userId: userId,
+            groupId: groupId,
+        },
     });
 
-    const result = {}
-    const newArray = []
-    membersArray = groupUsers.Users
+    const result = {};
+    const newArray = [];
+    membersArray = groupUsers.Users;
     // delete result.Members
     for (member of membersArray) {
-        let newObj = {}
-        let {id, firstName, lastName } = member
-        newObj.id = id;
-        newObj.firstName = firstName;
-        newObj.lastName = lastName;
-        let status = member.Membership.status
-        newObj.Membership = {}
-        newObj.Membership.status = status
-        newArray.push(newObj)
+        let newObj = {};
+        let { id, firstName, lastName } = member;
+        let status = member.Membership.status;
+        if (
+            userId === groupUsers.organizerId ||
+            userCoHost.status === "co-host"
+        ) {
+            newObj = { id, firstName, lastName };
+            newObj.Membership = {};
+            newObj.Membership.status = status;
+            newArray.push(newObj);
+        } else {
+            newObj = { id, firstName, lastName };
+            newObj.Membership = {};
+            newObj.Membership.status = status;
+            if (status === "co-host" || status === "member") {
+                newArray.push(newObj);
+            }
+        }
     }
-    result.Members = newArray
+    result.Members = newArray;
     res.json(result);
 });
+
+//CREATE NEW MEMBERSHIP REQUEST  *****************MEMBERSHIPS
+router.post(
+    "/:groupId/membership",
+    [restoreUser, requireAuth, validGroup],
+    async (req, res, next) => {
+        const { user } = req;
+        const userId = user.toSafeObject().id;
+        const groupId = req.params.groupId;
+        const newMember = Membership.build({
+            groupId: groupId,
+            userId: userId,
+            status: "pending",
+        });
+        const memberCheck = await Membership.findOne({
+            where: {
+                userId: userId,
+                groupId: groupId,
+            },
+        });
+
+        if (memberCheck.status === "pending") {
+            res.status(400),
+                res.json({
+                    message: "Membership has already been requested",
+                    statusCode: 400,
+                });
+        }
+        if (
+            memberCheck.status === "member" ||
+            memberCheck.status === "co-host"
+        ) {
+            res.status(400),
+                res.json({
+                    message: "User is already a member of the group",
+                    statusCode: 400,
+                });
+        }
+
+        await newMember.save();
+        const memberRes = await Membership.findOne({
+            where: {
+                userId: userId,
+                groupId: groupId,
+            },
+        });
+        const resObj = {};
+        resObj.groupId = memberRes.groupId;
+        resObj.memberId = memberRes.userId;
+        resObj.status = memberRes.status;
+
+        res.json(resObj);
+    }
+);
+
+//CHANGE MEMBERSHIP STATUS  *****************MEMBERSHIPS
+router.put(
+    "/:groupId/membership",
+    [restoreUser, requireAuth, validGroup],
+    async (req, res, next) => {
+        const group = res.group;
+        const groupId = req.params.groupId;
+        const { user } = req;
+        const userId = user.toSafeObject().id;
+        const { memberId, status } = req.body
+
+        res.json(group)
+
+    }
+);
