@@ -118,8 +118,9 @@ router.post(
         }
         let priceString = price.toString();
         let priceSplit = priceString.split(".");
-        if (!priceString.includes(".") || priceSplit[1].length > 2) {
+        if (!Number.isInteger(price*100)) {
             errors.price = "Price is invalid";
+            console.log(priceString, priceSplit)
         }
         if (!description) {
             errors.description = "Description is required";

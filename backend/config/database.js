@@ -22,3 +22,5 @@ module.exports = {
 };
 
 //heroku pg:reset DATABASE_URL destroys Database in heroku
+// heroku run npm run sequelize db:migrate
+//git push heroku master

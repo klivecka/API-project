@@ -63,6 +63,7 @@ router.get("/", async (req, res, next) => {
 
 //GET DETAILS OF AN EVENT SPECIFIED BY EVENT ID
 
+
 router.get("/:eventId", async (req, res, next) => {
     const eventId = req.params.eventId;
     const eventDeets = await Event.scope("eventDetails").findOne({
