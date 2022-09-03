@@ -556,15 +556,24 @@ router.delete("/:groupId", async (req, res, next) => {
 });
 module.exports = router;
 
-//GET ALL MEMBERSHIPS OF A GROUP BY A GROUP ID
+//GET ALL MEMBERSHIPS OF A GROUP BY A GROUP ID *****************MEMBERSHIPS
 router.get("/:groupId/members", async (req, res, next) => {
     const groupId = req.params.groupId;
+    const groupCheck = await Group.findByPk(groupId);
+    if (!groupCheck) {
+        res.status(404);
+        res.json({
+            message: "Group couldn't be found",
+            statusCode: 404,
+        });
+    }
     const userIds = await Membership.findAll({
-        attributes: ["userId", "status"],
+        attributes: ["userId", "status", "groupId"],
         where: {
             groupId: groupId,
         },
     });
+
     const memberArray = [];
     for (user of userIds) {
         let userInfo = await User.findOne({
@@ -575,20 +584,18 @@ router.get("/:groupId/members", async (req, res, next) => {
         });
         memberArray.push(userInfo);
     }
-    memberArray2 = []
+    memberArray2 = [];
     for (member of memberArray) {
-        memberJson = member.toJSON()
+        memberJson = member.toJSON();
         for (user of userIds) {
             if ((user.userId = memberJson.id)) {
                 memberJson.Membership = { status: user.status };
             }
-            
         }
-        memberArray2.push(memberJson)
+        memberArray2.push(memberJson);
     }
-    
-    
+
     const members = {};
     members.Members = memberArray2;
-    res.json(members);
+    res.json(userIds);
 });
