@@ -63,7 +63,7 @@ const validGroup = async function (req, res, next) {
             statusCode: 404,
         });
     } else {
-        res.group = group
+        res.group = group;
         return next();
     }
 };

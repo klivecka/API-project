@@ -118,7 +118,6 @@ router.post(
         let priceSplit = priceString.split(".");
         if (!Number.isInteger(price * 100)) {
             errors.price = "Price is invalid";
-            console.log(priceString, priceSplit);
         }
         if (!description) {
             errors.description = "Description is required";
@@ -626,13 +625,16 @@ router.post(
     [restoreUser, requireAuth, validGroup],
     async (req, res, next) => {
         const { user } = req;
+        const { memberId, status } = req.body;
         const userId = user.toSafeObject().id;
         const groupId = req.params.groupId;
+
         const newMember = Membership.build({
             groupId: groupId,
-            userId: userId,
-            status: "pending",
+            userId: memberId,
+            status: status,
         });
+
         const memberCheck = await Membership.findOne({
             where: {
                 userId: userId,
@@ -640,28 +642,30 @@ router.post(
             },
         });
 
-        if (memberCheck.status === "pending") {
-            res.status(400),
-                res.json({
-                    message: "Membership has already been requested",
-                    statusCode: 400,
-                });
-        }
-        if (
-            memberCheck.status === "member" ||
-            memberCheck.status === "co-host"
-        ) {
-            res.status(400),
-                res.json({
-                    message: "User is already a member of the group",
-                    statusCode: 400,
-                });
+        if (memberCheck) {
+            if (memberCheck.status === "pending") {
+                res.status(400),
+                    res.json({
+                        message: "Membership has already been requested",
+                        statusCode: 400,
+                    });
+            }
+            if (
+                memberCheck.status === "member" ||
+                memberCheck.status === "co-host"
+            ) {
+                res.status(400),
+                    res.json({
+                        message: "User is already a member of the group",
+                        statusCode: 400,
+                    });
+            }
         }
 
         await newMember.save();
         const memberRes = await Membership.findOne({
             where: {
-                userId: userId,
+                userId: memberId,
                 groupId: groupId,
             },
         });
@@ -719,7 +723,7 @@ router.put(
                 groupId: groupId,
             },
         });
-        //no membership found
+        //no membership found error
         if (!changeMem) {
             res.status(404);
             res.json({
@@ -757,7 +761,7 @@ router.put(
                 res.json({ message: "insufficient permissions", status: 404 });
             }
         }
-        //if the request is to change to pending
+        //if the request is to change to pending error
         if (status === "pending") {
             res.status(400);
             res.json({
@@ -768,5 +772,84 @@ router.put(
                 },
             });
         }
+    }
+);
+
+//DELETE MEMBERSHIP FROM MEMBERID AND GROUP ID ****************MEMBERSHIPS
+router.delete(
+    "/:groupId/membership",
+    [restoreUser, requireAuth, validGroup],
+    async (req, res, next) => {
+        const group = res.group;
+        const groupId = req.params.groupId;
+        const { user } = req;
+        const userId = user.toSafeObject().id;
+        const { memberId } = req.body;
+
+        //check if the user exists
+        const userCheck = await User.findByPk(memberId);
+        if (!userCheck) {
+            res.status(400);
+            res.json({
+                message: "Validation Error",
+                statusCode: 400,
+                errors: {
+                    memberId: "User couldn't be found",
+                },
+            });
+        }
+
+        const member = await Membership.findOne({
+            where: {
+                userId: memberId,
+                groupId: groupId,
+            },
+        });
+
+        //no membership found error
+        if (!member) {
+            res.status(404);
+            res.json({
+                message: "Membership does not exist for this User",
+                statusCode: 404,
+            });
+        }
+
+        //check if user is co-host
+        const groupMembers = await Membership.findAll({
+            where: {
+                groupId: groupId,
+            },
+        });
+
+        let isCoHost = false;
+        for (members of groupMembers) {
+            if (userId === member.userId && member.status === "co-host") {
+                isCoHost = true;
+            }
+        }
+
+        //check if user is the member being deleted
+        let isMember = false;
+        if (memberId === userId) {
+            isMember = true;
+        }
+
+        //if the user isnt the member or a cohost error
+        if (!isCoHost && !isMember) {
+            res.status(404);
+            res.json({ message: "insufficient permissions", status: 404 });
+        }
+
+        await Membership.destroy({
+            where: {
+                userId: memberId,
+                groupId: groupId,
+            },
+        });
+
+        res.json({
+            message: "Successfully deleted membership from group",
+        });
     }
 );
