@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { jwtConfig } = require("../config");
-const { User } = require("../db/models");
+const { User, Group, Event } = require("../db/models");
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -53,5 +53,40 @@ const requireAuth = function (req, _res, next) {
     err.status = 401;
     return next(err);
 };
+const validGroup = async function (req, res, next) {
+    const groupId = req.params.groupId;
+    const group = await Group.findByPk(groupId);
+    if (!group) {
+        res.status(404);
+        res.json({
+            message: "Group couldn't be found",
+            statusCode: 404,
+        });
+    } else {
+        res.group = group;
+        return next();
+    }
+};
 
-module.exports = { setTokenCookie, restoreUser, requireAuth };
+const validEvent = async function (req, res, next) {
+    const eventId = req.params.eventId;
+    const event = await Event.findByPk(eventId);
+    if (!event) {
+        res.status(404);
+        res.json({
+            message: "Event couldn't be found",
+            statusCode: 404,
+        });
+    } else {
+        res.event = event;
+        return next();
+    }
+};
+
+module.exports = {
+    setTokenCookie,
+    restoreUser,
+    requireAuth,
+    validGroup,
+    validEvent,
+};

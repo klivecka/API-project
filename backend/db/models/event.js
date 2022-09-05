@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
             Event.hasMany(models.Attendance, {
                 foreignKey: "eventId",
             });
+            Event.belongsToMany(models.User, {
+                through: models.Attendance,
+            });
         }
     }
     Event.init(
@@ -52,22 +55,22 @@ module.exports = (sequelize, DataTypes) => {
                 validate: {
                     futureDate() {
                         let date = new Date();
-                        let startDateConvert = new Date(this.startDate)
+                        let startDateConvert = new Date(this.startDate);
                         if (startDateConvert < date) {
-                            throw new Error("Date must be in the future")
+                            throw new Error("Date must be in the future");
                         }
-                    }
-                }
+                    },
+                },
             },
             endDate: {
                 type: DataTypes.DATE,
                 validate: {
                     afterStart() {
                         if (this.endDate < this.startDate) {
-                            throw new Error("End date is less than start date")
+                            throw new Error("End date is less than start date");
                         }
-                    }
-                }
+                    },
+                },
             },
         },
         {
@@ -75,16 +78,22 @@ module.exports = (sequelize, DataTypes) => {
             modelName: "Event",
             defaultScope: {
                 attributes: {
-                    exclude: ["createdAt", "updatedAt", "capacity", "price", "description"]
-                }
+                    exclude: [
+                        "createdAt",
+                        "updatedAt",
+                        "capacity",
+                        "price",
+                        "description",
+                    ],
+                },
             },
             scopes: {
-                eventDetails : {
+                eventDetails: {
                     attributes: {
-                        exclude: ["createdAt", "updatedAt"]
-                    }
-                }
-            }
+                        exclude: ["createdAt", "updatedAt"],
+                    },
+                },
+            },
         }
     );
     return Event;
