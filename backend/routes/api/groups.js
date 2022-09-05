@@ -241,11 +241,6 @@ router.get("/:groupId", async (req, res, next) => {
                 model: GroupImage,
             },
             {
-                model: User,
-                as: "Organizer",
-                attributes: ["id", "firstName", "lastName"],
-            },
-            {
                 model: Venue,
             },
         ],
@@ -257,7 +252,20 @@ router.get("/:groupId", async (req, res, next) => {
             statusCode: 404,
         });
     }
-    res.json(group);
+    const userId = group.organizerId
+    const user = await User.findOne({
+        attributes: ["id", "firstName", "lastName"],
+        where: {
+            id: userId
+        }
+    })
+    const groupRes = group.toJSON()
+    groupRes.Organizer = user
+
+
+
+
+    res.json(groupRes);
 });
 
 //GET ALL VENUES FOR A GROUP BY GROUP ID ************** VENUES
