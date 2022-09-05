@@ -634,20 +634,30 @@ router.get(
             },
         });
 
+
+
         //the below gets an array of all member objects
         const membersArray = [];
         for (member of members) {
+            let memberObj = member.toJSON()
             let user = await User.findOne({
                 attributes: ["firstName", "lastName"],
                 where: {
-                    id: userId,
+                    id: memberObj.userId,
                 },
             });
-            let userObj = user.toJSON();
-            userObj.id = member.id;
-            userObj.Membership = { status: member.status };
+            console.log("\n");
+            console.log(user);
+            console.log("\n");
+
+            let userObj = {}
+            userObj.id = memberObj.id;
+            userObj.firstName = user.firstName
+            userObj.lastName = user.lastName
+            userObj.Membership = { status: memberObj.status };
             membersArray.push(userObj);
         }
+        // res.json(membersArray)
 
         //find if the current user is a user co-host
         const userCoHost = await Membership.findOne({
@@ -765,9 +775,18 @@ router.put(
                 isCoHost = true;
             }
         }
+        //find the membership to be chagned
+        const changeMem = await Membership.findOne({
+            where: {
+                userId: memberId,
+                groupId: groupId,
+            },
+        });
 
+
+        const userIdCheck = changeMem.userId
         //check if the user exists
-        const userCheck = await User.findByPk(memberId);
+        const userCheck = await User.findByPk(userIdCheck);
         if (!userCheck) {
             res.status(400);
             res.json({
@@ -779,13 +798,7 @@ router.put(
             });
         }
 
-        //find the membership to be chagned
-        const changeMem = await Membership.findOne({
-            where: {
-                userId: memberId,
-                groupId: groupId,
-            },
-        });
+
         //no membership found error
         if (!changeMem) {
             res.status(404);
