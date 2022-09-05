@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { requireAuth } = require("../../utils/auth");
 const { Op } = require("sequelize");
 const {
     Group,
@@ -13,7 +12,7 @@ const {
     EventImage,
 } = require("../../db/models");
 const { validateLogin } = require("./session");
-const { restoreUser } = require("../../utils/auth");
+const { restoreUser, requireAuth, validEvent } = require("../../utils/auth");
 // const e = require("express");
 
 //GET ALL EVENTS
@@ -45,13 +44,13 @@ router.get("/", async (req, res, next) => {
         attCount = attendRows.length;
         event.numAttending = attCount;
 
-        let eventImg = await EventImage.findOne({
-            attributes: ["url"],
+        const eventImg = await EventImage.findOne({
             where: {
                 eventId: eventId,
-                preview: "true",
+                preview: true,
             },
         });
+
         if (!eventImg) {
             event.previewImage = null;
         } else event.previewImage = eventImg.url;
@@ -237,5 +236,68 @@ router.put("/:eventId", [restoreUser, requireAuth], async (req, res, next) => {
     const event = await Event.scope("eventDetails").findByPk(eventId);
     res.json(event);
 });
+
+//REQUEST ATTENDANCE TO A GROUP
+router.post(
+    "/:eventId/attendance",
+    [restoreUser, requireAuth, validEvent],
+    async (req, res, next) => {
+        const event = res.event;
+        const eventId = req.params.eventId;
+        const groupId = event.groupId;
+        const { user } = req;
+        const userId = user.toSafeObject().id;
+
+        //check if user is member of the group
+        const groupMember = await Membership.findOne({
+            where: {
+                groupId: groupId,
+                userId: userId,
+            },
+        });
+        //error message for no group member
+        if (!groupMember) {
+            res.status(403);
+            res.json({
+                message: "Forbidden",
+                statusCode: 403,
+            });
+        }
+
+        //check to see if request already exists
+        const attendance = await Attendance.findOne({
+            where: {
+                eventId: eventId,
+                userId: userId,
+            },
+        });
+
+        if (attendance) {
+            if (attendance.status === "pending") {
+                res.staus(400);
+                res.json({
+                    message: "Attendance has already been requested",
+                    statusCode: 400,
+                });
+            }
+            if (attendance.status === "member") {
+                res.status(400);
+                res.json({
+                    message: "User is already an attendee of the event",
+                    statusCode: 400,
+                });
+            }
+        }
+
+        const attendRes = Attendance.build({
+            eventId: eventId,
+            userId: userId,
+            status: "pending"
+        })
+        await attendRes.save()
+
+        res.json(attendRes);
+    }
+);
 
 module.exports = router;

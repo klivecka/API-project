@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     }
     Membership.init(
         {
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+            },
             userId: {
                 type: DataTypes.INTEGER,
             },
@@ -29,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
             defaultScope: {
                 attributes: {
                     exclude: ["createdAt", "updatedAt"],
+                },
+            },
+            scopes: {
+                all: {
+                    attributes: ["id", "userId", "groupId", "status"],
                 },
             },
         }

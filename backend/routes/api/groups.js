@@ -629,15 +629,9 @@ router.post(
         const userId = user.toSafeObject().id;
         const groupId = req.params.groupId;
 
-        const newMember = Membership.build({
-            groupId: groupId,
-            userId: memberId,
-            status: status,
-        });
-
         const memberCheck = await Membership.findOne({
             where: {
-                userId: userId,
+                userId: memberId,
                 groupId: groupId,
             },
         });
@@ -661,6 +655,13 @@ router.post(
                     });
             }
         }
+
+        //build the new member
+        const newMember = Membership.build({
+            groupId: groupId,
+            userId: memberId,
+            status: "pending",
+        });
 
         await newMember.save();
         const memberRes = await Membership.findOne({
