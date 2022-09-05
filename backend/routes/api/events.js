@@ -43,7 +43,6 @@ router.get("/", async (req, res, next) => {
         });
         attCount = attendRows.length;
         event.numAttending = attCount;
-
         const eventImg = await EventImage.findOne({
             where: {
                 eventId: eventId,

@@ -6,12 +6,12 @@ module.exports = {
             {
                 eventId: 1,
                 url: "url.com",
-                preview: "true",
+                preview: true,
             },
             {
                 eventId: 2,
                 url: "url.com",
-                preview: "true",
+                preview: true,
             },
         ]);
         /**
