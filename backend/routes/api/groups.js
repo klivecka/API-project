@@ -565,7 +565,7 @@ router.delete("/:groupId", async (req, res, next) => {
         statusCode: 200,
     });
 });
-module.exports = router;
+
 
 //GET ALL MEMBERSHIPS OF A GROUP BY A GROUP ID *****************MEMBERSHIPS
 router.get(
@@ -868,3 +868,15 @@ router.delete(
         });
     }
 );
+
+
+
+
+
+
+
+
+
+
+
+module.exports = router;

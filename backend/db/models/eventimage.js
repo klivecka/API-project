@@ -32,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
                 attributes: {
                     exclude: ["createdAt", "updatedAt", "eventId"]
                 }
+            },
+            scopes: {
+                delete: {
+                    attributes: ["id", "eventId", "url", "preview"]
+                }
             }
         }
     );

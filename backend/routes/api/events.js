@@ -92,7 +92,6 @@ router.get("/:eventId", async (req, res, next) => {
         });
     }
 
-
     let result = [];
 
     let attCount = 0;
@@ -105,9 +104,6 @@ router.get("/:eventId", async (req, res, next) => {
     });
     attCount = attendRows.length;
     event.numAttending = attCount;
-
-
-
 
     res.json(event);
 });
@@ -139,7 +135,8 @@ router.post(
         if (!userIds.includes(userId)) {
             res.status(403);
             res.json({
-                message: "Forbidden, User must be an attendee of the event to add an image",
+                message:
+                    "Forbidden, User must be an attendee of the event to add an image",
                 statusCode: 403,
             });
         }
@@ -248,7 +245,7 @@ router.post(
         const groupId = event.groupId;
         const { user } = req;
         const requestId = user.toSafeObject().id;
-        const { userId } = req.body
+        const { userId } = req.body;
 
         //check if user is member of the group
         const groupMember = await Membership.findOne({
@@ -420,7 +417,45 @@ router.delete(
     [restoreUser, requireAuth, validEvent],
     async (req, res, next) => {
         const eventId = req.params.eventId;
+        const { memberId } = req.body;
+        const { user } = req;
+        const event = res.event;
+        const userId = user.toSafeObject().id;
 
+        const attendance = await Attendance.findOne({
+            where: {
+                eventId: eventId,
+                userId: memberId,
+            },
+        });
+
+        if (!attendance) {
+            res.status(404);
+            res.json({
+                message: "Attendance does not exist for this User",
+                statusCode: 404,
+            });
+        }
+
+        //get group Id and find if user is organizer of group
+        //or if user is the current attendance to be deleted
+        const groupId = event.groupId;
+        const group = await Group.findByPk(groupId);
+
+
+        if (userId !== group.organizerId || userId !== memberId) {
+            res.status(403);
+            res.json({
+                message: "Only the User or organizer may delete an Attendance",
+                statusCode: 403,
+            });
+        }
+
+        await attendance.destroy();
+
+        res.json({
+            message: "Successfully deleted attendance from event",
+        });
     }
 );
 module.exports = router;
