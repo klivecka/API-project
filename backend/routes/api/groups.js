@@ -570,20 +570,11 @@ router.delete("/:groupId", async (req, res, next) => {
 //GET ALL MEMBERSHIPS OF A GROUP BY A GROUP ID *****************MEMBERSHIPS
 router.get(
     "/:groupId/members",
-    [restoreUser, validGroup],
+    [restoreUser, requireAuth, validGroup],
     async (req, res, next) => {
         const groupId = req.params.groupId;
         const { user } = req;
         const userId = user.toSafeObject().id;
-
-        // const groupCheck = await Group.findByPk(groupId);
-        // if (!groupCheck) {
-        //     res.status(404);
-        //     res.json({
-        //         message: "Group couldn't be found",
-        //         statusCode: 404,
-        //     });
-        // }
 
         const groupUsers = await Group.findOne({
             where: {
