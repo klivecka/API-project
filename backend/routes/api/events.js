@@ -307,7 +307,7 @@ router.post(
     }
 );
 
-//CHANGE STATUS OF ATTENDANCE
+//CHANGE STATUS OF ATTENDANCE ********************
 router.put(
     "/:eventId/attendance",
     [restoreUser, requireAuth, validEvent],
@@ -319,12 +319,50 @@ router.put(
         const groupId = event.groupId;
         const { userId, status } = req.body;
 
+        //authorization
+        //user must be organizer
+        const groupCheck = await Group.findByPk(groupId);
+        const coHostCheck = await Membership.findOne({
+            where: {
+                groupId: groupId,
+                userId: requestorId,
+                status: "co-host",
+            },
+        });
+
+        if (requestorId !== groupCheck.organizerId && !coHostCheck) {
+            res.status(403);
+            res.json({
+                message: "Forbidden",
+                statusCode: 403,
+            });
+        }
+
+        //cannot change status to pending error
+        if (status === "pending") {
+            res.status(400);
+            res.json({
+                message: "Cannot change an attendance status to pending",
+                statusCode: 400,
+            });
+        }
+
         const attendance = await Attendance.findOne({
             where: {
                 eventId: eventId,
                 userId: userId,
             },
         });
+
+        //no attendance error
+        if (!attendance) {
+            res.status(404);
+            res.json({
+                message:
+                    "Attendance between the user and the event does not exist",
+                statusCode: 404,
+            });
+        }
 
         await attendance.set({
             status: status,
