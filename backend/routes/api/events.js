@@ -326,18 +326,18 @@ router.put(
             },
         });
 
-        attendance.set({
+        await attendance.set({
             status: status,
         });
 
         await attendance.save();
 
-        attendRes = await Attendance.findOne({
-            where: {
-                eventId: eventId,
-                userId: userId,
-            },
-        })
+        // attendRes = await Attendance.findOne({
+        //     where: {
+        //         eventId: eventId,
+        //         userId: userId,
+        //     },
+        // })
 
         res.json(attendance);
     }

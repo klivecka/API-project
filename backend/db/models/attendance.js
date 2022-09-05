@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
+                autoIncrement: true
             },
             eventId: {
                 type: DataTypes.INTEGER,
@@ -37,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
             modelName: "Attendance",
             defaultScope: {
                 attributes: {
-                    exclude: ["id", "createdAt", "updatedAt"],
+                    exclude: ["createdAt", "updatedAt"],
                 },
             },
         }
