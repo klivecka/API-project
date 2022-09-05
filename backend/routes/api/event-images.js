@@ -65,6 +65,32 @@ router.delete(
 );
 
 
+//DELETE A GROUP
+router.delete(
+    "/:groupId",
+    [restoreUser, requireAuth, validGroup],
+    async (req, res, next) => {
+        const { user } = req;
+        const userId = user.toSafeObject().id;
+        const groupId = req.params.groupId;
+        const group = res.group
+        
+        if (userId !== group.organizerId) {
+            res.status(403);
+            res.json({
+                message:
+                    "Forbidden. User must be organizer of the group",
+                statusCode: 403,
+            });
+        }
+
+        await group.destroy();
+
+        res.json({
+            message: "Successfully deleted",
+        });
+    }
+);
 
 
 

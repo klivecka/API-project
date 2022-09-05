@@ -410,8 +410,47 @@ router.get("/:eventId/attendees", validEvent, async (req, res, next) => {
     res.json(resObj);
 });
 
-//DELETE ATTENDANCE
+//DELETE EVENT
+router.delete(
+    "/:eventId",
+    [restoreUser, requireAuth, validEvent],
+    async (req, res, next) => {
+        const { user } = req;
+        const userId = user.toSafeObject().id;
+        const eventId = req.params.eventId;
 
+        const event = await Event.findByPk(eventId);
+        const groupId = event.groupId;
+        const group = await Group.findByPk(groupId);
+        const groupMembers = await Membership.findAll({
+            where: {
+                groupId: groupId,
+            },
+        });
+        let isCoHost = false;
+        for (member of groupMembers) {
+            if (userId === member.userId && member.status === "co-host") {
+                isCoHost = true;
+            }
+        }
+        if (userId !== group.organizerId && !isCoHost) {
+            res.status(403);
+            res.json({
+                message:
+                    "Forbidden. User must be organizer or co-host of the group",
+                statusCode: 403,
+            });
+        }
+
+        await event.destroy();
+
+        res.json({
+            message: "Successfully deleted",
+        });
+    }
+);
+
+//DELETE ATTENDANCE
 router.delete(
     "/:eventId/attendance",
     [restoreUser, requireAuth, validEvent],
@@ -441,7 +480,6 @@ router.delete(
         //or if user is the current attendance to be deleted
         const groupId = event.groupId;
         const group = await Group.findByPk(groupId);
-
 
         if (userId !== group.organizerId || userId !== memberId) {
             res.status(403);
