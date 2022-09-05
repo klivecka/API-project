@@ -806,8 +806,8 @@ router.put(
                 resObj = { id, groupId, memberId, status };
                 res.json(resObj);
             } else {
-                res.status(404);
-                res.json({ message: "insufficient permissions", status: 404 });
+                res.status(403);
+                res.json({ message: "insufficient permissions", status: 403 });
             }
         }
 
