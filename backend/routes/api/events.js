@@ -380,4 +380,37 @@ router.put(
         res.json(attendance);
     }
 );
+
+//GET ALL ATTENDEEDS OF AN EVENT ********************
+router.get("/:eventId/attendees", validEvent, async (req, res, next) => {
+    const eventId = req.params.eventId
+    const attendees = await Attendance.findAll({
+        where: {
+            eventId: eventId
+        }
+    })
+
+let resObj = {}
+let resArray = []
+
+for (attendee of attendees) {
+    let attendeeObj = attendee.toJSON()
+
+    let user = await User.findOne({
+        attributes: ["id", "firstName", "lastName"],
+        where: {
+            id: attendeeObj.userId
+        }
+    })
+    let userObj = user.toJSON()
+    userObj.Attendance = {status: attendeeObj.status}
+resArray.push(userObj)
+}
+resObj.Attendees = resArray
+
+
+res.json(resObj)
+})
+
+
 module.exports = router;
