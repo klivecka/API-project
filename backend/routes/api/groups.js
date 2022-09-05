@@ -44,7 +44,10 @@ router.get("/:groupId/events", async (req, res, next) => {
 
     let resultObj = {};
     let result = [];
+
+    //loop through the events and add number of attendees and the preview images
     for (let i = 0; i < events.length; i++) {
+        //get all attendees and count the number of rows
         let attCount = 0;
         let event = events[i].toJSON();
         let eventId = event.id;
@@ -57,11 +60,12 @@ router.get("/:groupId/events", async (req, res, next) => {
         attCount = attendRows.length;
         event.numAttending = attCount;
 
+        //find imageUrl and add to event
         let eventImg = await EventImage.findOne({
             attributes: ["url"],
             where: {
                 eventId: eventId,
-                preview: "true",
+                preview: true,
             },
         });
         if (!eventImg) {
