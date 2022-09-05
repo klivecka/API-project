@@ -153,13 +153,6 @@ router.post(
         await newEvent.save();
         const eventId = newEvent.id;
 
-        const newAttend = Attendance.build({
-            eventId: eventId,
-            userId: userId,
-            status: "co-host",
-        });
-        await newAttend.save();
-
         eventRes = await Event.scope("eventDetails").findByPk(eventId);
         res.json(eventRes);
     }
@@ -718,7 +711,6 @@ router.put(
 
         //find the membership to be chagned
         const changeMem = await Membership.findOne({
-            attributes: ["id", "groupId", "userId", "status"],
             where: {
                 userId: memberId,
                 groupId: groupId,
@@ -739,6 +731,7 @@ router.put(
                 changeMem.set({
                     status: status,
                 });
+                await changeMem.save()
                 const id = changeMem.id;
                 resObj = { id, groupId, memberId, status };
                 res.json(resObj);

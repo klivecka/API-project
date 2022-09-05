@@ -237,7 +237,7 @@ router.put("/:eventId", [restoreUser, requireAuth], async (req, res, next) => {
     res.json(event);
 });
 
-//REQUEST ATTENDANCE TO A GROUP
+//REQUEST ATTENDANCE TO AN EVENT ********************
 router.post(
     "/:eventId/attendance",
     [restoreUser, requireAuth, validEvent],
@@ -296,8 +296,17 @@ router.post(
         })
         await attendRes.save()
 
-        res.json(attendRes);
+        const attendResObj = await Attendance.findOne({
+            where: {
+                eventId: eventId,
+                userId: userId
+            }
+        })
+
+        res.json(attendResObj);
     }
 );
+
+
 
 module.exports = router;

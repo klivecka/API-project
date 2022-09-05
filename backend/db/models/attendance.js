@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
     }
     Attendance.init(
         {
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+            },
             eventId: {
                 type: DataTypes.INTEGER,
             },
@@ -31,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Attendance",
+            defaultScope: {
+                attributes: {
+                    exclude: ["id", "createdAt", "updatedAt"],
+                },
+            },
         }
     );
     return Attendance;
