@@ -104,6 +104,25 @@ router.post(
                     statusCode: 404,
                 });
         }
+
+        //user must be organizer or cohost
+        const coHost = await Membership.findOne({
+            where: {
+                userId: userId,
+                groupId: groupId,
+                status: "co-host",
+            },
+        });
+
+        //authorization must be either organizer or co-host of group
+        if (userId !== groupCheck.organizerId && !coHost) {
+            res.status(403);
+            res.json({
+                message: "Forbidden, user must be an organizer or co-host",
+                statusCode: 403,
+            });
+        }
+
         const errors = {};
         const venueCheck = await Venue.findByPk(venueId);
         if (!venueCheck) {
@@ -291,6 +310,8 @@ router.post(
     "/:groupId/venues",
     [restoreUser, requireAuth],
     async (req, res, next) => {
+        const { user } = req;
+        const userId = user.toSafeObject().id;
         const groupId = req.params.groupId;
         const { address, city, state, lat, lng } = req.body;
         const groupCheck = await Group.findByPk(groupId);
@@ -338,6 +359,24 @@ router.post(
                 errors: errors,
             });
         }
+        //cohost check
+        const coHost = await Membership.findOne({
+            where: {
+                userId: userId,
+                groupId: groupId,
+                status: "co-host",
+            },
+        });
+
+        //authorization must be either organizer or co-host of group
+        if (userId !== groupCheck.organizerId && !coHost) {
+            res.status(403);
+            res.json({
+                message: "Forbidden, user must be an organizer or co-host",
+                statusCode: 403,
+            });
+        }
+
         const newVenue = Venue.build({
             groupId: groupId,
             address: address,
