@@ -486,9 +486,6 @@ router.delete(
         //or if user is the current attendance to be deleted
         const groupId = event.groupId;
         const group = await Group.findByPk(groupId);
-        console.log('\n')
-        console.log(group.organizerId)
-        console.log('\n')
         if (userId !== group.organizerId && userId !== memberId) {
             res.status(403);
             res.json({
