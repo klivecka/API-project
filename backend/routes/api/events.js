@@ -92,7 +92,7 @@ router.get("/:eventId", async (req, res, next) => {
         });
     }
 
-    let resultObj = {};
+
     let result = [];
 
     let attCount = 0;
@@ -105,10 +105,11 @@ router.get("/:eventId", async (req, res, next) => {
     });
     attCount = attendRows.length;
     event.numAttending = attCount;
-    result.push(event);
 
-    resultObj.Events = result;
-    res.json(resultObj);
+
+
+
+    res.json(event);
 });
 
 //ADD AN IMAGE TO AN EVENT BASED ON EVENT ID
@@ -138,7 +139,7 @@ router.post(
         if (!userIds.includes(userId)) {
             res.status(403);
             res.json({
-                message: "Forbidden",
+                message: "Forbidden, User must be an attendee of the event to add an image",
                 statusCode: 403,
             });
         }
@@ -246,13 +247,14 @@ router.post(
         const eventId = req.params.eventId;
         const groupId = event.groupId;
         const { user } = req;
-        const userId = user.toSafeObject().id;
+        const requestId = user.toSafeObject().id;
+        const { userId } = req.body
 
         //check if user is member of the group
         const groupMember = await Membership.findOne({
             where: {
                 groupId: groupId,
-                userId: userId,
+                userId: requestId,
             },
         });
         //error message for no group member
@@ -418,7 +420,7 @@ router.delete(
     [restoreUser, requireAuth, validEvent],
     async (req, res, next) => {
         const eventId = req.params.eventId;
-        
+
     }
 );
 module.exports = router;

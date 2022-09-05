@@ -156,13 +156,13 @@ router.post(
         await newEvent.save();
         const eventId = newEvent.id;
 
-        const attendee = Attendance.build({
-            eventId: eventId,
-            userId: userId,
-            status: "member"
-        })
+        // const attendee = Attendance.build({
+        //     eventId: eventId,
+        //     userId: userId,
+        //     status: "member"
+        // })
 
-        await attendee.save()
+        // await attendee.save()
 
         eventRes = await Event.scope("eventDetails").findByPk(eventId);
         res.json(eventRes);
@@ -490,6 +490,7 @@ router.post(
 //CREATE A GROUP
 router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
     const { user } = req;
+
     const { name, about, type, private, city, state } = req.body;
     if (user) {
         const errors = {};
@@ -535,6 +536,14 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
         await newGroup.save();
         const resGroup = await Group.scope("editGroup").findByPk(newGroup.id);
 
+       const coHost = await Membership.build({
+            userId: userId,
+            groupId: newGroup.id,
+            status: "co-host"
+        })
+
+        await coHost.save()
+        
         res.json(resGroup);
     }
 });
