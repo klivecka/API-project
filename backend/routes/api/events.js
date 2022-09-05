@@ -237,7 +237,7 @@ router.put("/:eventId", [restoreUser, requireAuth], async (req, res, next) => {
     res.json(event);
 });
 
-//REQUEST ATTENDANCE TO AN EVENT ********************
+//REQUEST ATTENDANCE TO AN EVENT BASED ON EVENT ID ********************
 router.post(
     "/:eventId/attendance",
     [restoreUser, requireAuth, validEvent],
@@ -274,7 +274,7 @@ router.post(
 
         if (attendance) {
             if (attendance.status === "pending") {
-                res.staus(400);
+                res.status(400);
                 res.json({
                     message: "Attendance has already been requested",
                     statusCode: 400,
@@ -292,21 +292,54 @@ router.post(
         const attendRes = Attendance.build({
             eventId: eventId,
             userId: userId,
-            status: "pending"
-        })
-        await attendRes.save()
+            status: "pending",
+        });
+        await attendRes.save();
 
         const attendResObj = await Attendance.findOne({
             where: {
                 eventId: eventId,
-                userId: userId
-            }
-        })
+                userId: userId,
+            },
+        });
 
         res.json(attendResObj);
     }
 );
 
+//CHANGE STATUS OF ATTENDANCE
+router.put(
+    "/:eventId/attendance",
+    [restoreUser, requireAuth, validEvent],
+    async (req, res, next) => {
+        const { user } = req;
+        const requestorId = user.toSafeObject().id;
+        const eventId = req.params.eventId;
+        const event = res.event;
+        const groupId = event.groupId;
+        const { userId, status } = req.body;
 
+        const attendance = await Attendance.findOne({
+            where: {
+                eventId: eventId,
+                userId: userId,
+            },
+        });
 
+        attendance.set({
+            status: status,
+        });
+
+        await attendance.save();
+
+        attendRes = await Attendance.findOne({
+            where: {
+                eventId: eventId,
+                userId: userId,
+            },
+        })
+
+        res.json(attendance);
+    }
+);
 module.exports = router;
