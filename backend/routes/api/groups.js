@@ -900,7 +900,7 @@ router.delete(
         }
 
         //if the user isnt the member or a cohost error
-        if (!isCoHost && !isMember) {
+        if (!isCoHost && !isMember && userId !== group.organizerId) {
             res.status(404);
             res.json({ message: "insufficient permissions", status: 404 });
         }
