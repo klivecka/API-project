@@ -555,22 +555,29 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
 });
 
 //DELETE A GROUP
-router.delete("/:groupId", async (req, res, next) => {
-    const groupId = req.params.groupId;
-    const group = await Group.findByPk(groupId);
-    if (!group) {
-        res.status(404);
+router.delete(
+    "/:groupId",
+    [restoreUser, requireAuth, validGroup],
+    async (req, res, next) => {
+        const groupId = req.params.groupId;
+        const group = res.group;
+        const { user } = req;
+        const userId = user.toSafeObject().id;
+
+        if (userId !== group.organizerId) {
+            res.json({
+                message: "Forbidden. User must be group Organizer",
+                statusCode: 403,
+            });
+        }
+
+        await group.destroy();
         res.json({
-            message: "Group couldn't be found",
-            statusCode: 404,
+            message: "Successfully deleted",
+            statusCode: 200,
         });
     }
-    await group.destroy();
-    res.json({
-        message: "Successfully deleted",
-        statusCode: 200,
-    });
-});
+);
 
 //GET ALL MEMBERSHIPS OF A GROUP BY A GROUP ID *****************MEMBERSHIPS
 router.get(
@@ -611,7 +618,7 @@ router.get(
                 status: "co-host",
             },
         });
-        const orgId = group.organizerId
+        const orgId = group.organizerId;
 
         //if user is cohost or group organziser
         const resultObj = {};
