@@ -78,7 +78,6 @@ router.get("/:groupId/events", async (req, res, next) => {
 });
 
 //CREATE AN EVENT FOR A GROUP BY GROUP ID ************** EVENTS
-
 router.post(
     "/:groupId/events",
     [restoreUser, requireAuth],
@@ -156,6 +155,14 @@ router.post(
         });
         await newEvent.save();
         const eventId = newEvent.id;
+
+        const attendee = Attendance.build({
+            eventId: eventId,
+            userId: userId,
+            status: "member"
+        })
+
+        await attendee.save()
 
         eventRes = await Event.scope("eventDetails").findByPk(eventId);
         res.json(eventRes);
@@ -668,6 +675,7 @@ router.post(
             },
         });
         const resObj = {};
+        resObj.id = memberRes.id
         resObj.groupId = memberRes.groupId;
         resObj.memberId = memberRes.userId;
         resObj.status = memberRes.status;
