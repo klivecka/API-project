@@ -13,6 +13,7 @@ const {
     Attendance,
 } = require("../../db/models");
 const { validateLogin } = require("./session");
+const group = require("../../db/models/group");
 
 //GET ALL EVENTS SPECIFIED BY GROUP ID **********EVENTS
 router.get("/:groupId/events", async (req, res, next) => {
@@ -252,18 +253,15 @@ router.get("/:groupId", async (req, res, next) => {
             statusCode: 404,
         });
     }
-    const userId = group.organizerId
+    const userId = group.organizerId;
     const user = await User.findOne({
         attributes: ["id", "firstName", "lastName"],
         where: {
-            id: userId
-        }
-    })
-    const groupRes = group.toJSON()
-    groupRes.Organizer = user
-
-
-
+            id: userId,
+        },
+    });
+    const groupRes = group.toJSON();
+    groupRes.Organizer = user;
 
     res.json(groupRes);
 });
@@ -544,14 +542,14 @@ router.post("/", [restoreUser, requireAuth], async (req, res, next) => {
         await newGroup.save();
         const resGroup = await Group.scope("editGroup").findByPk(newGroup.id);
 
-       const coHost = await Membership.build({
+        const coHost = await Membership.build({
             userId: userId,
             groupId: newGroup.id,
-            status: "co-host"
-        })
+            status: "co-host",
+        });
 
-        await coHost.save()
-        
+        await coHost.save();
+
         res.json(resGroup);
     }
 });
@@ -574,55 +572,61 @@ router.delete("/:groupId", async (req, res, next) => {
     });
 });
 
-
 //GET ALL MEMBERSHIPS OF A GROUP BY A GROUP ID *****************MEMBERSHIPS
 router.get(
     "/:groupId/members",
     [restoreUser, requireAuth, validGroup],
     async (req, res, next) => {
         const groupId = req.params.groupId;
+        const group = res.group;
         const { user } = req;
         const userId = user.toSafeObject().id;
 
-        const groupUsers = await Group.findOne({
+        const members = await Membership.findAll({
             where: {
-                id: groupId,
-            },
-            include: {
-                model: User,
-                attributes: ["id", "firstName", "lastName"],
-            },
-        });
-        const userCoHost = await Membership.findOne({
-            attributes: ["status"],
-            where: {
-                userId: userId,
                 groupId: groupId,
             },
         });
 
-        const result = {};
-        const newArray = [];
-        membersArray = groupUsers.Users;
-        // delete result.Members
-        for (member of membersArray) {
-            let newObj = {};
-            let { id, firstName, lastName } = member;
-            let status = member.Membership.status;
-            if (
-                userId === groupUsers.organizerId ||
-                userCoHost.status === "co-host"
-            ) {
-                newObj = { id, firstName, lastName };
-                newObj.Membership = {};
-                newObj.Membership.status = status;
-                newArray.push(newObj);
-            } else {
-                newObj = { id, firstName, lastName };
-                newObj.Membership = {};
-                newObj.Membership.status = status;
-                if (status === "co-host" || status === "member") {
-                    newArray.push(newObj);
+        //the below gets an array of all member objects
+        const membersArray = [];
+        for (member of members) {
+            let user = await User.findOne({
+                attributes: ["firstName", "lastName"],
+                where: {
+                    id: userId,
+                },
+            });
+            let userObj = user.toJSON();
+            userObj.id = member.id;
+            userObj.Membership = { status: member.status };
+            membersArray.push(userObj);
+        }
+
+        //find if the current user is a user co-host
+        const userCoHost = await Membership.findOne({
+            where: {
+                userId: userId,
+                groupId: groupId,
+                status: "co-host",
+            },
+        });
+        const orgId = group.organizerId
+
+        //if user is cohost or group organziser
+        const resultObj = {};
+        const resultArr = [];
+
+        if (userId === group.organizerId || userCoHost) {
+            resultObj.Members = membersArray;
+            res.json(resultObj);
+        } else {
+            for (member of membersArray) {
+                let memStatus = member.Membership.status;
+                if (memStatus === "pending") {
+                    resultArr.push(member);
+                    resultObj.Members = resultArr;
+                    res.json(resultObj);
                 }
             }
         }
@@ -683,7 +687,7 @@ router.post(
             },
         });
         const resObj = {};
-        resObj.id = memberRes.id
+        resObj.id = memberRes.id;
         resObj.groupId = memberRes.groupId;
         resObj.memberId = memberRes.userId;
         resObj.status = memberRes.status;
@@ -751,7 +755,7 @@ router.put(
                 changeMem.set({
                     status: status,
                 });
-                await changeMem.save()
+                await changeMem.save();
                 const id = changeMem.id;
                 resObj = { id, groupId, memberId, status };
                 res.json(resObj);
@@ -867,15 +871,5 @@ router.delete(
         });
     }
 );
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
