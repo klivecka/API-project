@@ -21,11 +21,20 @@ router.delete(
     async (req, res, next) => {
         const { user } = req;
         const userId = user.toSafeObject().id;
-        const groupImageId = req.params.groupImageId
+        const groupImageId = req.params.groupImageId;
 
-        const image = await GroupImage.scope("delete").findByPk(groupImageId)
-        const groupId = image.groupId
-        const group = await Group.findByPk(groupId)
+        const image = await GroupImage.scope("delete").findByPk(groupImageId);
+
+        //error for no image found
+        if (!image) {
+            res.status(404);
+            res.json({
+                message: "Image couldn't be found",
+                statusCode: 404,
+            });
+        }
+        const groupId = image.groupId;
+        const group = await Group.findByPk(groupId);
 
         //check if user is co-host
         const groupMembers = await Membership.findAll({
@@ -50,14 +59,12 @@ router.delete(
             });
         }
 
-        
-
-        await image.destroy()
+        await image.destroy();
 
         res.json({
-            "message": "Successfully deleted",
-            "statusCode": 200
-          })
+            message: "Successfully deleted",
+            statusCode: 200,
+        });
     }
 );
 

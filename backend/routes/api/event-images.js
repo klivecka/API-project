@@ -74,6 +74,15 @@ router.delete(
         const eventImageId = req.params.eventImageId
 
         const image = await EventImage.scope("delete").findByPk(eventImageId)
+       
+       //error for no image found
+        if (!image) {
+            res.status(404);
+            res.json({
+                message: "Image couldn't be found",
+                statusCode: 404,
+            });
+        }
         const eventId = image.eventId
         const event = await Event.findByPk(eventId)
         const groupId = event.groupId
