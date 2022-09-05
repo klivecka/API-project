@@ -646,9 +646,6 @@ router.get(
                     id: memberObj.userId,
                 },
             });
-            console.log("\n");
-            console.log(user);
-            console.log("\n");
 
             let userObj = {}
             userObj.id = memberObj.id;
