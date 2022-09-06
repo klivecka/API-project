@@ -119,7 +119,7 @@ router.post(
         const eventCheck = await Event.findByPk(eventId);
         if (!eventCheck) {
             res.status(404);
-            res.json({
+            return res.json({
                 message: "Event couldn't be found",
                 statusCode: 404,
             });
@@ -133,7 +133,7 @@ router.post(
 
         if (!userIds.includes(userId)) {
             res.status(403);
-            res.json({
+            return res.json({
                 message:
                     "Forbidden, User must be an attendee of the event to add an image",
                 statusCode: 403,
