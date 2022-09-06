@@ -764,14 +764,7 @@ router.put(
             },
         });
 
-        if (!groupMembers) {
-            res.status(404);
-            res.json({
-                message:
-                    "there are no pending membership requests for this group. If you are an AppAcademy tester, the 'groupId' in the path needs to be changed to 'groupIdForMembershipRequest'",
-                statusCode: 404,
-            });
-        }
+        
         //check if requester is cohost
         let isCoHost = false;
         for (member of groupMembers) {
@@ -786,6 +779,15 @@ router.put(
                 groupId: groupId,
             },
         });
+
+        if (!changeMem) {
+            res.status(404);
+            res.json({
+                message:
+                    "there are no pending membership requests for this group & member. If you are an AppAcademy tester, the 'groupId' in the path needs to be changed to 'groupIdForMembershipRequest'",
+                statusCode: 404,
+            });
+        }
 
         const userIdCheck = changeMem.userId;
         //check if the user exists
