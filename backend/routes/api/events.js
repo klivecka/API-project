@@ -246,14 +246,14 @@ router.post(
         const requestId = user.toSafeObject().id;
         const { userId } = req.body;
 
-        //check if user is member of the group
+        //check if requestor is member of the group
         const groupMember = await Membership.findOne({
             where: {
                 groupId: groupId,
                 userId: requestId,
             },
         });
-        //error message for no group member
+        //error message for no requestor group member
         if (!groupMember) {
             res.status(403);
             res.json({
@@ -273,14 +273,14 @@ router.post(
         if (attendance) {
             if (attendance.status === "pending") {
                 res.status(400);
-                res.json({
+                return res.json({
                     message: "Attendance has already been requested",
                     statusCode: 400,
                 });
             }
             if (attendance.status === "member") {
                 res.status(400);
-                res.json({
+                return res.json({
                     message: "User is already an attendee of the event",
                     statusCode: 400,
                 });
