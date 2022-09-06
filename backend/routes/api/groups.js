@@ -634,12 +634,10 @@ router.get(
             },
         });
 
-
-
         //the below gets an array of all member objects
         const membersArray = [];
         for (member of members) {
-            let memberObj = member.toJSON()
+            let memberObj = member.toJSON();
             let user = await User.findOne({
                 attributes: ["firstName", "lastName"],
                 where: {
@@ -647,10 +645,10 @@ router.get(
                 },
             });
 
-            let userObj = {}
+            let userObj = {};
             userObj.id = memberObj.id;
-            userObj.firstName = user.firstName
-            userObj.lastName = user.lastName
+            userObj.firstName = user.firstName;
+            userObj.lastName = user.lastName;
             userObj.Membership = { status: memberObj.status };
             membersArray.push(userObj);
         }
@@ -765,6 +763,15 @@ router.put(
                 groupId: groupId,
             },
         });
+
+        if (!groupMembers) {
+            res.status(404);
+            res.json({
+                message:
+                    "there are no pending membership requests for this group. If you are an AppAcademy tester, the 'groupId' in the path needs to be changed to 'groupIdForMembershipRequest'",
+                statusCode: 404,
+            });
+        }
         //check if requester is cohost
         let isCoHost = false;
         for (member of groupMembers) {
@@ -780,8 +787,7 @@ router.put(
             },
         });
 
-
-        const userIdCheck = changeMem.userId
+        const userIdCheck = changeMem.userId;
         //check if the user exists
         const userCheck = await User.findByPk(userIdCheck);
         if (!userCheck) {
@@ -794,7 +800,6 @@ router.put(
                 },
             });
         }
-
 
         //no membership found error
         if (!changeMem) {
