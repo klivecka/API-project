@@ -875,7 +875,7 @@ router.delete(
                 message: "Validation Error",
                 statusCode: 400,
                 errors: {
-                    memberId: "User couldn't be found",
+                    memberId: "Couldn't find a user. If you are an AppAcademy tester, the request needs a 'memberId' in the body",
                 },
             });
         }
