@@ -52,15 +52,15 @@ fetch('/api/test', {
 
 /* test routes
 // //TESTROUTE
-// router.get("/set-token-cookie", async (_req, res) => {
-//     const user = await User.findOne({
-//         where: {
-//             username: "Demo-lition",
-//         },
-//     });
-//     setTokenCookie(res, user);
-//     return res.json({ user });
-// });
+router.get("/set-token-cookie", async (_req, res) => {
+    const user = await User.findOne({
+        where: {
+            username: "Demo-lition",
+        },
+    });
+    setTokenCookie(res, user);
+    return res.json({ user });
+});
 
 // //REQUIRE AUTH
 
