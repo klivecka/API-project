@@ -16,6 +16,7 @@ const removeUser = () => {
   };
 };
 
+//LOGIN THUNK
 export const login = (user) => async (dispatch) => {
     console.log('THIS IS THE LOGIN THUNK GETTING HIT')
   const { credential, password } = user;
@@ -32,6 +33,14 @@ export const login = (user) => async (dispatch) => {
   dispatch(setUser(data));
   return response;
 };
+
+//RESTORE THUNK
+export const restoreUser = () => async dispatch => {
+    const response = await csrfFetch('/api/session');
+    const data = await response.json();
+    dispatch(setUser(data));
+    return response;
+  };
 
 const initialState = { user: null };
 
