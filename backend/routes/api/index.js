@@ -7,6 +7,7 @@ const eventsRouter = require("./events.js");
 const groupImageRouter = require("./group-images.js");
 const eventImageRouter = require("./event-images.js");
 const { requireAuth } = require("../../utils/auth");
+const { setTokenCookie } = require("../../utils/auth.js");
 
 router.get("/test", requireAuth, (req, res) => {
     res.json({ message: "success" });
@@ -44,11 +45,10 @@ fetch('/api/test', {
 // const { restoreUser } = require("../../utils/auth.js");
 // router.use(restoreUser);
 
-router.post("/test", function (req, res) {
-    res.json({ requestBody: req.body });
-});
-
-const { setTokenCookie } = require("../../utils/auth.js");
+// router.post("/test", function (req, res) {
+//   console.log('THIS IS THE API TEST ROUTE GETTING HIT')
+//     res.json({ requestBody: req.body });
+// });
 
 /* test routes
 // //TESTROUTE
