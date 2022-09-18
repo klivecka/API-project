@@ -34,7 +34,8 @@ const groupReducer = (state = initialState, action) => {
             })
             return {
                 ...groups,
-                ...state
+                ...state,
+                list: groupList
             }
             default:
                 return state;

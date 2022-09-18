@@ -1,0 +1,25 @@
+h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.group-wrapper {
+    display: flex;
+    flex-direction: column; 
+    flex-grow: 1;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.group-div {
+    align-items: center;
+    bottom: 30px;
+    box-sizing: border-box;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgb(0, 0, 0, 0.2);
+}
