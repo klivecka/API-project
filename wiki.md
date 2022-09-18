@@ -1,4 +1,5 @@
 <h1>Redux State Shape</h1>
+
 ```
 store = {
   session: {},
@@ -30,7 +31,11 @@ store = {
         },
       },
     },
+    ```
+    
     // In this slice we have much more info about the event than in the allEvents slice.
+    
+    ```
     singleEvent: {
       eventData,
       Group: {
