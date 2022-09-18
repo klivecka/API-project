@@ -8,18 +8,26 @@ function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   let sessionLinks;
-  if (sessionUser) {
-    sessionLinks = (
-      <ProfileButton user={sessionUser} />
-    );
-  } else {
-    sessionLinks = (
-      <>
-        <NavLink to="/login">Log In</NavLink>
-        <NavLink to="/signup">Sign Up</NavLink>
-      </>
-    );
-  }
+//   if (sessionUser) {
+//     sessionLinks = (
+//       <ProfileButton user={sessionUser} />
+//     );
+//   } else {
+//     sessionLinks = (
+//       <>
+//         <NavLink to="/login">Log In</NavLink>
+//         <NavLink to="/signup">Sign Up</NavLink>
+//       </>
+//     );
+//   }
+
+sessionLinks = (
+          <>
+            <NavLink to="/login">Log In</NavLink>
+            <NavLink to="/signup">Sign Up</NavLink>
+            <ProfileButton user={sessionUser} />
+          </>
+        );
 
   return (
     <ul>
