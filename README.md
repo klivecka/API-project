@@ -22,7 +22,7 @@ via the site a User can perform hte following actions:
 -get the details of a single group <br/>
 -edit a group <br/>
 
-**Events** - 
+Events- 
 
 -Create an event for a specific group</br>
 -Get all events associated with a group  </br>
