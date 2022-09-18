@@ -1,4 +1,4 @@
-<h1>Meetup Clone Readme*</h1>
+<h1>Meetup Clone Readme</h1>
 
 <h2>Live Site Link: </h2>
 https://klivecka-meetup-clone2.herokuapp.com/. (not yet live)
