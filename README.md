@@ -13,7 +13,7 @@ the project is written in Javascript with HTML/CSS, with the backend built on Ex
 
 via the site a User can perform hte following actions:
 
-Groups- 
+**Groups**- 
 
 -Get all groups <br/>
 -Create a group <br/>
