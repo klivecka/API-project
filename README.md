@@ -11,16 +11,26 @@ the project is written in Javascript with HTML/CSS, with the backend built on Ex
 
 <h2>**Features**</h2>
 
-**Groups** - via the site a User can perform hte following actios:
+via the site a User can perform hte following actions:
+
+**Groups** - 
 
 -Get all groups <br/>
--Create a group
--add an image to a group
--get all the groups that they are a member of
--get the details of a single group
--edit a group
+-Create a group <br/>
+-add an image to a group <br/>
+-get all the groups that they are a member of <br/>
+-get the details of a single group <br/>
+-edit a group <br/>
 
+**Events** - 
 
+-Create an event for a specific group</br>
+-Get all events associated with a group  </br>
+-Get the details of an event  </br>
+-Edit an event  </br>
+
+**RSVPs** - 
+-
 
 Images and/or GIFs of your own site showcasing and additional insight some functionality.
 Road map or to do list for future features.
