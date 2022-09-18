@@ -36,12 +36,14 @@ RSVPs -
 -Delete attendance to an event  </br>
 
 Joining Groups -
+
 -Request to join a group </br>
 -Approve a membership request as a group owner  </br>
 -Delete a membership from a group  </br>
 
 
-Images and/or GIFs of your own site showcasing and additional insight some functionality.
-Road map or to do list for future features.
-Get started section with instructions on how to set up the repo to run the project locally.
-Contact information.
+<h2>Images of site to be uploaded</h2>
+
+<h2>roadmap to be uploaded</h2>
+
+for inquiries please contact klivecka.alex@gmail.com.
