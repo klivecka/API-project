@@ -11,7 +11,7 @@ the project is written in Javascript with HTML/CSS, with the backend built on Ex
 
 <h2>Features</h2>
 
-via the site a User can perform hte following actions:
+via the site a User can perform the following actions:
 
 **Groups**- 
 
