@@ -1,5 +1,5 @@
 <h1>Redux State Shape</h1>
-
+```
 store = {
   session: {},
   groups: {
@@ -47,3 +47,4 @@ store = {
     },
   },
 };
+```
