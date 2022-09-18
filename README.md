@@ -3,7 +3,7 @@
 <h2>Live Site Link: </h2>
 https://klivecka-meetup-clone2.herokuapp.com/. (not yet live)
 
-<h2>Description**: </h2>
+<h2>Description: </h2>
 This site is a clone of some functions of Meetup.com. 
 This is a project to learn backend and frontend devlopment technologies while enrolled at App Acadmey.
 
@@ -22,20 +22,20 @@ via the site a User can perform hte following actions:
 -get the details of a single group <br/>
 -edit a group <br/>
 
-Events- 
+**Events**- 
 
 -Create an event for a specific group</br>
 -Get all events associated with a group  </br>
 -Get the details of an event  </br>
 -Edit an event  </br>
 
-**RSVPs** - 
+RSVPs - 
 
 -Request attendance to an event  </br>
 -Confirm attendance as an event organizer </br>
 -Delete attendance to an event  </br>
 
-**Joining Groups** -
+Joining Groups -
 -Request to join a group </br>
 -Approve a membership request as a group owner  </br>
 -Delete a membership from a group  </br>
