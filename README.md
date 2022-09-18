@@ -30,7 +30,16 @@ via the site a User can perform hte following actions:
 -Edit an event  </br>
 
 **RSVPs** - 
--
+
+-Request attendance to an event  </br>
+-Confirm attendance as an event organizer </br>
+-Delete attendance to an event  </br>
+
+**Joining Groups** -
+-Request to join a group </br>
+-Approve a membership request as a group owner  </br>
+-Delete a membership from a group  </br>
+
 
 Images and/or GIFs of your own site showcasing and additional insight some functionality.
 Road map or to do list for future features.
