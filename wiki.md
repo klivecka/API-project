@@ -1,6 +1,6 @@
 <h1>Link to API Documentation</h1>
 
-[Backend README] https://github.com/klivecka/Meetup-Clone-Project/blob/5e7246dbe8a8cf5406824b445df9cc67ee2894b5/backend/backend-README.md
+https://github.com/klivecka/Meetup-Clone-Project/blob/5e7246dbe8a8cf5406824b445df9cc67ee2894b5/backend/backend-README.md
 
 
 <h1>Redux State Shape</h1>
