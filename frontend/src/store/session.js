@@ -18,9 +18,9 @@ const removeUser = () => {
 
 //LOGIN THUNK
 export const login = (user) => async (dispatch) => {
-    console.log('THIS IS THE LOGIN THUNK GETTING HIT')
+    // console.log('THIS IS THE LOGIN THUNK GETTING HIT')
   const { credential, password } = user;
-  console.log('THIS IS THE USER GETTING SENT', user)
+  // console.log('THIS IS THE USER GETTING SENT', user)
   const response = await csrfFetch('/api/session', {
     method: 'POST',
     body: JSON.stringify({
@@ -29,7 +29,7 @@ export const login = (user) => async (dispatch) => {
     }),
   });
   const data = await response.json();
-  console.log('THIS IS THE RESPONSE JSON', data)
+  // console.log('THIS IS THE RESPONSE JSON', data)
   dispatch(setUser(data));
   return response;
 };
