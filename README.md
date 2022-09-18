@@ -1,19 +1,19 @@
-<h1>**Meetup Clone Readme**</h1>
+<h1>Meetup Clone Readme*/h1>
 
-<h2>**Live Site Link:** </h2>
+<h2>Live Site Link: </h2>
 https://klivecka-meetup-clone2.herokuapp.com/. (not yet live)
 
-<h2>**Description**: </h2>
+<h2>Description**: </h2>
 This site is a clone of some functions of Meetup.com. 
 This is a project to learn backend and frontend devlopment technologies while enrolled at App Acadmey.
 
 the project is written in Javascript with HTML/CSS, with the backend built on Express/Heroku and the frontend React/Redux.
 
-<h2>**Features**</h2>
+<h2>Features</h2>
 
 via the site a User can perform hte following actions:
 
-**Groups** - 
+Groups- 
 
 -Get all groups <br/>
 -Create a group <br/>
