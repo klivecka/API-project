@@ -7,6 +7,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import { GroupList } from "./components/GroupList";
 import { EventList } from "./components/EventList";
+import MainPageNav from "./components/MainPageNav";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      <MainPageNav/>
       {isLoaded && (
         <Switch>
           <Route path="/login">

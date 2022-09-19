@@ -1,0 +1,12 @@
+.main-page-nav-wrapper {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    border-bottom: solid 1px grey;
+}
+
+.main-page-nav-link {
+    padding-right: 10px;
+    font-size: large;
+    font-weight: bold;
+}
