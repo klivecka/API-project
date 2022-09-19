@@ -10,6 +10,7 @@ const loadEvents = (events) => {
 export const fetchEvents = () => async (dispatch) => {
     const response = await fetch("/api/events");
     const eventsObj = await response.json();
+    console.log('THIS IS THE EVENTS OBJ', eventsObj)
     const eventsArray = eventsObj.Events;
     dispatch(loadEvents(eventsArray));
 };

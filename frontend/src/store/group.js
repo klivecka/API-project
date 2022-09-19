@@ -26,9 +26,9 @@ const groupReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_GROUPS:
             const groups = {};
-            console.log('LOAD GROUPS ACTION', action)
+            // console.log('LOAD GROUPS ACTION', action)
             const groupList = action.payload;
-                console.log('GROUPS LIST', groupList)
+                // console.log('GROUPS LIST', groupList)
             groupList.forEach((group) => {
                 groups[group.id] = group;
             })
