@@ -27,10 +27,10 @@ export const fetchGroups = () => async (dispatch) => {
 
 //FETCH ONE GROUP THUNK
 export const fetchOneGroup = (groupId) => async (dispatch) => {
-    console.log("THIS IS THE GROUP FETCH RUNNING");
+
     const response = await fetch(`/api/groups/${groupId}`);
     const oneGroupObj = await response.json();
-    console.log("THIS IS THE GROUP THUNK obj", oneGroupObj);
+
     dispatch(oneGroup(oneGroupObj));
 };
 
