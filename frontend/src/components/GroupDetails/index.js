@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useParams } from "react-router-dom";
+import { Redirect, useParams, NavLink } from "react-router-dom";
 import { fetchOneGroup } from "../../store/group";
 import "./groupdetails.css";
+
+const GroupDetailNav = () => {
+    
+};
 
 export const GroupDetails = () => {
     const { groupId } = useParams();
@@ -27,10 +31,13 @@ export const GroupDetails = () => {
                     {group.numMembers}
                     {group.numMembers > 1 && " members"}
                     {group.numMembers === 0 && " members"}
-                    {group.numMembers === 1 && " member"}
-                    {" "} · {" "}
+                    {group.numMembers === 1 && " member"} ·{" "}
                     {group.private === true && "Private group"}
                     {group.private === false && "Public group"}
+                </div>
+                <div className="group-details-organized">
+                    Organized by {group.Organizer.firstName}{" "}
+                    {group.Organizer.lastName}
                 </div>
             </div>
         </div>
