@@ -1,5 +1,5 @@
 const LOAD_GROUPS = "groups/loadGroups";
-const ONE_GROUP = "groups/oneGroup"
+const ONE_GROUP = "groups/oneGroup";
 
 const loadGroups = (groups) => {
     return {
@@ -17,7 +17,6 @@ const oneGroup = (group) => {
 
 //FETCH ALLL GROUPS THUNK
 export const fetchGroups = () => async (dispatch) => {
-    // console.log('THIS IS THE GROUP FETCH RUNNING')
     const response = await fetch("/api/groups");
     const groupsObject = await response.json();
     // console.log('GROUPS OBJECT', groupsObject)
@@ -28,8 +27,10 @@ export const fetchGroups = () => async (dispatch) => {
 
 //FETCH ONE GROUP THUNK
 export const fetchOneGroup = (groupId) => async (dispatch) => {
+    console.log("THIS IS THE GROUP FETCH RUNNING");
     const response = await fetch(`/api/groups/${groupId}`);
-    const oneGroupObj = response.json();
+    const oneGroupObj = await response.json();
+    console.log("THIS IS THE GROUP THUNK obj", oneGroupObj);
     dispatch(oneGroup(oneGroupObj));
 };
 
@@ -53,13 +54,12 @@ const groupReducer = (state = initialState, action) => {
                 list: groupList,
             };
         case ONE_GROUP:
-            const group = {};
-            const groupObj = action.payload;
-            group[groupObj.id] = groupObj;
-            return {
+            const newState = {
                 ...state,
-                ...group,
+                [action.payload.id]: action.payload,
             };
+            return newState;
+
         default:
             return state;
     }

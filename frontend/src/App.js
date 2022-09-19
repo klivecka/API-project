@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import { GroupList } from "./components/GroupList";
 import { EventList } from "./components/EventList";
 import MainPageNav from "./components/MainPageNav";
+import { GroupDetails } from "./components/GroupDetails";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,11 +29,14 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/groups">
+          <Route path="/groups" exact>
             <GroupList />
           </Route>
           <Route path="/events">
             <EventList />
+          </Route>
+          <Route path="/groups/:groupId">
+            <GroupDetails />
           </Route>
         </Switch>
       )}
