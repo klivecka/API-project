@@ -4,15 +4,11 @@ import { Redirect, useParams, NavLink } from "react-router-dom";
 import { fetchOneGroup } from "../../store/group";
 import "./groupdetails.css";
 
-const GroupDetailNav = () => {
-    
-};
-
 export const GroupDetails = () => {
     const { groupId } = useParams();
     const dispatch = useDispatch();
     const group = useSelector((state) => state.group[groupId]);
-
+    // const []
     useEffect(() => {
         console.log("THIS IS USEEFFECT RUNNING");
         dispatch(fetchOneGroup(groupId));
@@ -20,26 +16,34 @@ export const GroupDetails = () => {
     }, [fetchOneGroup]);
 
     return (
-        <div className="group-details-wrapper">
-            <div className="group-detail-image">group image</div>
-            <div className="group-details-text-wrapper">
-                <div className="group-detail-title">{group.name}</div>
-                <div className="group-detail-location">
-                    {group.city}, {group.state}{" "}
+        <>
+            {group && (
+                <div className="outer-wrapper">
+                    <div className="group-details-wrapper">
+                        <div className="group-detail-image">group image</div>
+                        <div className="group-details-text-wrapper">
+                            <div className="group-detail-title">
+                                {group.name}
+                            </div>
+                            <div className="group-detail-location">
+                                {group.city}, {group.state}{" "}
+                            </div>
+                            <div className="group-detail-members">
+                                {group.numMembers}
+                                {group.numMembers > 1 && " members"}
+                                {group.numMembers === 0 && " members"}
+                                {group.numMembers === 1 && " member"} ·{" "}
+                                {group.private === true && "Private group"}
+                                {group.private === false && "Public group"}
+                            </div>
+                            <div className="group-details-organized">
+                                Organized by {group.Organizer.firstName}{" "}
+                                {group.Organizer.lastName}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="group-detail-members">
-                    {group.numMembers}
-                    {group.numMembers > 1 && " members"}
-                    {group.numMembers === 0 && " members"}
-                    {group.numMembers === 1 && " member"} ·{" "}
-                    {group.private === true && "Private group"}
-                    {group.private === false && "Public group"}
-                </div>
-                <div className="group-details-organized">
-                    Organized by {group.Organizer.firstName}{" "}
-                    {group.Organizer.lastName}
-                </div>
-            </div>
-        </div>
+            )}
+        </>
     );
 };
