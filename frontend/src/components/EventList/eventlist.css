@@ -21,8 +21,8 @@ h3 {
     grid-template-rows: 40px 40px 80px 30px auto;
     bottom: 30px;
     box-sizing: border-box;
-    padding: 10px;
-    box-shadow: 0 4px 6px rgb(0, 0, 0, 0.2);
+    padding-top: 20px;
+    border-bottom: 3px rgb(198, 198, 198) solid
 }
 
 .event-image {
@@ -40,17 +40,22 @@ h3 {
 
 .event-date {
     grid-row: 1;
+    color: rgb(98, 79, 29);
+    font-weight: bold;
 }
 
 .event-title {
     grid-column: 2;
     grid-row: 2;
+    font-weight:bold;
+    font-size: 20px
 }
 
 .event-city-state {
     grid-column: 2;
     grid-row: 2;
     font-size: medium;
+    color:
 }
 
 .event-about {

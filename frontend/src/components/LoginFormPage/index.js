@@ -12,9 +12,9 @@ function LoginFormPage() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  // if (sessionUser) return (
-  //   <Redirect to="/" />
-  // );
+  if (sessionUser && Object.keys(sessionUser).length !== 0) return (
+    <Redirect to="/" />
+  );
   //COMMENTED OUT DUE TO USER ISSUES
 
   const handleSubmit = (e) => {
