@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams, NavLink } from "react-router-dom";
 import { fetchOneGroup } from "../../store/group";
 import "./groupdetails.css";
+import { EventList } from "../EventList";
 
 export const GroupDetails = () => {
     const { groupId } = useParams();
     const dispatch = useDispatch();
     const group = useSelector((state) => state.group[groupId]);
     const [linkValue, setLinkValue] = useState("about");
+    console.log('THIS IS LINK VALUE', linkValue)
     useEffect(() => {
-        console.log("THIS IS USEEFFECT RUNNING");
         dispatch(fetchOneGroup(groupId));
         // console.log('THIS IS THE USE EFFECT RUNNING')
     }, [fetchOneGroup]);
@@ -41,28 +42,34 @@ export const GroupDetails = () => {
                     <div className="group-details-nav-bar">
                         <div
                             className="detail-nav-link"
-                            onClick={(e) => setLinkValue()}
+                            onClick={(e) => setLinkValue("about")}
                         >
                             About
                         </div>
                         <div
                             className="detail-nav-link"
-                            onClick={(e) => setLinkValue()}
+                            onClick={(e) => setLinkValue("events")}
                         >
                             Events
                         </div>
                         <div
                             className="detail-nav-link"
-                            onClick={(e) => setLinkValue()}
+                            onClick={(e) => setLinkValue("members")}
                         >
                             Members
                         </div>
                         <div
                             className="detail-nav-link"
-                            onClick={(e) => setLinkValue()}
+                            onClick={(e) => setLinkValue("photos")}
                         >
                             Photos
                         </div>
+                    </div>
+                    <div className="group-details-nav-click">
+                        {linkValue === "about" && group.about}
+                        {linkValue === "events" && <EventList/>}
+                        {linkValue === "members" && "members TBD"}
+                        {linkValue === "photos" && group.GroupImages[0].url}
                     </div>
                 </div>
             )}
