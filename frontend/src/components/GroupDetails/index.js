@@ -8,11 +8,9 @@ export const GroupDetails = () => {
     const { groupId } = useParams();
     const dispatch = useDispatch();
     const group = useSelector((state) => state.group[groupId]);
-    console.log('this is group id', group)
-    console.log('test')
 
     useEffect(() => {
-        console.log('THIS IS USEEFFECT RUNNING')
+        console.log("THIS IS USEEFFECT RUNNING");
         dispatch(fetchOneGroup(groupId));
         // console.log('THIS IS THE USE EFFECT RUNNING')
     }, [fetchOneGroup]);
@@ -27,6 +25,12 @@ export const GroupDetails = () => {
                 </div>
                 <div className="group-detail-members">
                     {group.numMembers}
+                    {group.numMembers > 1 && " members"}
+                    {group.numMembers === 0 && " members"}
+                    {group.numMembers === 1 && " member"}
+                    {" "} · {" "}
+                    {group.private === true && "Private group"}
+                    {group.private === false && "Public group"}
                 </div>
             </div>
         </div>
