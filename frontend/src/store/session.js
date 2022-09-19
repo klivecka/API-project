@@ -1,4 +1,3 @@
-// frontend/src/store/session.js
 import { csrfFetch } from './csrf';
 
 const SET_USER = 'session/setUser';
@@ -17,8 +16,11 @@ const removeUser = () => {
   };
 };
 
+//LOGIN THUNK
 export const login = (user) => async (dispatch) => {
+    // console.log('THIS IS THE LOGIN THUNK GETTING HIT')
   const { credential, password } = user;
+  // console.log('THIS IS THE USER GETTING SENT', user)
   const response = await csrfFetch('/api/session', {
     method: 'POST',
     body: JSON.stringify({
@@ -27,9 +29,45 @@ export const login = (user) => async (dispatch) => {
     }),
   });
   const data = await response.json();
-  dispatch(setUser(data.user));
+  // console.log('THIS IS THE RESPONSE JSON', data)
+  dispatch(setUser(data));
   return response;
 };
+
+//RESTORE THUNK
+export const restoreUser = () => async dispatch => {
+    const response = await csrfFetch('/api/session');
+    const data = await response.json();
+    dispatch(setUser(data));
+    return response;
+  };
+
+  //SIGNUP THUNK
+  export const signup = (user) => async (dispatch) => {
+    const { firstName, lastName, username, email, password } = user;
+    const response = await csrfFetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        username,
+        password,
+      }),
+    });
+    const data = await response.json();
+    dispatch(setUser(data));
+    return response;
+  };
+  
+  //LOGOUT THUNK
+  export const logout = () => async (dispatch) => {
+    const response = await csrfFetch('/api/session', {
+      method: 'DELETE',
+    });
+    dispatch(removeUser());
+    return response;
+  };
 
 const initialState = { user: null };
 

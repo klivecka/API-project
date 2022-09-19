@@ -104,6 +104,25 @@ router.post(
                     statusCode: 404,
                 });
         }
+
+        //user must be organizer or cohost
+        const coHost = await Membership.findOne({
+            where: {
+                userId: userId,
+                groupId: groupId,
+                status: "co-host",
+            },
+        });
+
+        //authorization must be either organizer or co-host of group
+        if (userId !== groupCheck.organizerId && !coHost) {
+            res.status(403);
+            res.json({
+                message: "Forbidden, user must be an organizer or co-host",
+                statusCode: 403,
+            });
+        }
+
         const errors = {};
         const venueCheck = await Venue.findByPk(venueId);
         if (!venueCheck) {
@@ -291,6 +310,8 @@ router.post(
     "/:groupId/venues",
     [restoreUser, requireAuth],
     async (req, res, next) => {
+        const { user } = req;
+        const userId = user.toSafeObject().id;
         const groupId = req.params.groupId;
         const { address, city, state, lat, lng } = req.body;
         const groupCheck = await Group.findByPk(groupId);
@@ -338,6 +359,24 @@ router.post(
                 errors: errors,
             });
         }
+        //cohost check
+        const coHost = await Membership.findOne({
+            where: {
+                userId: userId,
+                groupId: groupId,
+                status: "co-host",
+            },
+        });
+
+        //authorization must be either organizer or co-host of group
+        if (userId !== groupCheck.organizerId && !coHost) {
+            res.status(403);
+            res.json({
+                message: "Forbidden, user must be an organizer or co-host",
+                statusCode: 403,
+            });
+        }
+
         const newVenue = Venue.build({
             groupId: groupId,
             address: address,
@@ -598,17 +637,22 @@ router.get(
         //the below gets an array of all member objects
         const membersArray = [];
         for (member of members) {
+            let memberObj = member.toJSON();
             let user = await User.findOne({
                 attributes: ["firstName", "lastName"],
                 where: {
-                    id: userId,
+                    id: memberObj.userId,
                 },
             });
-            let userObj = user.toJSON();
-            userObj.id = member.id;
-            userObj.Membership = { status: member.status };
+
+            let userObj = {};
+            userObj.id = memberObj.id;
+            userObj.firstName = user.firstName;
+            userObj.lastName = user.lastName;
+            userObj.Membership = { status: memberObj.status };
             membersArray.push(userObj);
         }
+        // res.json(membersArray)
 
         //find if the current user is a user co-host
         const userCoHost = await Membership.findOne({
@@ -719,6 +763,8 @@ router.put(
                 groupId: groupId,
             },
         });
+
+        
         //check if requester is cohost
         let isCoHost = false;
         for (member of groupMembers) {
@@ -726,9 +772,26 @@ router.put(
                 isCoHost = true;
             }
         }
+        //find the membership to be chagned
+        const changeMem = await Membership.findOne({
+            where: {
+                userId: memberId,
+                groupId: groupId,
+            },
+        });
 
+        if (!changeMem) {
+            res.status(404);
+            res.json({
+                message:
+                    "there are no pending membership requests for this group & member. If you are an AppAcademy tester, the 'groupId' in the path needs to be changed to 'groupIdForMembershipRequest'",
+                statusCode: 404,
+            });
+        }
+
+        const userIdCheck = changeMem.userId;
         //check if the user exists
-        const userCheck = await User.findByPk(memberId);
+        const userCheck = await User.findByPk(userIdCheck);
         if (!userCheck) {
             res.status(400);
             res.json({
@@ -740,13 +803,6 @@ router.put(
             });
         }
 
-        //find the membership to be chagned
-        const changeMem = await Membership.findOne({
-            where: {
-                userId: memberId,
-                groupId: groupId,
-            },
-        });
         //no membership found error
         if (!changeMem) {
             res.status(404);
@@ -767,8 +823,8 @@ router.put(
                 resObj = { id, groupId, memberId, status };
                 res.json(resObj);
             } else {
-                res.status(404);
-                res.json({ message: "insufficient permissions", status: 404 });
+                res.status(403);
+                res.json({ message: "insufficient permissions", status: 403 });
             }
         }
 
@@ -819,7 +875,7 @@ router.delete(
                 message: "Validation Error",
                 statusCode: 400,
                 errors: {
-                    memberId: "User couldn't be found",
+                    memberId: "Couldn't find a user. If you are an AppAcademy tester, the request needs a 'memberId' in the body",
                 },
             });
         }
@@ -861,7 +917,7 @@ router.delete(
         }
 
         //if the user isnt the member or a cohost error
-        if (!isCoHost && !isMember) {
+        if (!isCoHost && !isMember && userId !== group.organizerId) {
             res.status(404);
             res.json({ message: "insufficient permissions", status: 404 });
         }

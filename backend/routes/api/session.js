@@ -44,7 +44,7 @@ router.delete("/", (_req, res) => {
 });
 
 //RESTORE SESSION USER
-router.get("/", [restoreUser, requireAuth], (req, res) => {
+router.get("/", [restoreUser], (req, res) => {
     const { user } = req;
     if (user) {
         return res.json(user.toSafeObject());

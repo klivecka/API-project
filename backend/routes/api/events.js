@@ -119,7 +119,7 @@ router.post(
         const eventCheck = await Event.findByPk(eventId);
         if (!eventCheck) {
             res.status(404);
-            res.json({
+            return res.json({
                 message: "Event couldn't be found",
                 statusCode: 404,
             });
@@ -133,7 +133,7 @@ router.post(
 
         if (!userIds.includes(userId)) {
             res.status(403);
-            res.json({
+            return res.json({
                 message:
                     "Forbidden, User must be an attendee of the event to add an image",
                 statusCode: 403,
@@ -246,14 +246,14 @@ router.post(
         const requestId = user.toSafeObject().id;
         const { userId } = req.body;
 
-        //check if user is member of the group
+        //check if requestor is member of the group
         const groupMember = await Membership.findOne({
             where: {
                 groupId: groupId,
                 userId: requestId,
             },
         });
-        //error message for no group member
+        //error message for no requestor group member
         if (!groupMember) {
             res.status(403);
             res.json({
@@ -273,14 +273,14 @@ router.post(
         if (attendance) {
             if (attendance.status === "pending") {
                 res.status(400);
-                res.json({
+                return res.json({
                     message: "Attendance has already been requested",
                     statusCode: 400,
                 });
             }
             if (attendance.status === "member") {
                 res.status(400);
-                res.json({
+                return res.json({
                     message: "User is already an attendee of the event",
                     statusCode: 400,
                 });
@@ -316,7 +316,6 @@ router.put(
         const event = res.event;
         const groupId = event.groupId;
         const { userId, status } = req.body;
-
         //authorization
         //user must be organizer
         const groupCheck = await Group.findByPk(groupId);
@@ -363,6 +362,7 @@ router.put(
         }
 
         await attendance.set({
+            userId: userId,
             status: status,
         });
 
@@ -375,7 +375,14 @@ router.put(
         //     },
         // })
 
-        res.json(attendance);
+        const attendRes = await Attendance.findOne({
+            where: {
+                userId: userId,
+                eventId: eventId
+            }
+        })
+
+        res.json(attendRes);
     }
 );
 
@@ -459,7 +466,7 @@ router.delete(
         const { user } = req;
         const event = res.event;
         const userId = user.toSafeObject().id;
-
+  
         const attendance = await Attendance.findOne({
             where: {
                 eventId: eventId,
@@ -479,8 +486,7 @@ router.delete(
         //or if user is the current attendance to be deleted
         const groupId = event.groupId;
         const group = await Group.findByPk(groupId);
-
-        if (userId !== group.organizerId || userId !== memberId) {
+        if (userId !== group.organizerId && userId !== memberId) {
             res.status(403);
             res.json({
                 message: "Only the User or organizer may delete an Attendance",
