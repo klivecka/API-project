@@ -1,4 +1,4 @@
-const LOAD_GROUPS = "groups/getGroups";
+const LOAD_GROUPS = "groups/loadGroups";
 
 const loadGroups = (groups) => {
     return {

@@ -37,9 +37,7 @@ function Navigation({ isLoaded }) {
         <div className="header-nav-wrapper">
             <div className="meetup-logo">Meetup</div>
             <div className="nav-link-wrapper">
-                <NavLink className="nav-link" exact to="/">
-                    Home
-                </NavLink>
+
                 {isLoaded && sessionLinks}
             </div>
         </div>

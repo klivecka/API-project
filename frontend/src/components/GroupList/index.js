@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { fetchGroups } from "../../store/group";
-import "../MainPage/mainpage.css";
+import "../MainPageNav/mainpage.css";
 
 export const GroupList = () => {
     const dispatch = useDispatch();
@@ -21,7 +21,7 @@ export const GroupList = () => {
                 {groups.map((group) => (
                     <div className="group-div" key={group.id}>
                         <div className="internal-image">
-                            internal image
+                            group image
                         </div>
                         <div className="group-title">
                             <h3>{group.name}</h3>
