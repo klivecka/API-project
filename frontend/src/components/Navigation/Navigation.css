@@ -1,0 +1,21 @@
+.header-nav-wrapper {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    border-bottom: 1px solid black;
+}
+
+.meetup-logo {
+align-items: center;
+justify-content: center;
+}
+
+.nav-link-wrapper {
+display: flex;
+justify-content: end;
+padding-bottom: 10px;
+align-items: center;
+}
+
+.nav-link {
+    padding-left: 20px;
+}

@@ -20,12 +20,22 @@ export const GroupList = () => {
             <ul>
                 {groups.map((group) => (
                     <div className="group-div" key={group.id}>
-                        <h3>{group.name}</h3>
-                        <h3>
-                            {group.city}, {group.state}
-                        </h3>
-                        <p>{group.about}</p>
-                        <div>
+                        <div className="internal-image">
+                            internal image
+                        </div>
+                        <div className="group-title">
+                            <h3>{group.name}</h3>
+                        </div>
+                        <div className="group-city-state">
+                            <h3>
+                                {group.city}, {group.state}
+                            </h3>
+                        </div>
+                        <div className="group-about">
+                            <p>{group.about}</p>
+                        </div>
+
+                        <div className="group-members">
                             {group.numMembers} members ·{" "}
                             {group.private && "private"}{" "}
                             {!group.private && "public"}
