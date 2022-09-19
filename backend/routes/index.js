@@ -29,14 +29,14 @@ if (process.env.NODE_ENV === 'production') {
 
 
 
-// if (process.env.NODE_ENV !== "production") {
-//     router.get("/api/csrf/restore", async (req, res) => {
+if (process.env.NODE_ENV !== "production") {
+    router.get("/api/csrf/restore", async (req, res) => {
 
-//         await res.cookie("XSRF-TOKEN", req.csrfToken());
+        await res.cookie("XSRF-TOKEN", req.csrfToken());
 
-//         return res.json({});
-//     });
-// }
+        return res.json({});
+    });
+}
 
 router.get("/api/csrf/restore", (req, res) => {
     const csrfToken = req.csrfToken();
