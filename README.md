@@ -1,7 +1,7 @@
 <h1>Meetup Clone Readme</h1>
 
 <h2>Live Site Link: </h2>
-https://klivecka-meetup-clone2.herokuapp.com/. (not yet live)
+https://klivecka-meetup-clone2.herokuapp.com/
 
 <h2>Description: </h2>
 This site is a clone of some functions of Meetup.com. 
