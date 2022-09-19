@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import * as sessionActions from '../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import './LoginForm.css';
 
 function LoginFormPage() {
   const dispatch = useDispatch();
@@ -11,9 +12,10 @@ function LoginFormPage() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
 
-  if (sessionUser) return (
+  if (sessionUser && Object.keys(sessionUser).length !== 0) return (
     <Redirect to="/" />
   );
+  //COMMENTED OUT DUE TO USER ISSUES
 
   const handleSubmit = (e) => {
     e.preventDefault();
