@@ -1,5 +1,24 @@
-.group-details-wrapper {
+.outer-wrapper {
     display: grid;
-    grid-template-columns: 3fr 5fr;
-    grid-template-rows: 400px 60px 150px;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 250px 60px 150px;
+    border: 1px solid black;
+    max-width: 800px;
+}
+
+.group-detail-image {
+    grid-column: 1;
+}
+.group-detail-text-wrapper {
+    grid-column: 2;
+    border: 1px solid black;
+}
+.group-detail-title {
+    border: 1px solid black;
+}
+
+.group-details-nav-bar {
+    display: flex;
+    grid-column: 1;
+    justify-content: space-around;
 }
