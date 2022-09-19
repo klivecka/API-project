@@ -47,7 +47,7 @@ router.delete("/", (_req, res) => {
 router.get("/", [restoreUser], (req, res) => {
     const { user } = req;
     if (user) {
-        console.log('THIS IS THE RESPONSE WITH THERE IS A USER', res)
+        // console.log('THIS IS THE RESPONSE WITH THERE IS A USER', res)
         return res.json(user.toSafeObject());
     } else return res.json({});
 });

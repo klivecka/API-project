@@ -8,7 +8,7 @@ import "./eventlist.css";
 export const EventList = () => {
     const dispatch = useDispatch();
     const events = useSelector((state) => state.event.list);
-    console.log("THESE ARE THE EVENTS IN THE LIST", events);
+    // console.log("THESE ARE THE EVENTS IN THE LIST", events);
 
     useEffect(() => {
         dispatch(fetchEvents());
