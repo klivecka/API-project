@@ -27,11 +27,8 @@ export const fetchEvents = () => async (dispatch) => {
 
 //FETCH ONE EVENT THUNK
 export const fetchOneEvent = (eventId) => async (dispatch) => {
-    console.log('this is the call', `/api/events/${eventId}`)
     const response = await fetch(`/api/events/${eventId}`);
     const oneEventObj = await response.json();
-    console.log('THIS IS THE EVENT RESPONSE', oneEventObj)
-
     dispatch(oneEvent(oneEventObj));
 };
 

@@ -9,7 +9,6 @@ const EventDetails = () => {
     const {eventId} = useParams();
     const event = useSelector((state) => state.event[eventId]);
     const [isLoaded, setIsLoaded] = useState(false);
-    console.log('this is the eventy id', eventId)
 
     useEffect(() => {
         dispatch(fetchOneEvent(eventId)).then(() => setIsLoaded(true));
