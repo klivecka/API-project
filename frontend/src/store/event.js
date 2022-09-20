@@ -19,6 +19,7 @@ const oneEvent = (event) => {
 export const fetchEvents = () => async (dispatch) => {
     const response = await fetch("/api/events");
     const eventsObj = await response.json();
+   
     // console.log('THIS IS THE EVENTS OBJ', eventsObj)
     const eventsArray = eventsObj.Events;
     dispatch(loadEvents(eventsArray));
@@ -28,7 +29,6 @@ export const fetchEvents = () => async (dispatch) => {
 export const fetchOneEvent = (eventId) => async (dispatch) => {
     const response = await fetch(`/api/events/${eventId}`);
     const oneEventObj = await response.json();
-
     dispatch(oneEvent(oneEventObj));
 };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { fetchEvents } from "../../store/event";
 import { fetchGroups } from "../../store/group";
 import "./eventlist.css";
@@ -17,6 +17,10 @@ export const EventList = () => {
     return (
         <div className="event-wrapper">
             {events.map((event) => (
+                <Link
+                style={{ textDecoration: "none" }}
+                to={`/events/${event.id}`}
+            >
                 <div key={event.id} className="event-div">
                     <div className="event-image">event image</div>
                     <div className="event-date">{event.startDate}</div>
@@ -31,6 +35,7 @@ export const EventList = () => {
                     {event.numAttending === 1 && "attendee"}
                     </div>
                 </div>
+                </Link>
             ))}
         </div>
     );
