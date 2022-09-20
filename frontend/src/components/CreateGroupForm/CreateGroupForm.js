@@ -58,13 +58,14 @@ const CreateGroupForm = () => {
     const dispatch = useDispatch();
     const [name, setName] = useState("");
     const [about, setAbout] = useState("");
-    const [type, setType] = useState("");
+    const [type, setType] = useState("In person");
     const [isPrivate, setIsPrivate] = useState(false);
     const [city, setCity] = useState("");
-    const [state, setState] = useState("");
+    const [state, setState] = useState(states[0]);
     const handleSubmit = (e) => {
         e.preventDefault();
         const reqBody = { name, about, type, isPrivate, city, state };
+        console.log(reqBody);
     };
 
     return (
@@ -82,7 +83,7 @@ const CreateGroupForm = () => {
             <label>
                 About
                 <textarea
-                    value={name}
+                    value={about}
                     onChange={(e) => setAbout(e.target.value)}
                     required
                 />
@@ -104,18 +105,22 @@ const CreateGroupForm = () => {
             <label>
                 City
                 <input
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}>
-                </input>
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                ></input>
             </label>
             <label>
                 State
-                <select onChange={(e) => setIsPrivate(e.target.value)}>
-                    {states.map(state => <option key={state} value={state}>{state}</option>
-                    )}
+                <select onChange={(e) => setState(e.target.value)}>
+                    {states.map((state) => (
+                        <option key={state} value={state}>
+                            {state}
+                        </option>
+                    ))}
                 </select>
             </label>
+            <button type="submit">Create a New Group</button>
         </form>
     );
 };

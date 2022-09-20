@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
 import LoginFormModal from "../LoginFormModal";
+import CreateGroupForm from "../CreateGroupForm/CreateGroupForm";
 
 function Navigation({ isLoaded }) {
     const sessionUser = useSelector((state) => state.session.user);
@@ -11,7 +12,11 @@ function Navigation({ isLoaded }) {
 
     let sessionLinks;
     if (sessionUser && Object.keys(sessionUser).length !== 0) {
-        sessionLinks = <ProfileButton user={sessionUser} />;
+        sessionLinks = 
+        <>
+        <ProfileButton user={sessionUser} />
+        <NavLink to="/group/create">Create a Group</NavLink>
+        </>
     } else {
         sessionLinks = (
             <>
