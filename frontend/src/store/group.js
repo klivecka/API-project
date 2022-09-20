@@ -76,6 +76,7 @@ export const createGroup = (data) => async (dispatch) => {
     const newGroup = await response.json()
     console.log('THIS IS THE REPSONSE JSON', newGroup)
     dispatch(addOneGroup(newGroup))
+    return newGroup
 };
 
 const initialState = {
@@ -108,14 +109,11 @@ const groupReducer = (state = initialState, action) => {
             };
             return newState;
         case ADD_ONE:
-            console.log('THIS IS STATE', state)
                newState = {
                 ...state,
                 [action.payload.id]: action.payload
                }
-               console.log('this is the state.list', state.list)
                newState.list.push(action.payload)
-               console.log('this is the newState.list', newState.list)
                return newState
         default:
             return state;

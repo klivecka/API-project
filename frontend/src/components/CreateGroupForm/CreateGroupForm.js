@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createGroup } from "../../store/group";
 import "./creategroupform.css";
-import {Redirect} from 'react-router-dom'
+
 const states = [
     "AL",
     "AK",
@@ -57,6 +58,7 @@ const states = [
 ];
 
 const CreateGroupForm = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const [name, setName] = useState("");
     const [about, setAbout] = useState("");
@@ -64,11 +66,13 @@ const CreateGroupForm = () => {
     const [isPrivate, setIsPrivate] = useState(false);
     const [city, setCity] = useState("");
     const [state, setState] = useState(states[0]);
-    
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const reqBody = { name, about, type, private: isPrivate, city, state };
-        dispatch(createGroup(reqBody))
+        const newGroup = await dispatch(createGroup(reqBody));
+        const groupId = newGroup.id;
+        history.push(`/groups/${groupId}`);
     };
 
     return (
