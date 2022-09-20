@@ -1,0 +1,30 @@
+
+
+.login-wrapper {
+    display: block;
+    height: 300px
+}
+
+.login-input {
+    display: block;
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px;
+    box-sizing: border-box
+}
+
+label {
+    display: block;
+}
+
+button {
+    display: block;
+    padding: 12px 20px;
+    margin: 8px;
+    box-sizing: border-box
+}
+
+.login-form {
+    margin: 10px;
+    width: 300px;
+}
