@@ -5,17 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import './LoginForm.css';
 
-function LoginFormPage() {
+function LoginForm() {
   const dispatch = useDispatch();
   const sessionUser = useSelector(state => state.session.user);
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
+  console.log('LOGIN FORM IS ACTIVATED')
 
-  if (sessionUser && Object.keys(sessionUser).length !== 0) return (
-    <Redirect to="/" />
-  );
-  //COMMENTED OUT DUE TO USER ISSUES
+//   if (sessionUser && Object.keys(sessionUser).length !== 0) return (
+//     <Redirect to="/" />
+//   );
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,4 +56,4 @@ function LoginFormPage() {
   );
 }
 
-export default LoginFormPage;
+export default LoginForm;
