@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { createGroup } from "../../store/group";
 import "./creategroupform.css";
+import {Redirect} from 'react-router-dom'
 const states = [
     "AL",
     "AK",
@@ -62,10 +64,11 @@ const CreateGroupForm = () => {
     const [isPrivate, setIsPrivate] = useState(false);
     const [city, setCity] = useState("");
     const [state, setState] = useState(states[0]);
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-        const reqBody = { name, about, type, isPrivate, city, state };
-        console.log(reqBody);
+        const reqBody = { name, about, type, private: isPrivate, city, state };
+        dispatch(createGroup(reqBody))
     };
 
     return (
