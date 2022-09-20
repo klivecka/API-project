@@ -11,7 +11,7 @@ function LoginForm() {
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState([]);
-  console.log('LOGIN FORM IS ACTIVATED')
+
 
 //   if (sessionUser && Object.keys(sessionUser).length !== 0) return (
 //     <Redirect to="/" />

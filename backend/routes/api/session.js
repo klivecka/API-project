@@ -45,7 +45,7 @@ router.delete("/", (_req, res) => {
 
 //RESTORE SESSION USER
 router.get("/", [restoreUser], (req, res) => {
-    console.log('THIS IS RESTORE USER RUNNING')
+    // console.log('THIS IS RESTORE USER RUNNING')
     const { user } = req;
     if (user) {
         // console.log('THIS IS THE RESPONSE WITH THERE IS A USER', res)
