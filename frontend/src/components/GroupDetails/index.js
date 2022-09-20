@@ -8,17 +8,17 @@ import { EventList } from "../EventList";
 export const GroupDetails = () => {
     const { groupId } = useParams();
     const dispatch = useDispatch();
-    const group = useSelector((state) => state.group[groupId]);
     const [linkValue, setLinkValue] = useState("about");
-    console.log('THIS IS LINK VALUE', linkValue)
+    const group = useSelector((state) => state.group[groupId]);
+    const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
-        dispatch(fetchOneGroup(groupId));
+        dispatch(fetchOneGroup(groupId)).then(()=> setIsLoaded(true));
         // console.log('THIS IS THE USE EFFECT RUNNING')
-    }, [fetchOneGroup]);
+    }, [groupId]);
 
     return (
         <>
-            {group && (
+            {isLoaded && (
                 <div className="outer-wrapper">
                     <div className="group-detail-image">group image</div>
                     <div className="group-detail-text-wrapper">

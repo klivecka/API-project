@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { fetchGroups } from "../../store/group";
-import "./grouplist.css"
+import "./grouplist.css";
 
 export const GroupList = () => {
     const dispatch = useDispatch();
@@ -17,12 +17,13 @@ export const GroupList = () => {
 
     return (
         <div className="group-wrapper">
-       
-                {groups.map((group) => (
+            {groups.map((group) => (
+                <Link
+                    style={{ textDecoration: "none" }}
+                    to={`/groups/${group.id}`}
+                >
                     <div className="group-div" key={group.id}>
-                        <div className="internal-image">
-                            group image
-                        </div>
+                        <div className="internal-image">group image</div>
                         <div className="group-title">
                             <h3>{group.name}</h3>
                         </div>
@@ -41,8 +42,8 @@ export const GroupList = () => {
                             {!group.private && "public"}
                         </div>
                     </div>
-                ))}
-         
+                </Link>
+            ))}
         </div>
     );
 };
