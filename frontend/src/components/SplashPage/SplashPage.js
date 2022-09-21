@@ -6,11 +6,15 @@ import { Modal } from "../../context/Modal";
 import LoginForm from "../LoginFormModal/LoginForm";
 
 const SplashPage = () => {
-    const user = useSelector((state) => state.session.user);
-    // const [user, setUser] = useState(false);
-    const [showModal, setShowModal] = useState(false);
-    // if (sessionUser && Object.keys(sessionUser).length !== 0)
+    let user = useSelector((state) => state.session.user);
+    if (Object.keys(user).length === 0) {
+        user = null;
+    }
+    console.log('THIS IS THE USER', user);
 
+    const [showModal, setShowModal] = useState(false);
+
+    console.log('THIS IS SHOW MODAL', showModal)
     return (
         <>
             <div className="master-wrapper">
@@ -52,7 +56,9 @@ const SplashPage = () => {
                             )}
                         </div>
                         <div className="action-text">
-                            {user && <NavLink to="/events">Find an Event</NavLink>}
+                            {user && (
+                                <NavLink to="/events">Find an Event</NavLink>
+                            )}
                             {!user && (
                                 <div onClick={() => setShowModal(true)}>
                                     Find an Event
@@ -60,8 +66,13 @@ const SplashPage = () => {
                             )}
                         </div>
                         <div className="action-text">
-                            {user && <NavLink to="/group/create">Start a Group</NavLink>}
-                            {!user && (<div onClick={() => setShowModal(true)}>
+                            {user && (
+                                <NavLink to="/group/create">
+                                    Start a Group
+                                </NavLink>
+                            )}
+                            {!user && (
+                                <div onClick={() => setShowModal(true)}>
                                     Start a Group
                                 </div>
                             )}

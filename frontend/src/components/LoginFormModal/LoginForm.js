@@ -19,6 +19,7 @@ function LoginForm({ setShowModal }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
+        setShowModal(false)
         return dispatch(sessionActions.login({ credential, password })).catch(
             async (res) => {
                 const data = await res.json();
