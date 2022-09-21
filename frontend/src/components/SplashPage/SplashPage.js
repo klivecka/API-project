@@ -10,11 +10,11 @@ const SplashPage = () => {
     if (Object.keys(user).length === 0) {
         user = null;
     }
-    console.log('THIS IS THE USER', user);
+    // console.log('THIS IS THE USER', user);
 
     const [showModal, setShowModal] = useState(false);
 
-    console.log('THIS IS SHOW MODAL', showModal)
+    // console.log('THIS IS SHOW MODAL', showModal)
     return (
         <>
             <div className="master-wrapper">
