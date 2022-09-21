@@ -15,17 +15,18 @@ function LoginForm({ setShowModal }) {
     //   if (sessionUser && Object.keys(sessionUser).length !== 0) return (
     //     <Redirect to="/" />
     //   );
-
+    console.log('CREDENTIALS', credential, password)
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
         setShowModal(false)
-        return dispatch(sessionActions.login({ credential, password })).catch(
-            async (res) => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            }
-        );
+        return dispatch(sessionActions.login({ credential, password }))
+        // .catch(
+        //     async (res) => {
+        //         const data = await res.json();
+        //         if (data && data.errors) setErrors(data.errors);
+        //     }
+        // );
     };
 
     return (
