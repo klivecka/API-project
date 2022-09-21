@@ -12,48 +12,51 @@ import { GroupDetails } from "./components/GroupDetails";
 import EventDetails from "./components/EventDetails";
 import SignupForm from "./components/SignupForm/SignupForm";
 import CreateGroupForm from "./components/CreateGroupForm/CreateGroupForm";
+import SplashPage from "./components/SplashPage/SplashPage";
 
 function App() {
-  const dispatch = useDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => {
-    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-  }, [dispatch]);
+    const dispatch = useDispatch();
+    const [isLoaded, setIsLoaded] = useState(false);
+    useEffect(() => {
+        dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    }, [dispatch]);
 
-  return (
-    <>
-      <Navigation isLoaded={isLoaded} />
+    return (
+        <>
+            <Navigation isLoaded={isLoaded} />
 
-      {isLoaded && (
-        <Switch>
-          <Route path="/signup">
-            <SignupForm />
-          </Route>
-          <Route path="/login">
-            <LoginForm />
-          </Route>
-          <Route path="/groups" exact>
-          <MainPageNav/>
-            <GroupList />
-          </Route>
-          <Route path="/events" exact>
-          <MainPageNav/>
-            <EventList />
-          </Route>
-          <Route path="/groups/:groupId">
-            <GroupDetails />
-          </Route>
-          <Route path="/events/:eventId">
-            <EventDetails />
-          </Route>
-          <Route path="/group/create">
-            <CreateGroupForm />
-          </Route>
-        </Switch>
-      )}
-    </>
-  );
+            {isLoaded && (
+                <Switch>
+                    <Route path="/" exact>
+                        <SplashPage />
+                    </Route>
+                    <Route path="/signup">
+                        <SignupForm />
+                    </Route>
+                    <Route path="/login">
+                        <LoginForm />
+                    </Route>
+                    <Route path="/groups" exact>
+                        <MainPageNav />
+                        <GroupList />
+                    </Route>
+                    <Route path="/events" exact>
+                        <MainPageNav />
+                        <EventList />
+                    </Route>
+                    <Route path="/groups/:groupId">
+                        <GroupDetails />
+                    </Route>
+                    <Route path="/events/:eventId">
+                        <EventDetails />
+                    </Route>
+                    <Route path="/group/create">
+                        <CreateGroupForm />
+                    </Route>
+                </Switch>
+            )}
+        </>
+    );
 }
 
 export default App;
-

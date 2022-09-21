@@ -17,13 +17,14 @@ export const GroupList = () => {
 
     return (
         <div className="group-wrapper">
+<img src="https://i.ibb.co/hcwj7d0/soccer.jpg" alt="soccer" border="0" />
             {groups.map((group) => (
                 <Link
                     style={{ textDecoration: "none" }}
                     to={`/groups/${group.id}`}
                 >
                     <div className="group-div" key={group.id}>
-                        <div className="internal-image">group image</div>
+                        <div className="internal-image">image</div>
                         <div className="group-title">
                             <h3>{group.name}</h3>
                         </div>

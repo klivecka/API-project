@@ -7,7 +7,7 @@ module.exports = {
       [
         {
           groupId: 1,
-          url: "../assets/Guitar-hero-iii-cover-image.jpeg",
+          url: "https://en.wikipedia.org/wiki/Association_football#/media/File:Football_in_Bloomington,_Indiana,_1996.jpg",
           preview: true
         },
         {
