@@ -1,7 +1,17 @@
 import "./splashpage.css";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { Modal } from "../../context/Modal";
+import LoginForm from "../LoginFormModal/LoginForm";
 
 const SplashPage = () => {
+    const sessionUser = useSelector((state) => state.session.user);
+    const [user, setUser] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    if (sessionUser && Object.keys(sessionUser).length !== 0) {
+        setUser(true);
+    }
     return (
         <>
             <div className="master-wrapper">
@@ -28,7 +38,19 @@ const SplashPage = () => {
                     </div>
                     <div className="action-wrapper">
                         <div className="action-text">
-                            <NavLink to="/groups">Join a Group</NavLink>
+                            {user && (
+                                <NavLink to="/groups">Join a Group</NavLink>
+                            )}
+                            {!user && (
+                                <div onClick={() => setShowModal(true)}>
+                                    Join a Group
+                                </div>
+                            )}
+                            {showModal && (
+                                <Modal onClose={() => setShowModal(false)}>
+                                    <LoginForm setShowModal={setShowModal} />
+                                </Modal>
+                            )}
                         </div>
                         <div className="action-text">
                             <NavLink to="/events">Find an Event</NavLink>
@@ -45,4 +67,6 @@ const SplashPage = () => {
 
 export default SplashPage;
 
-{/* <img src="https://i.ibb.co/7ydCdbx/meetup-splash-logo.png" alt="meetup-splash-logo" border="0" /></a> */}
+{
+    /* <img src="https://i.ibb.co/7ydCdbx/meetup-splash-logo.png" alt="meetup-splash-logo" border="0" /></a> */
+}

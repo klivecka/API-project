@@ -13,6 +13,7 @@ import EventDetails from "./components/EventDetails";
 import SignupForm from "./components/SignupForm/SignupForm";
 import CreateGroupForm from "./components/CreateGroupForm/CreateGroupForm";
 import SplashPage from "./components/SplashPage/SplashPage";
+import LoginFormModal from "./components/LoginFormModal";
 
 function App() {
     const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function App() {
                         <SignupForm />
                     </Route>
                     <Route path="/login">
-                        <LoginForm />
+                        <LoginFormModal />
                     </Route>
                     <Route path="/groups" exact>
                         <MainPageNav />
