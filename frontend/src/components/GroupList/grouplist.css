@@ -36,6 +36,8 @@ h3 {
     align-items: center;
     justify-content: center;
     border: 1px black solid;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .group-title {

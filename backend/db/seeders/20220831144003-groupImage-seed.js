@@ -12,12 +12,12 @@ module.exports = {
         },
         {
           groupId: 2,
-          url: "https://i.ibb.co/8zth2Mn/soccer.jpg",
+          url: "https://i.ibb.co/ZhnH8M2/guitarhero.png",
           preview: true
         },
         {
           groupId: 3,
-          url: "https://i.ibb.co/ZhnH8M2/guitarhero.png",
+          url: "https://i.ibb.co/gMw7KPY/dung.png",
           preview: true
         }
       ]
