@@ -20,7 +20,9 @@ export const GroupDetails = () => {
         <>
             {isLoaded && (
                 <div className="outer-wrapper">
-                    <div className="group-detail-image">group image</div>
+                    <div className="group-detail-image"
+                     style={{backgroundImage: `url(${group.GroupImages[0].url})`}}
+                    ></div>
                     <div className="group-detail-text-wrapper">
                         <div className="group-detail-title">{group.name}</div>
                         <div className="group-detail-location">
