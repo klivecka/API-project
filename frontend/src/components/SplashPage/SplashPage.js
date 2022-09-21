@@ -53,10 +53,19 @@ const SplashPage = () => {
                             )}
                         </div>
                         <div className="action-text">
-                            <NavLink to="/events">Find an Event</NavLink>
+                            {user && <NavLink to="/events">Find an Event</NavLink>}
+                            {!user && (
+                                <div onClick={() => setShowModal(true)}>
+                                    Find an Event
+                                </div>
+                            )}
                         </div>
                         <div className="action-text">
-                            <NavLink to="/group/create">Start a Group</NavLink>{" "}
+                            {user && <NavLink to="/group/create">Start a Group</NavLink>}
+                            {!user && (<div onClick={() => setShowModal(true)}>
+                                    Start a Group
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
