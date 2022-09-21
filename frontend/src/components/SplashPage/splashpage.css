@@ -1,4 +1,26 @@
+h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+
+}
+p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+div {
+    font-family: 'Roboto', sans-serif;
+}
+
+.master-wrapper {
+    width: auto;
+    display: grid;
+    grid-template-columns: 50px 1fr 50px;
+
+}
+
 .banner-wrapper {
+    grid-column: 2;
     display: flex;
     justify-content:center;
     align-items: center;
@@ -9,10 +31,20 @@
     margin-right: 90px;
 }
 
+.banner-img-div {
+    height: 300px;
+    width: 500px;
+    background-image: url("https://i.ibb.co/7ydCdbx/meetup-splash-logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: 1px solid red;
+}
+
 .splash-img-div{
-    height: 200px;
+    height: 175px;
     width: 200px;
     margin: 20px;
+    border: 1px solid red;
 }
 .group {
     background-image: url("https://i.ibb.co/fG1JW9s/spalsh-highfive.png");
@@ -32,30 +64,32 @@
     background-repeat: no-repeat;
 }
 
-.image-wrapper {
+.outer-action-wrapper {
+    grid-column: 2;
+    width:auto;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 100px 1fr 1fr 1fr 100px;
     grid-template-rows: 200px 50px;
     border: 1px solid red;
-    width: 100%;
+}
+
+.image-wrapper {
+    display: flex;
     justify-content: center;
-}
-h1 {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-
-}
-p {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-}
-
-div {
-    font-family: 'Roboto', sans-serif;
+    grid-column: 2 / 5;
 }
 .action-wrapper {
     display: flex;
     border: 1px solid red;
-    width: 100%;
+    width: auto;
+    grid-column: 2 / 5;
     justify-content: center;
+}
+
+.action-text {
+    display: flex;
+    margin: 1px 20px 10px 20px;
+    justify-content: center;
+    width: 200px;
+    border: 1px solid red;
 }
