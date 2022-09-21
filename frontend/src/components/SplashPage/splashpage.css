@@ -37,14 +37,12 @@ div {
     background-image: url("https://i.ibb.co/7ydCdbx/meetup-splash-logo.png");
     background-size: contain;
     background-repeat: no-repeat;
-    border: 1px solid red;
 }
 
 .splash-img-div{
     height: 175px;
     width: 200px;
     margin: 20px;
-    border: 1px solid red;
 }
 .group {
     background-image: url("https://i.ibb.co/fG1JW9s/spalsh-highfive.png");
@@ -70,7 +68,7 @@ div {
     display: grid;
     grid-template-columns: 100px 1fr 1fr 1fr 100px;
     grid-template-rows: 200px 50px;
-    border: 1px solid red;
+
 }
 
 .image-wrapper {
@@ -80,7 +78,7 @@ div {
 }
 .action-wrapper {
     display: flex;
-    border: 1px solid red;
+
     width: auto;
     grid-column: 2 / 5;
     justify-content: center;
@@ -91,5 +89,5 @@ div {
     margin: 1px 20px 10px 20px;
     justify-content: center;
     width: 200px;
-    border: 1px solid red;
+
 }
