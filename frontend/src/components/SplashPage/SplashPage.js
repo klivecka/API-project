@@ -86,6 +86,4 @@ const SplashPage = () => {
 
 export default SplashPage;
 
-{
-    /* <img src="https://i.ibb.co/7ydCdbx/meetup-splash-logo.png" alt="meetup-splash-logo" border="0" /></a> */
-}
+{/* <img src="https://i.ibb.co/8zth2Mn/soccer.jpg" alt="soccer" border="0" /> */}

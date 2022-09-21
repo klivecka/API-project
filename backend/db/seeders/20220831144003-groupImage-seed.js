@@ -7,17 +7,17 @@ module.exports = {
       [
         {
           groupId: 1,
-          url: "https://en.wikipedia.org/wiki/Association_football#/media/File:Football_in_Bloomington,_Indiana,_1996.jpg",
+          url: "https://i.ibb.co/8zth2Mn/soccer.jpg",
           preview: true
         },
         {
           groupId: 2,
-          url: "../assets/Football.jpeg",
+          url: "https://i.ibb.co/8zth2Mn/soccer.jpg",
           preview: true
         },
         {
           groupId: 3,
-          url: "../assets/dice.jpeg",
+          url: "https://i.ibb.co/ZhnH8M2/guitarhero.png",
           preview: true
         }
       ]
