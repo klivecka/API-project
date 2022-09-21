@@ -6,12 +6,11 @@ import { Modal } from "../../context/Modal";
 import LoginForm from "../LoginFormModal/LoginForm";
 
 const SplashPage = () => {
-    const sessionUser = useSelector((state) => state.session.user);
-    const [user, setUser] = useState(false);
+    const user = useSelector((state) => state.session.user);
+    // const [user, setUser] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    if (sessionUser && Object.keys(sessionUser).length !== 0) {
-        setUser(true);
-    }
+    // if (sessionUser && Object.keys(sessionUser).length !== 0)
+
     return (
         <>
             <div className="master-wrapper">
