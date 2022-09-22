@@ -29,11 +29,13 @@ export const GroupDetails = () => {
                     <div className="group-detail-text-wrapper">
                         <div className="group-detail-title">{group.name}</div>
                         <div className="group-detail-location">
-                        <i class="fa-solid fa-location-dot"></i>{"    "}
+                            <i class="fa-solid fa-location-dot"></i>
+                            {"    "}
                             {group.city}, {group.state}{" "}
                         </div>
                         <div className="group-detail-members">
-                        <i class="fa-solid fa-users"></i>{"    "}
+                            <i class="fa-solid fa-users"></i>
+                            {"    "}
                             {group.numMembers}
                             {group.numMembers > 1 && " members"}
                             {group.numMembers === 0 && " members"}
@@ -42,7 +44,8 @@ export const GroupDetails = () => {
                             {group.private === false && "Public group"}
                         </div>
                         <div className="group-details-organized">
-                        <i class="fa-solid fa-user"></i>{"    "}
+                            <i class="fa-solid fa-user"></i>
+                            {"    "}
                             Organized by {group.Organizer.firstName}{" "}
                             {group.Organizer.lastName}
                         </div>
@@ -78,6 +81,9 @@ export const GroupDetails = () => {
                         {linkValue === "events" && <EventList />}
                         {linkValue === "members" && "members TBD"}
                         {linkValue === "photos" && group.GroupImages[0].url}
+                    </div>
+                    <div className="join-group-div">
+                        <button id="join-button">Join this group</button>
                     </div>
                 </div>
             )}
