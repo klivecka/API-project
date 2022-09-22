@@ -1,29 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams, NavLink } from "react-router-dom";
-import { fetchOneGroup } from "../../store/group";
+import { fetchGroups, fetchOneGroup } from "../../store/group";
 import "./groupdetails.css";
 import { EventList } from "../EventList";
 
 export const GroupDetails = () => {
-    const { groupId } = useParams();
     const dispatch = useDispatch();
+    const { groupId } = useParams();
     const [linkValue, setLinkValue] = useState("about");
-    const group = useSelector((state) => state.group[groupId]);
     const [isLoaded, setIsLoaded] = useState(false);
+    const group = useSelector(state => state.group.GroupDetails[groupId])
+    const groupImgUrl = group.GroupImages[0].url
+    console.log('THIS IS THE GROUP', group)
     useEffect(() => {
+        dispatch(fetchGroups())
         dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
         // console.log('THIS IS THE USE EFFECT RUNNING')
-    }, [groupId]);
+    }, [fetchGroups]);
 
     return (
-        <>
+        <><div>test</div>
             {isLoaded && (
                 <div className="outer-wrapper">
                     <div
                         className="group-detail-image"
                         style={{
-                            backgroundImage: `url(${group.GroupImages[0].url})`,
+                            backgroundImage: groupImgUrl
+                                ? `url(${groupImgUrl})`
+                                : `url(
+                                      "https://i.ibb.co/4tMJkBY/group-default.png"
+                                  )`,
                         }}
                     ></div>
                     <div className="group-detail-text-wrapper">
@@ -34,7 +41,7 @@ export const GroupDetails = () => {
                             {group.city}, {group.state}{" "}
                         </div>
                         <div className="group-detail-members">
-                            <i class="fa-solid fa-users"></i>
+                            <i className="fa-solid fa-users"></i>
                             {"    "}
                             {group.numMembers}
                             {group.numMembers > 1 && " members"}
@@ -50,8 +57,8 @@ export const GroupDetails = () => {
                             {group.Organizer.lastName}
                         </div>
                         <div className="join-group-div">
-                        <button id="join-button">Edit this group</button>
-                    </div>
+                            <button id="join-button">Edit this group</button>
+                        </div>
                     </div>
                     <div className="group-details-nav-bar">
                         <div
@@ -85,9 +92,8 @@ export const GroupDetails = () => {
                         {linkValue === "members" && "members TBD"}
                         {linkValue === "photos" && group.GroupImages[0].url}
                     </div>
-
                 </div>
             )}
-        </>
+        </> 
     );
 };

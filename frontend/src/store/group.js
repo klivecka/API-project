@@ -37,17 +37,19 @@ export const fetchGroups = () => async (dispatch) => {
 
 //FETCH ONE GROUP THUNK
 export const fetchOneGroup = (groupId) => async (dispatch) => {
+    console.log("THIS IS THE FETCH ONE GROUP RUNNING");
     const response = await csrfFetch(`/api/groups/${groupId}`);
     const oneGroupObj = await response.json();
 
     dispatch(oneGroup(oneGroupObj));
+    return oneGroupObj;
 };
 
 //CREATE A NEW GROUP THUNK
 export const createGroup = (data) => async (dispatch) => {
-    console.log('THIS IS THE CREATE GROUP THUNK GETTING HIT')
-    console.log('THIS IS THE DATA', data)
-    console.log('THIS IS THE DATA Stringified', JSON.stringify(data))
+    console.log("THIS IS THE CREATE GROUP THUNK GETTING HIT");
+    console.log("THIS IS THE DATA", data);
+    console.log("THIS IS THE DATA Stringified", JSON.stringify(data));
     const response = await csrfFetch("/api/groups", {
         method: "post",
         headers: {
@@ -55,39 +57,35 @@ export const createGroup = (data) => async (dispatch) => {
         },
         body: JSON.stringify(data),
     });
-    console.log('THIS IS THE REPSONSE', response)
+    console.log("THIS IS THE REPSONSE", response);
 
     if (!response.ok) {
-          let errorJSON;
-          let error = await response.text();
-          try {
+        let errorJSON;
+        let error = await response.text();
+        try {
             // Check if the error is JSON, i.e., from the Pokemon server. If so,
             // don't throw error yet or it will be caught by the following catch
             errorJSON = JSON.parse(error);
-          }
-          catch {
+        } catch {
             // Case if server could not be reached
             throw new Error(error);
-          }
-          throw new Error(`${errorJSON.title}: ${errorJSON.message}`);
         }
-      
+        throw new Error(`${errorJSON.title}: ${errorJSON.message}`);
+    }
 
-    const newGroup = await response.json()
-    console.log('THIS IS THE REPSONSE JSON', newGroup)
-    dispatch(addOneGroup(newGroup))
-    return newGroup
+    const newGroup = await response.json();
+    console.log("THIS IS THE REPSONSE JSON", newGroup);
+    dispatch(addOneGroup(newGroup));
+    return newGroup;
 };
 
 const initialState = {
     list: [],
 };
 
-  
-
 const groupReducer = (state = initialState, action) => {
-    let newState
-    let groupList
+    let newState;
+    let groupList;
     switch (action.type) {
         case LOAD_GROUPS:
             const groups = {};
@@ -106,15 +104,17 @@ const groupReducer = (state = initialState, action) => {
             newState = {
                 ...state,
                 [action.payload.id]: action.payload,
+                GroupDetails: { [action.payload.id]: { ...action.payload } },
             };
+            console.log('THIS IS THE NEW STATE FROM THE REDUCER', newState)
             return newState;
         case ADD_ONE:
-               newState = {
+            newState = {
                 ...state,
-                [action.payload.id]: action.payload
-               }
-               newState.list.push(action.payload)
-               return newState
+                [action.payload.id]: action.payload,
+            };
+            newState.list.push(action.payload);
+            return newState;
         default:
             return state;
     }
