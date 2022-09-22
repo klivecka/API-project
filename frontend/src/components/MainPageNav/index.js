@@ -5,7 +5,13 @@ import { useSelector } from "react-redux";
 import "./mainpage.css";
 
 const MainPageNav = () => {
-    const [clickState, setClickState] = useState("");
+    let clickState
+    if (window.location.pathname === "/groups") {
+        clickState = "groups"
+    }
+    if (window.location.pathname === "/events") {
+        clickState = "events"
+    }
     console.log("THIS IS MAIN PAGE NAV CLICK STATE", clickState);
     return (
         <>
@@ -13,8 +19,6 @@ const MainPageNav = () => {
                 <NavLink
                     className="main-page-nav-link"
                     to="/groups"
-                    setClickState={setClickState}
-                    onClick={(e) => setClickState("groups")}
                     style={{
                         color: clickState === "groups" ? "green" : "gray",
                         textDecoration: clickState === "groups" ? "underline" : "none"
@@ -25,7 +29,6 @@ const MainPageNav = () => {
                 <NavLink
                     className="main-page-nav-link"
                     to="/events"
-                    onClick={(e) => setClickState("events")}
                     style={{
                         color: clickState === "events" ? "green" : "gray",
                         textDecoration: clickState === "events" ? "underline" : "none"
