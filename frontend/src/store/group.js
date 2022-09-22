@@ -33,6 +33,7 @@ export const fetchGroups = () => async (dispatch) => {
     const groupsArray = groupsObject.Groups;
     // console.log('GROUPS ARRAY', groupsArray)
     dispatch(loadGroups(groupsArray));
+    return groupsArray
 };
 
 //FETCH ONE GROUP THUNK

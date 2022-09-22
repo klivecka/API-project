@@ -11,17 +11,15 @@ export const GroupDetails = () => {
     const [linkValue, setLinkValue] = useState("about");
     const [isLoaded, setIsLoaded] = useState(false);
     const group = useSelector(state => state.group.GroupDetails[groupId])
-    const groupImgUrl = group.GroupImages[0].url
+    // const groupImgUrl = group.GroupImages[0].url
     console.log('THIS IS THE GROUP', group)
-    useEffect(() => {
-        dispatch(fetchGroups())
+    useEffect( () => {
         dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
-        // console.log('THIS IS THE USE EFFECT RUNNING')
-    }, [fetchGroups]);
+    }, [groupId]);
 
     return (
         <><div>test</div>
-            {isLoaded && (
+            {/* {isLoaded && (
                 <div className="outer-wrapper">
                     <div
                         className="group-detail-image"
@@ -93,7 +91,7 @@ export const GroupDetails = () => {
                         {linkValue === "photos" && group.GroupImages[0].url}
                     </div>
                 </div>
-            )}
+            )} */}
         </> 
     );
 };
