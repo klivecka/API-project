@@ -2,11 +2,13 @@
     display: flex;
     align-items: center;
     height: 50px;
-    border-bottom: solid 1px grey;
 }
 
 .main-page-nav-link {
     padding-right: 10px;
     font-size: large;
-    font-weight: bold;
+    font-family: "Noto Sans";
+    font-weight:600;
+    color: gray;
+    text-decoration: none;
 }
