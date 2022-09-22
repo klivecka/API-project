@@ -12,7 +12,7 @@ export const GroupDetails = () => {
     const group = useSelector((state) => state.group[groupId]);
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
-        dispatch(fetchOneGroup(groupId)).then(()=> setIsLoaded(true));
+        dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
         // console.log('THIS IS THE USE EFFECT RUNNING')
     }, [groupId]);
 
@@ -20,15 +20,20 @@ export const GroupDetails = () => {
         <>
             {isLoaded && (
                 <div className="outer-wrapper">
-                    <div className="group-detail-image"
-                     style={{backgroundImage: `url(${group.GroupImages[0].url})`}}
+                    <div
+                        className="group-detail-image"
+                        style={{
+                            backgroundImage: `url(${group.GroupImages[0].url})`,
+                        }}
                     ></div>
                     <div className="group-detail-text-wrapper">
                         <div className="group-detail-title">{group.name}</div>
                         <div className="group-detail-location">
+                        <i class="fa-solid fa-location-dot"></i>{"    "}
                             {group.city}, {group.state}{" "}
                         </div>
                         <div className="group-detail-members">
+                        <i class="fa-solid fa-users"></i>{"    "}
                             {group.numMembers}
                             {group.numMembers > 1 && " members"}
                             {group.numMembers === 0 && " members"}
@@ -37,6 +42,7 @@ export const GroupDetails = () => {
                             {group.private === false && "Public group"}
                         </div>
                         <div className="group-details-organized">
+                        <i class="fa-solid fa-user"></i>{"    "}
                             Organized by {group.Organizer.firstName}{" "}
                             {group.Organizer.lastName}
                         </div>
@@ -69,7 +75,7 @@ export const GroupDetails = () => {
                     </div>
                     <div className="group-details-nav-click">
                         {linkValue === "about" && group.about}
-                        {linkValue === "events" && <EventList/>}
+                        {linkValue === "events" && <EventList />}
                         {linkValue === "members" && "members TBD"}
                         {linkValue === "photos" && group.GroupImages[0].url}
                     </div>

@@ -7,31 +7,61 @@ a:visited {
     display: grid;
     grid-template-columns: 3fr 2fr;
     grid-template-rows: 250px 60px auto;
-    border: 1px solid black;
+
     max-width: 800px;
 }
 
 .group-detail-image {
     grid-column: 1;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
+    border-radius: 10px;
+    margin: 12px;
 }
 .group-detail-text-wrapper {
+    margin-top: 12px;
     grid-column: 2;
-    border: 1px solid black;
 }
 .group-detail-title {
-
+font-family: "Noto Sans";
+font-size: 24px;
+font-weight: 700;
+margin-bottom: 15px;
 }
 
 .group-details-nav-bar {
     display: flex;
     grid-column: 1;
     justify-content: space-around;
+    border: 1px red solid;
 }
 .group-details-nav-click {
     grid-column: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px red solid;
+}
+
+.group-detail-location {
+    color: rgb(97, 97, 97);
+    font-size: 15px;
+    font-family: "Noto Sans";
+    font-weight: 400;
+    margin-bottom: 10px
+}
+
+.group-detail-members {
+    margin-bottom: 10px;
+    color: rgb(97, 97, 97);
+    font-size: 15px;
+    font-family: "Noto Sans";
+    font-weight: 400;
+}
+
+.group-details-organized {
+    color: rgb(97, 97, 97);
+    font-size: 15px;
+    font-family: "Noto Sans";
+    font-weight: 400;
 }
