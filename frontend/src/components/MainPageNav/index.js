@@ -6,10 +6,10 @@ import "./mainpage.css";
 
 const MainPageNav = () => {
     let clickState
-    if (window.location.pathname === "/groups") {
+    if (window.location.pathname === "/groups" || window.location.pathname === "/groups/") {
         clickState = "groups"
     }
-    if (window.location.pathname === "/events") {
+    if (window.location.pathname === "/events" || window.location.pathname === "/events/") {
         clickState = "events"
     }
     console.log("THIS IS MAIN PAGE NAV CLICK STATE", clickState);

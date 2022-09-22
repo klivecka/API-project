@@ -5,10 +5,9 @@ a:visited {
 
 .outer-wrapper {
     display: grid;
-    grid-template-columns: 3fr 2fr;
-    grid-template-rows: 250px 30px auto;
-
-    max-width: 800px;
+    grid-template-columns: 7fr 4fr;
+    grid-template-rows: 11fr 2fr auto;
+    max-width: 900px
 }
 
 .group-detail-image {
@@ -17,15 +16,18 @@ a:visited {
     background-repeat: no-repeat;
     border-radius: 10px;
     margin: 12px;
+    height: 300px;
 }
 .group-detail-text-wrapper {
     margin-top: 12px;
+    margin-left: 10px;
     grid-column: 2;
+    /* border: 1px solid red */
 }
 .group-detail-title {
     font-family: "Noto Sans";
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 800;
     margin-bottom: 15px;
 }
 
@@ -37,6 +39,7 @@ a:visited {
     font-family: "Oxygen";
     font-size: 16px;
     font-weight: 300;
+    border-top: 1px solid rgb(214, 214, 214)
     /* border: 1px red solid; */
 }
 
@@ -77,11 +80,15 @@ a:visited {
 }
 
 .join-group-div {
-
+    margin-top: 50px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    /* border: 1px solid red */
 }
 #join-button {
     color: white;
-    background-color: rgb(255, 111, 0);
+    background-color: rgb(240, 68, 25);
     border-radius: 8px;
     border: none;
     font-family: "Oxygen";

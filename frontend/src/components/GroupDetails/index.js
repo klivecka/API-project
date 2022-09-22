@@ -49,6 +49,9 @@ export const GroupDetails = () => {
                             Organized by {group.Organizer.firstName}{" "}
                             {group.Organizer.lastName}
                         </div>
+                        <div className="join-group-div">
+                        <button id="join-button">Edit this group</button>
+                    </div>
                     </div>
                     <div className="group-details-nav-bar">
                         <div
@@ -82,9 +85,7 @@ export const GroupDetails = () => {
                         {linkValue === "members" && "members TBD"}
                         {linkValue === "photos" && group.GroupImages[0].url}
                     </div>
-                    <div className="join-group-div">
-                        <button id="join-button">Join this group</button>
-                    </div>
+
                 </div>
             )}
         </>

@@ -29,7 +29,7 @@ function Navigation({ isLoaded }) {
 
     return (
         <div className="header-nav-wrapper">
-            <div className="meetup-logo">Meetup</div>
+            <div className="meetup-logo"></div>
             <div className="nav-link-wrapper">{isLoaded && sessionLinks}</div>
         </div>
     );

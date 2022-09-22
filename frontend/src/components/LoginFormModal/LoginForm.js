@@ -16,11 +16,15 @@ function LoginForm({ setShowModal }) {
     //     <Redirect to="/" />
     //   );
     console.log('CREDENTIALS', credential, password)
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors([]);
         setShowModal(false)
-        return dispatch(sessionActions.login({ credential, password }))
+        //check response and then perform actions accordingly
+        // const response = 
+        await dispatch(sessionActions.login({ credential, password }))
+
+
         // .catch(
         //     async (res) => {
         //         const data = await res.json();
