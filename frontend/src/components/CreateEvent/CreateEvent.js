@@ -9,26 +9,13 @@ const CreateEventForm = () => {
     const { groupId } = useParams();
 
     const [name, setName] = useState("");
-    const [type, setType] = useState("");
+    const [type, setType] = useState("In person");
     const [capacity, setCapacity] = useState("");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [errors, setErrors] = useState([]);
-
-    // const testObj = {
-    //     groupId,
-    //     name,
-    //     type,
-    //     capacity,
-    //     price,
-    //     description,
-    //     startDate,
-    //     endDate,
-    // };
-
-    // console.log(testObj);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,27 +25,35 @@ const CreateEventForm = () => {
             groupId,
             name,
             type,
-            capacity,
-            price,
+            capacity: parseInt(capacity, 10),
+            price: parseInt(price, 10),
             description,
             startDate,
             endDate,
         };
-        const newEvent = dispatch(addOneEvent(reqBody)).catch(async (res) => {
-            const data = await res.json();
-            const errorsArray = Object.values(data.errors)
-            setErrors(errorsArray);
-            console.log("THIS IS THE ERRORS STATE", errors)
-            return
-        });
-
-        // const eventId = newEvent.id;
-        // history.push(`/events/${eventId}`);
+        const newEvent = await dispatch(addOneEvent(reqBody)).catch(
+            async (res) => {
+                const data = await res.json();
+                const errorsArray = Object.values(data.errors);
+                setErrors(errorsArray);
+                console.log("THIS IS THE ERRORS STATE", errors);
+                return;
+            }
+        );
+        console.log("THIS IS NEW EVENT", newEvent);
+        if (newEvent) {
+            const eventId = newEvent.id;
+            history.push(`/events/${eventId}`);
+        }
     };
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <ul></ul>
+                <ul>
+                    {errors.map((error, idx) => (
+                        <li key={idx}>{error}</li>
+                    ))}
+                </ul>
                 <label>
                     Name
                     <input
