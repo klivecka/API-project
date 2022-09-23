@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams, NavLink } from "react-router-dom";
-import { fetchOneEvent } from "../../store/event";
+import { fetchEvents } from "../../store/event";
 import "./eventdetails.css";
 
 const EventDetails = () => {
@@ -9,10 +9,11 @@ const EventDetails = () => {
     const {eventId} = useParams();
     const event = useSelector((state) => state.event[eventId]);
     const [isLoaded, setIsLoaded] = useState(false);
+    console.log('THIS IS THE EVENT', event)
 
     useEffect(() => {
-        dispatch(fetchOneEvent(eventId)).then(() => setIsLoaded(true));
-    }, [eventId]);
+        dispatch(fetchEvents()).then(() => setIsLoaded(true));
+    }, []);
 
     return (
         <>
