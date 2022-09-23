@@ -85,11 +85,12 @@ export const createGroup = (data) => async (dispatch) => {
 
 //UPDATE A GROUP THUNK
 export const updateGroup = (data) => async (dispatch) => {
-    const response = await fetch(`/api/groups/${data.id}`, {
+    const response = await csrfFetch(`/api/groups/${data.id}`, {
         method: "put",
         headers: {
             "Content-Type": "application/json",
         },
+        body: JSON.stringify(data), 
     });
     const updatedGroup = await response.json();
     dispatch(updateOneGroup(updatedGroup))
@@ -121,7 +122,7 @@ const groupReducer = (state = initialState, action) => {
         case ONE_GROUP:
             newState = {
                 ...state,
-                GroupDetails: { [action.payload.id]: { ...action.payload } },
+                GroupDetails: { ...action.payload },
             };
             console.log("THIS IS THE NEW STATE FROM THE REDUCER", newState);
             return newState;

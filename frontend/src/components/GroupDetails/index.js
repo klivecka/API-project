@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useParams, NavLink } from "react-router-dom";
+import { Redirect, useParams, NavLink, Link } from "react-router-dom";
 import { fetchGroups, fetchOneGroup } from "../../store/group";
 import "./groupdetails.css";
 import { EventList } from "../EventList";
@@ -10,7 +10,10 @@ export const GroupDetails = () => {
     const { groupId } = useParams();
     const [linkValue, setLinkValue] = useState("about");
     const [isLoaded, setIsLoaded] = useState(false);
-    const group = useSelector(state => state.group.GroupDetails[groupId])
+    const group = useSelector(state => state.group.GroupDetails)
+    const userId = useSelector(state => state.session.user.id)
+    console.log('THIS IS THE USERID', userId)
+    console.log('THIS IS ORG ID', group.organizerId)
 
     useEffect( () => {
          dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
@@ -50,9 +53,9 @@ export const GroupDetails = () => {
                             Organized by {group.Organizer.firstName}{" "}
                             {group.Organizer.lastName}
                         </div>
-                        <div className="join-group-div">
-                            <button id="join-button">Edit this group</button>
-                        </div>
+                        {userId === group.organizerId && <div className="join-group-div">
+                            <Link to={`/groups/edit/${groupId}`}><button id="join-button">Edit this group</button></Link>
+                        </div>}
                     </div>
                     <div className="group-details-nav-bar">
                         <div
