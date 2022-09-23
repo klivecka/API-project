@@ -8,6 +8,7 @@ export const GroupList = () => {
     const dispatch = useDispatch();
     const groups = useSelector((state) => state.group.list);
 
+
     // console.log("THIS THE THE GROUPS FROM STATE", groups);
 
     useEffect(() => {
@@ -23,8 +24,14 @@ export const GroupList = () => {
                     to={`/groups/${group.id}`}
                 >
                     <div className="group-div" key={group.id}>
-                        <div className="internal-image" 
-                        style={{backgroundImage: `url(${group.previewImage})`}}></div>
+                        <div
+                            className="internal-image"
+                            style={{
+                                backgroundImage: group.previewImage !== "no image"
+                                    ? `url(${group.previewImage})`
+                                    : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
+                            }}
+                        ></div>
                         <div className="group-title">
                             <h3>{group.name}</h3>
                         </div>

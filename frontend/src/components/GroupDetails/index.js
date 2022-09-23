@@ -10,13 +10,13 @@ export const GroupDetails = () => {
     const { groupId } = useParams();
     const [linkValue, setLinkValue] = useState("about");
     const [isLoaded, setIsLoaded] = useState(false);
-    const group = useSelector(state => state.group.GroupDetails)
-    const userId = useSelector(state => state.session.user.id)
-    console.log('THIS IS THE USERID', userId)
-    console.log('THIS IS ORG ID', group.organizerId)
+    const group = useSelector((state) => state.group.GroupDetails);
+    const userId = useSelector((state) => state.session.user.id);
+    console.log("THIS IS THE USERID", userId);
+    console.log("THIS IS ORG ID", group.organizerId);
 
-    useEffect( () => {
-         dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
+    useEffect(() => {
+        dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
     }, [fetchOneGroup]);
 
     return (
@@ -26,8 +26,9 @@ export const GroupDetails = () => {
                     <div
                         className="group-detail-image"
                         style={{
-                            backgroundImage:
-                            group.GroupImages.length ? `url(${group.GroupImages[0].url})` : `url("https://i.ibb.co/4tMJkBY/group-default.png")`
+                            backgroundImage: group.GroupImages.length
+                                ? `url(${group.GroupImages[0].url})`
+                                : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
                         }}
                     ></div>
                     <div className="group-detail-text-wrapper">
@@ -53,9 +54,15 @@ export const GroupDetails = () => {
                             Organized by {group.Organizer.firstName}{" "}
                             {group.Organizer.lastName}
                         </div>
-                        {userId === group.organizerId && <div className="join-group-div">
-                            <Link to={`/groups/edit/${groupId}`}><button id="join-button">Edit this group</button></Link>
-                        </div>}
+                        {userId === group.organizerId && (
+                            <div className="join-group-div">
+                                <Link to={`/groups/edit/${groupId}`}>
+                                    <button id="join-button">
+                                        Edit this group
+                                    </button>
+                                </Link>
+                            </div>
+                        )}
                     </div>
                     <div className="group-details-nav-bar">
                         <div
@@ -91,6 +98,6 @@ export const GroupDetails = () => {
                     </div>
                 </div>
             )}
-        </> 
+        </>
     );
 };

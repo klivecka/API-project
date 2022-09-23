@@ -2,35 +2,33 @@
 import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import "./LoginForm.css";
 
 function LoginForm({ setShowModal }) {
     const dispatch = useDispatch();
+    const history = useHistory()
     const sessionUser = useSelector((state) => state.session.user);
     const [credential, setCredential] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
+    console.log('THESE ARE THE ERRORS', errors)
 
-    //   if (sessionUser && Object.keys(sessionUser).length !== 0) return (
-    //     <Redirect to="/" />
-    //   );
-    console.log('CREDENTIALS', credential, password)
+      if (sessionUser && Object.keys(sessionUser).length !== 0) return (
+        setShowModal(false)
+      );
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors([]);
-        setShowModal(false)
-        //check response and then perform actions accordingly
-        // const response = 
-        await dispatch(sessionActions.login({ credential, password }))
 
-
-        // .catch(
-        //     async (res) => {
-        //         const data = await res.json();
-        //         if (data && data.errors) setErrors(data.errors);
-        //     }
-        // );
+        return dispatch(sessionActions.login({ credential, password })).catch(
+            async (res) => {
+                const data = await res.json();
+                console.log('THIS IS THE DATA IN THE LOGIN', data.message)
+                setErrors([data.message]);
+            }
+        );
     };
 
     return (
@@ -38,7 +36,7 @@ function LoginForm({ setShowModal }) {
             <div>Log in</div>
             <div>
                 Not a member yet?{" "}
-                <NavLink to="/signup" onClick={()=>setShowModal(false)}>
+                <NavLink to="/signup" onClick={() => setShowModal(false)}>
                     Sign up
                 </NavLink>
             </div>

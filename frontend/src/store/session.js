@@ -28,10 +28,17 @@ export const login = (user) => async (dispatch) => {
       password,
     }),
   });
+
+  if (response.ok) {
   const data = await response.json();
   // console.log('THIS IS THE RESPONSE JSON', data)
-  dispatch(setUser(data));
-  return response;
+  dispatch(setUser(data));}
+  else {
+    const resJson = await response.json()
+    const resBody = resJson.body
+    console.log(resBody)
+    return resBody
+  }
 };
 
 //RESTORE THUNK
