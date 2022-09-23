@@ -22,10 +22,10 @@ export const GroupDetails = () => {
                 <div className="outer-wrapper">
                     <div
                         className="group-detail-image"
-                        // style={{
-                        //     backgroundImage:
-                        //     group.GroupImages.length ? `${group.GroupImages[0].url}` : "https://i.ibb.co/4tMJkBY/group-default.png"
-                        // }}
+                        style={{
+                            backgroundImage:
+                            group.GroupImages.length ? `url(${group.GroupImages[0].url})` : `url("https://i.ibb.co/4tMJkBY/group-default.png")`
+                        }}
                     ></div>
                     <div className="group-detail-text-wrapper">
                         <div className="group-detail-title">{group.name}</div>

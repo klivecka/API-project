@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const LOAD_GROUPS = "groups/loadGroups";
 const ONE_GROUP = "groups/oneGroup";
 const ADD_ONE = "groups/addOneGroup";
+const UPDATE_ONE = "groups/updateGroup";
 
 const loadGroups = (groups) => {
     return {
@@ -25,6 +26,13 @@ const addOneGroup = (group) => {
     };
 };
 
+const updateOneGroup = (group) => {
+    return {
+        type: UPDATE_ONE,
+        payload: group,
+    };
+};
+
 //FETCH ALLL GROUPS THUNK
 export const fetchGroups = () => async (dispatch) => {
     const response = await csrfFetch("/api/groups");
@@ -33,7 +41,7 @@ export const fetchGroups = () => async (dispatch) => {
     const groupsArray = groupsObject.Groups;
     // console.log('GROUPS ARRAY', groupsArray)
     dispatch(loadGroups(groupsArray));
-    return groupsArray
+    return groupsArray;
 };
 
 //FETCH ONE GROUP THUNK
@@ -48,9 +56,6 @@ export const fetchOneGroup = (groupId) => async (dispatch) => {
 
 //CREATE A NEW GROUP THUNK
 export const createGroup = (data) => async (dispatch) => {
-    console.log("THIS IS THE CREATE GROUP THUNK GETTING HIT");
-    console.log("THIS IS THE DATA", data);
-    console.log("THIS IS THE DATA Stringified", JSON.stringify(data));
     const response = await csrfFetch("/api/groups", {
         method: "post",
         headers: {
@@ -58,7 +63,6 @@ export const createGroup = (data) => async (dispatch) => {
         },
         body: JSON.stringify(data),
     });
-    console.log("THIS IS THE REPSONSE", response);
 
     if (!response.ok) {
         let errorJSON;
@@ -75,9 +79,21 @@ export const createGroup = (data) => async (dispatch) => {
     }
 
     const newGroup = await response.json();
-    console.log("THIS IS THE REPSONSE JSON", newGroup);
     dispatch(addOneGroup(newGroup));
     return newGroup;
+};
+
+//UPDATE A GROUP THUNK
+export const updateGroup = (data) => async (dispatch) => {
+    const response = await fetch(`/api/groups/${data.id}`, {
+        method: "put",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const updatedGroup = await response.json();
+    dispatch(updateOneGroup(updatedGroup))
+    return updatedGroup
 };
 
 const initialState = {
@@ -107,7 +123,7 @@ const groupReducer = (state = initialState, action) => {
                 ...state,
                 GroupDetails: { [action.payload.id]: { ...action.payload } },
             };
-            console.log('THIS IS THE NEW STATE FROM THE REDUCER', newState)
+            console.log("THIS IS THE NEW STATE FROM THE REDUCER", newState);
             return newState;
         case ADD_ONE:
             newState = {
@@ -115,6 +131,12 @@ const groupReducer = (state = initialState, action) => {
                 [action.payload.id]: action.payload,
             };
             newState.list.push(action.payload);
+            return newState;
+        case UPDATE_ONE:
+            newState = {
+                ...state
+            };
+            newState[action.payload.id] = action.payload
             return newState;
         default:
             return state;
