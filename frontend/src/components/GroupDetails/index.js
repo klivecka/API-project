@@ -11,30 +11,26 @@ export const GroupDetails = () => {
     const [linkValue, setLinkValue] = useState("about");
     const [isLoaded, setIsLoaded] = useState(false);
     const group = useSelector(state => state.group.GroupDetails[groupId])
-    // const groupImgUrl = group.GroupImages[0].url
-    console.log('THIS IS THE GROUP', group)
+
     useEffect( () => {
-        dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
-    }, [groupId]);
+         dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
+    }, [fetchOneGroup]);
 
     return (
-        <><div>test</div>
-            {/* {isLoaded && (
+        <>
+            {isLoaded && (
                 <div className="outer-wrapper">
                     <div
                         className="group-detail-image"
-                        style={{
-                            backgroundImage: groupImgUrl
-                                ? `url(${groupImgUrl})`
-                                : `url(
-                                      "https://i.ibb.co/4tMJkBY/group-default.png"
-                                  )`,
-                        }}
+                        // style={{
+                        //     backgroundImage:
+                        //     group.GroupImages.length ? `${group.GroupImages[0].url}` : "https://i.ibb.co/4tMJkBY/group-default.png"
+                        // }}
                     ></div>
                     <div className="group-detail-text-wrapper">
                         <div className="group-detail-title">{group.name}</div>
                         <div className="group-detail-location">
-                            <i class="fa-solid fa-location-dot"></i>
+                            <i className="fa-solid fa-location-dot"></i>
                             {"    "}
                             {group.city}, {group.state}{" "}
                         </div>
@@ -49,7 +45,7 @@ export const GroupDetails = () => {
                             {group.private === false && "Public group"}
                         </div>
                         <div className="group-details-organized">
-                            <i class="fa-solid fa-user"></i>
+                            <i className="fa-solid fa-user"></i>
                             {"    "}
                             Organized by {group.Organizer.firstName}{" "}
                             {group.Organizer.lastName}
@@ -91,7 +87,7 @@ export const GroupDetails = () => {
                         {linkValue === "photos" && group.GroupImages[0].url}
                     </div>
                 </div>
-            )} */}
+            )}
         </> 
     );
 };

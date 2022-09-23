@@ -46,6 +46,7 @@ function App() {
                         <EventList />
                     </Route>
                     <Route path="/groups/:groupId">
+                    <MainPageNav />
                         <GroupDetails />
                     </Route>
                     <Route path="/events/:eventId">

@@ -99,12 +99,12 @@ const groupReducer = (state = initialState, action) => {
             return {
                 ...groups,
                 ...state,
+                GroupDetails: {},
                 list: groupList,
             };
         case ONE_GROUP:
             newState = {
                 ...state,
-                [action.payload.id]: action.payload,
                 GroupDetails: { [action.payload.id]: { ...action.payload } },
             };
             console.log('THIS IS THE NEW STATE FROM THE REDUCER', newState)
