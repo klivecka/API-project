@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useParams, NavLink, Link } from "react-router-dom";
-import { fetchGroups, fetchOneGroup } from "../../store/group";
+import { Redirect, useParams, NavLink, Link, useHistory } from "react-router-dom";
+import { deleteGroup, fetchGroups, fetchOneGroup } from "../../store/group";
 import "./groupdetails.css";
 import { EventList } from "../EventList";
 
 export const GroupDetails = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const { groupId } = useParams();
     const [linkValue, setLinkValue] = useState("about");
@@ -16,6 +17,13 @@ export const GroupDetails = () => {
     useEffect(() => {
         dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
     }, [fetchOneGroup]);
+
+    const deleteSubmit = (groupId) => {
+
+        dispatch(deleteGroup(groupId))
+        alert("Successfully Deleted")
+        history.push('/groups')
+    }
 
     return (
         <>
@@ -56,17 +64,26 @@ export const GroupDetails = () => {
                             <>
                             <div className="join-group-div">
                                 <Link to={`/groups/edit/${groupId}`}>
-                                    <button id="join-button">
+                                    <button id="function-button">
                                         Edit this group
                                     </button>
                                 </Link>
                             </div>
                             <div className="create-event-div">
                             <Link to={`/groups/${groupId}/event`}>
-                                    <button id="event-button">
+                                    <button id="function-button">
                                         Add an event
                                     </button>
                                 </Link>
+                            </div>
+                            <div className="delete-group-div">
+                            
+                                    <button id="function-button"
+                                    onClick={e => deleteSubmit(groupId)}
+                                    >
+                                        Delete this group
+                                    </button>
+                            
                             </div>
                             </>
                         )}

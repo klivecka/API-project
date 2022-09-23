@@ -54,7 +54,6 @@ export const fetchGroups = () => async (dispatch) => {
 
 //FETCH ONE GROUP THUNK
 export const fetchOneGroup = (groupId) => async (dispatch) => {
-    console.log("THIS IS THE FETCH ONE GROUP RUNNING");
     const response = await csrfFetch(`/api/groups/${groupId}`);
     const oneGroupObj = await response.json();
 
@@ -107,14 +106,14 @@ export const updateGroup = (data) => async (dispatch) => {
 
 //DELETE A GROUP THUNK
 export const deleteGroup = (groupId) => async (dispatch) => {
-    const response = await csrfFetch(`api/groups/${groupId}`, {
-        method: "put",
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
+        method: "delete",
         headers: {
             "Content-Type": "application/json",
         },
     });
-    dispatch(loadGroups())
-    return
+    dispatch(deleteOneGroup(groupId));
+    return;
 };
 
 const initialState = {
@@ -165,11 +164,13 @@ const groupReducer = (state = initialState, action) => {
             };
             newState[action.payload.id] = action.payload;
             return newState;
-        // case DELETE_ONE:
-        //     newState = {
-        //         ...state
-        //     };
-            
+        case DELETE_ONE:
+            newState = {
+                ...state,
+            };
+            delete newState[action.payload];
+            return newState;
+
         default:
             return state;
     }
