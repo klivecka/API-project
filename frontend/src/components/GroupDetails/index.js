@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useParams, NavLink } from "react-router-dom";
-import { fetchOneGroup } from "../../store/group";
+import { Redirect, useParams, NavLink, Link } from "react-router-dom";
+import { fetchGroups, fetchOneGroup } from "../../store/group";
 import "./groupdetails.css";
 import { EventList } from "../EventList";
 
 export const GroupDetails = () => {
-    const { groupId } = useParams();
     const dispatch = useDispatch();
+    const { groupId } = useParams();
     const [linkValue, setLinkValue] = useState("about");
-    const group = useSelector((state) => state.group[groupId]);
     const [isLoaded, setIsLoaded] = useState(false);
-    useEffect(() => {
-        dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
-        // console.log('THIS IS THE USE EFFECT RUNNING')
-    }, [groupId]);
+    const group = useSelector(state => state.group.GroupDetails)
+    const userId = useSelector(state => state.session.user.id)
+    console.log('THIS IS THE USERID', userId)
+    console.log('THIS IS ORG ID', group.organizerId)
+
+    useEffect( () => {
+         dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
+    }, [fetchOneGroup]);
 
     return (
         <>
@@ -23,18 +26,19 @@ export const GroupDetails = () => {
                     <div
                         className="group-detail-image"
                         style={{
-                            backgroundImage: `url(${group.GroupImages[0].url})`,
+                            backgroundImage:
+                            group.GroupImages.length ? `url(${group.GroupImages[0].url})` : `url("https://i.ibb.co/4tMJkBY/group-default.png")`
                         }}
                     ></div>
                     <div className="group-detail-text-wrapper">
                         <div className="group-detail-title">{group.name}</div>
                         <div className="group-detail-location">
-                            <i class="fa-solid fa-location-dot"></i>
+                            <i className="fa-solid fa-location-dot"></i>
                             {"    "}
                             {group.city}, {group.state}{" "}
                         </div>
                         <div className="group-detail-members">
-                            <i class="fa-solid fa-users"></i>
+                            <i className="fa-solid fa-users"></i>
                             {"    "}
                             {group.numMembers}
                             {group.numMembers > 1 && " members"}
@@ -44,14 +48,14 @@ export const GroupDetails = () => {
                             {group.private === false && "Public group"}
                         </div>
                         <div className="group-details-organized">
-                            <i class="fa-solid fa-user"></i>
+                            <i className="fa-solid fa-user"></i>
                             {"    "}
                             Organized by {group.Organizer.firstName}{" "}
                             {group.Organizer.lastName}
                         </div>
-                        <div className="join-group-div">
-                        <button id="join-button">Edit this group</button>
-                    </div>
+                        {userId === group.organizerId && <div className="join-group-div">
+                            <Link to={`/groups/edit/${groupId}`}><button id="join-button">Edit this group</button></Link>
+                        </div>}
                     </div>
                     <div className="group-details-nav-bar">
                         <div
@@ -85,9 +89,8 @@ export const GroupDetails = () => {
                         {linkValue === "members" && "members TBD"}
                         {linkValue === "photos" && group.GroupImages[0].url}
                     </div>
-
                 </div>
             )}
-        </>
+        </> 
     );
 };

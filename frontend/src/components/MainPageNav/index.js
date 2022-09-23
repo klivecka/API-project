@@ -5,14 +5,19 @@ import { useSelector } from "react-redux";
 import "./mainpage.css";
 
 const MainPageNav = () => {
-    let clickState
-    if (window.location.pathname === "/groups" || window.location.pathname === "/groups/") {
-        clickState = "groups"
+    let clickState;
+    if (
+        window.location.pathname === "/groups" ||
+        window.location.pathname === "/groups/"
+    ) {
+        clickState = "groups";
     }
-    if (window.location.pathname === "/events" || window.location.pathname === "/events/") {
-        clickState = "events"
+    if (
+        window.location.pathname === "/events" ||
+        window.location.pathname === "/events/"
+    ) {
+        clickState = "events";
     }
-    console.log("THIS IS MAIN PAGE NAV CLICK STATE", clickState);
     return (
         <>
             <div className="main-page-nav-wrapper">
@@ -21,7 +26,8 @@ const MainPageNav = () => {
                     to="/groups"
                     style={{
                         color: clickState === "groups" ? "green" : "gray",
-                        textDecoration: clickState === "groups" ? "underline" : "none"
+                        textDecoration:
+                            clickState === "groups" ? "underline" : "none",
                     }}
                 >
                     Groups
@@ -31,7 +37,8 @@ const MainPageNav = () => {
                     to="/events"
                     style={{
                         color: clickState === "events" ? "green" : "gray",
-                        textDecoration: clickState === "events" ? "underline" : "none"
+                        textDecoration:
+                            clickState === "events" ? "underline" : "none",
                     }}
                 >
                     Events
