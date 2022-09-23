@@ -16,7 +16,7 @@ const oneEvent = (event) => {
     };
 };
 
-const addOneEvent = (event) => {
+const addEvent = (event) => {
     return {
         type: ADD_EVENT,
         payload: event,
@@ -39,6 +39,22 @@ export const fetchOneEvent = (eventId) => async (dispatch) => {
     const oneEventObj = await response.json();
     dispatch(oneEvent(oneEventObj));
 };
+
+//ADD EVENT THUNK
+export const addOneEvent = (data) => async (dispatch) => {
+    const {groupId, name, type, capacity, price, description, startDate, endDate } = data
+    const venueId = 1;
+    const req = {venueId, name, type, capacity, price, description, startDate, endDate }
+    const response = await fetch(`/api/groups/${groupId}/events`,{
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req),
+    })
+    const newEvent = await response.json()
+    dispatch(addEvent(newEvent))
+}
 
 const initialState = {
     list: [],
