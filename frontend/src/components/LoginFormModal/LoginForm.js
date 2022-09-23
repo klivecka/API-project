@@ -12,7 +12,6 @@ function LoginForm({ setShowModal }) {
     const [credential, setCredential] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
-    console.log('THESE ARE THE ERRORS', errors)
 
       if (sessionUser && Object.keys(sessionUser).length !== 0) return (
         setShowModal(false)
@@ -25,7 +24,6 @@ function LoginForm({ setShowModal }) {
         return dispatch(sessionActions.login({ credential, password })).catch(
             async (res) => {
                 const data = await res.json();
-                console.log('THIS IS THE DATA IN THE LOGIN', data.message)
                 setErrors([data.message]);
             }
         );
