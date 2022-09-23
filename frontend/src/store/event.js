@@ -1,5 +1,6 @@
 const LOAD_EVENTS = "events/loadEvents";
 const ONE_EVENT = "events/oneEvent";
+const ADD_EVENT = "events/addEvent";
 
 const loadEvents = (events) => {
     return {
@@ -15,11 +16,18 @@ const oneEvent = (event) => {
     };
 };
 
+const addOneEvent = (event) => {
+    return {
+        type: ADD_EVENT,
+        payload: event,
+    };
+};
+
 //FETCH ALL EVENTS THUNK
 export const fetchEvents = () => async (dispatch) => {
     const response = await fetch("/api/events");
     const eventsObj = await response.json();
-   
+
     // console.log('THIS IS THE EVENTS OBJ', eventsObj)
     const eventsArray = eventsObj.Events;
     dispatch(loadEvents(eventsArray));
@@ -37,6 +45,7 @@ const initialState = {
 };
 
 const eventReducer = (state = initialState, action) => {
+    let newState;
     switch (action.type) {
         case LOAD_EVENTS:
             const events = {};
@@ -50,12 +59,17 @@ const eventReducer = (state = initialState, action) => {
                 list: eventList,
             };
         case ONE_EVENT:
-            const newState = {
+            newState = {
                 ...state,
                 [action.payload.id]: action.payload,
             };
             return newState;
-
+        case ADD_EVENT:
+            newState = {
+                ...state,
+            };
+            newState.list.push(action.payload);
+            return newState;
         default:
             return state;
     }

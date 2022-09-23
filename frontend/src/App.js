@@ -15,6 +15,7 @@ import CreateGroupForm from "./components/CreateGroupForm/CreateGroupForm";
 import SplashPage from "./components/SplashPage/SplashPage";
 import LoginFormModal from "./components/LoginFormModal";
 import EditGroupForm from "./components/EditGroupForm/EditGroupForm";
+import CreateEventForm from "./components/CreateEvent/CreateEvent";
 
 function App() {
     const dispatch = useDispatch();
@@ -49,6 +50,10 @@ function App() {
                     <Route path="/events" exact>
                         <MainPageNav />
                         <EventList />
+                    </Route>
+                    <Route path="/groups/:groupId/event" exact>
+                        <MainPageNav />
+                        <CreateEventForm />
                     </Route>
                     <Route path="/groups/:groupId">
                     <MainPageNav />

@@ -12,8 +12,6 @@ export const GroupDetails = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const group = useSelector((state) => state.group.GroupDetails);
     const userId = useSelector((state) => state.session.user.id);
-    console.log("THIS IS THE USERID", userId);
-    console.log("THIS IS ORG ID", group.organizerId);
 
     useEffect(() => {
         dispatch(fetchOneGroup(groupId)).then(() => setIsLoaded(true));
@@ -55,6 +53,7 @@ export const GroupDetails = () => {
                             {group.Organizer.lastName}
                         </div>
                         {userId === group.organizerId && (
+                            <>
                             <div className="join-group-div">
                                 <Link to={`/groups/edit/${groupId}`}>
                                     <button id="join-button">
@@ -62,6 +61,14 @@ export const GroupDetails = () => {
                                     </button>
                                 </Link>
                             </div>
+                            <div className="create-event-div">
+                            <Link to={`/groups/${groupId}/event`}>
+                                    <button id="event-button">
+                                        Add an event
+                                    </button>
+                                </Link>
+                            </div>
+                            </>
                         )}
                     </div>
                     <div className="group-details-nav-bar">
