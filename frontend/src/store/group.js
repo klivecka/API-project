@@ -4,6 +4,7 @@ const LOAD_GROUPS = "groups/loadGroups";
 const ONE_GROUP = "groups/oneGroup";
 const ADD_ONE = "groups/addOneGroup";
 const UPDATE_ONE = "groups/updateGroup";
+const DELETE_ONE = "groups/deleteGroup";
 
 const loadGroups = (groups) => {
     return {
@@ -33,6 +34,13 @@ const updateOneGroup = (group) => {
     };
 };
 
+const deleteOneGroup = (groupId) => {
+    return {
+        type: DELETE_ONE,
+        payload: groupId,
+    };
+};
+
 //FETCH ALLL GROUPS THUNK
 export const fetchGroups = () => async (dispatch) => {
     const response = await csrfFetch("/api/groups");
@@ -46,7 +54,6 @@ export const fetchGroups = () => async (dispatch) => {
 
 //FETCH ONE GROUP THUNK
 export const fetchOneGroup = (groupId) => async (dispatch) => {
-    console.log("THIS IS THE FETCH ONE GROUP RUNNING");
     const response = await csrfFetch(`/api/groups/${groupId}`);
     const oneGroupObj = await response.json();
 
@@ -90,16 +97,34 @@ export const updateGroup = (data) => async (dispatch) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(data), 
+        body: JSON.stringify(data),
     });
     const updatedGroup = await response.json();
-    dispatch(updateOneGroup(updatedGroup))
-    return updatedGroup
+    dispatch(updateOneGroup(updatedGroup));
+    return updatedGroup;
+};
+
+//DELETE A GROUP THUNK
+export const deleteGroup = (groupId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
+        method: "delete",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    dispatch(deleteOneGroup(groupId));
+    return;
 };
 
 const initialState = {
     list: [],
 };
+
+//SORT FUNCTION FOR LISTS
+const listsort = (list) =>
+    list.sort((a, b) => {
+        return a.id - b.id;
+    });
 
 const groupReducer = (state = initialState, action) => {
     let newState;
@@ -135,10 +160,17 @@ const groupReducer = (state = initialState, action) => {
             return newState;
         case UPDATE_ONE:
             newState = {
-                ...state
+                ...state,
             };
-            newState[action.payload.id] = action.payload
+            newState[action.payload.id] = action.payload;
             return newState;
+        case DELETE_ONE:
+            newState = {
+                ...state,
+            };
+            delete newState[action.payload];
+            return newState;
+
         default:
             return state;
     }

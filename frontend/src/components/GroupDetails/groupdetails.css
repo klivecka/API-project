@@ -86,22 +86,12 @@ a:visited {
     align-items: center;
     /* border: 1px solid red */
 }
-#join-button {
-    color: white;
-    background-color: rgb(240, 68, 25);
-    width: 130px;
-    border-radius: 8px;
-    border: none;
-    font-family: "Oxygen";
-    font-size: 14px;
-    font-weight: 300;
-}
 
-#event-button {
+#function-button {
     color: white;
     background-color: rgb(240, 68, 25);
     border-radius: 8px;
-    width: 130px;
+    width: 150px;
     border: none;
     font-family: "Oxygen";
     font-size: 14px;
