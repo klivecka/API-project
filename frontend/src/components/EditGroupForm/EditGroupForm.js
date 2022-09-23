@@ -76,7 +76,7 @@ const EditGroupForm = () => {
         console.log('THIS IS REQUEST BODY', reqBody)
         const newGroup = await dispatch(updateGroup(reqBody));
         console.log('THIS IS RESPONSE', newGroup)
-        history.push(`/groups`);
+        history.push(`/groups/${groupId}`);
     };
 
     return (
