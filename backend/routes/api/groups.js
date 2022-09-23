@@ -160,6 +160,7 @@ router.post(
                 statusCode: 400,
                 errors: errors,
             });
+            return;
         }
 
         const newEvent = Event.build({

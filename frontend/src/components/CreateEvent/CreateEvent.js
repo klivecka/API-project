@@ -100,6 +100,7 @@ const CreateEventForm = () => {
                         type="datetime-local"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
+                        required
                     ></input>
                 </label>
                 <label>
@@ -108,6 +109,7 @@ const CreateEventForm = () => {
                         type="datetime-local"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
+                        required
                     ></input>
                 </label>
                 <button type="submit">Create a New Event</button>
