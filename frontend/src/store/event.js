@@ -1,3 +1,5 @@
+import { csrfFetch } from "./csrf";
+
 const LOAD_EVENTS = "events/loadEvents";
 const ONE_EVENT = "events/oneEvent";
 const ADD_EVENT = "events/addEvent";
@@ -45,7 +47,8 @@ export const addOneEvent = (data) => async (dispatch) => {
     const {groupId, name, type, capacity, price, description, startDate, endDate } = data
     const venueId = 1;
     const req = {venueId, name, type, capacity, price, description, startDate, endDate }
-    const response = await fetch(`/api/groups/${groupId}/events`,{
+    console.log('THIS IS THE THUKN EVENT REQ', req)
+    const response = await csrfFetch(`/api/groups/${groupId}/events`,{
         method: "post",
         headers: {
             "Content-Type": "application/json",
@@ -54,6 +57,7 @@ export const addOneEvent = (data) => async (dispatch) => {
     })
     const newEvent = await response.json()
     dispatch(addEvent(newEvent))
+    return newEvent;
 }
 
 const initialState = {
