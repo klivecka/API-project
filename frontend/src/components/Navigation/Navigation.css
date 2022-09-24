@@ -4,16 +4,20 @@
     border-bottom: 1px solid black;
 }
 
+
+
 .meetup-logo {
-align-items: center;
-justify-content: center;
+    background-image: url("https://i.ibb.co/BcPDH9Q/meetup.png");
+    width: 150px;
+    background-repeat: none;
+    margin-bottom: 5px
 }
 
 .nav-link-wrapper {
-display: flex;
-justify-content: end;
-padding-bottom: 10px;
-align-items: center;
+    display: flex;
+    justify-content: end;
+    padding-bottom: 10px;
+    align-items: center;
 }
 
 .nav-link {

@@ -7,15 +7,14 @@ import "./LoginForm.css";
 
 function LoginForm({ setShowModal }) {
     const dispatch = useDispatch();
-    const history = useHistory()
+    const history = useHistory();
     const sessionUser = useSelector((state) => state.session.user);
     const [credential, setCredential] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
 
-      if (sessionUser && Object.keys(sessionUser).length !== 0) return (
-        setShowModal(false)
-      );
+    if (sessionUser && Object.keys(sessionUser).length !== 0)
+        return setShowModal(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,22 +29,28 @@ function LoginForm({ setShowModal }) {
     };
 
     return (
+        
+
         <div className="login-wrapper">
-            <div>Log in</div>
-            <div>
-                Not a member yet?{" "}
-                <NavLink to="/signup" onClick={() => setShowModal(false)}>
-                    Sign up
-                </NavLink>
+            <div className="login-text-wrapper">
+            <div id="m-logo-login"></div>
+                <div id="login">Log in</div>
+                <div id="notmember">
+                    Not a member yet?{" "}
+                    <NavLink id="signup-link"to="/signup" onClick={() => setShowModal(false)}>
+                        Sign up
+                    </NavLink>
+                </div>
             </div>
 
+            <div className="form-wrapper">
             <form onSubmit={handleSubmit} className="login-form">
                 <ul>
                     {errors.map((error, idx) => (
                         <li key={idx}>{error}</li>
                     ))}
                 </ul>
-                <label>
+                <label className="login-form-label">
                     Username or Email
                     <input
                         className="login-input"
@@ -55,7 +60,7 @@ function LoginForm({ setShowModal }) {
                         required
                     />
                 </label>
-                <label>
+                <label className="login-form-label">
                     Password
                     <input
                         className="login-input"
@@ -65,9 +70,16 @@ function LoginForm({ setShowModal }) {
                         required
                     />
                 </label>
+                <div className="login-button-div">
                 <button type="submit">Log In</button>
+                </div>
+                <div className="login-button-div">
+                <button type="submit" id="demo-user-button">Demo User</button>
+                </div>
             </form>
+            </div>
         </div>
+
     );
 }
 

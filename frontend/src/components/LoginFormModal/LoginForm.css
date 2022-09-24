@@ -1,30 +1,94 @@
-
+/* login-outer-wrapper {
+    height: 400px;
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+} */
 
 .login-wrapper {
-    display: block;
-    height: 300px
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    justify-content: center;
+    height: 500px;
+    width: 335px;
+    border-radius: 10px;
 }
 
+.login-text-wrapper {
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#m-logo-login {
+    background-image: url("https://i.ibb.co/C7Jk75g/Screen-Shot-2022-09-24-at-1-37-34-PM.png");
+    height: 60px;
+    width: 60px;
+    /* margin-bottom: 20px; */
+}
+
+#login {
+font-size: 30px;
+font-family: "Noto Sans";
+font-weight: bold;
+}
+
+#notmember {
+margin-top: 5px;
+}
+
+.form-wrapper {
+    /* margin-left: 50px;
+    margin-bottom: 20px; */
+    grid-row: 2;
+    align-items: center;
+}
 .login-input {
+
     display: block;
-    width: 80%;
-    padding: 12px 20px;
-    margin: 8px;
-    box-sizing: border-box
+    margin: 3px 0px 18px 15px;
+    height: 30px;
+    width: 270px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid rgb(170, 170, 170);
 }
 
-label {
-    display: block;
+.login-form-label {
+    margin-left: 15px;
+    font-size: 15px;
+    
+    /* margin-bottom: -2px; */
 }
 
-button {
-    display: block;
-    padding: 12px 20px;
-    margin: 8px;
-    box-sizing: border-box
+.login-button-div {
+
+}
+
+.login-form button {
+    margin-left:15px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    width: 270px;
+    height: 35px;
+    box-sizing: border-box;
+    color: white;
+    background-color: #ff5946;
+    border-radius: 8px;
+    border: none;
+    font-family: "Oxygen";
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .login-form {
     margin: 10px;
     width: 300px;
+}
+
+#demo-user-button {
+    background-color: gray
 }
