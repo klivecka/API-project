@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addOneEvent } from "../../store/event";
+import "./createevent.css"
 
 const CreateEventForm = () => {
     const history = useHistory();
@@ -48,7 +49,14 @@ const CreateEventForm = () => {
     };
     return (
         <>
-            <form onSubmit={handleSubmit}>
+        <div className="create-event-form-wrapper">
+        <div className="create-event-upper-text">
+                <div id="meetup-logo-event-form"></div>
+                <div id="create-event-title">Create an event</div>
+            </div>
+            <form 
+            className="create-event-form"
+            onSubmit={handleSubmit}>
                 <ul>
                     {errors.map((error, idx) => (
                         <li key={idx}>{error}</li>
@@ -57,6 +65,7 @@ const CreateEventForm = () => {
                 <label>
                     Name
                     <input
+                    id="name-input"
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -65,7 +74,9 @@ const CreateEventForm = () => {
                 </label>
                 <label>
                     Type
-                    <select onChange={(e) => setType(e.target.value)}>
+                    <select 
+                    id="type-select"
+                    onChange={(e) => setType(e.target.value)}>
                         <option value="In person">In person</option>
                         <option value="Online">Online</option>
                     </select>
@@ -73,6 +84,7 @@ const CreateEventForm = () => {
                 <label>
                     Description
                     <textarea
+                    id="about-input"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         required
@@ -81,6 +93,7 @@ const CreateEventForm = () => {
                 <label>
                     Capacity
                     <input
+                    id="name-input"
                         type="number"
                         value={capacity}
                         onChange={(e) => setCapacity(e.target.value)}
@@ -89,6 +102,7 @@ const CreateEventForm = () => {
                 <label>
                     Price
                     <input
+                    id="name-input"
                         type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
@@ -97,6 +111,7 @@ const CreateEventForm = () => {
                 <label>
                     Start Date
                     <input
+                    id="name-input"
                         type="datetime-local"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
@@ -106,14 +121,18 @@ const CreateEventForm = () => {
                 <label>
                     End Date
                     <input
+                    id="name-input"
                         type="datetime-local"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
                         required
                     ></input>
                 </label>
-                <button type="submit">Create a New Event</button>
+                <button 
+                id="create-group-button"
+                type="submit">Create a New Event</button>
             </form>
+            </div>
         </>
     );
 };
