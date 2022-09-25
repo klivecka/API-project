@@ -5,7 +5,7 @@ import { fetchEvents } from "../../store/event";
 import { fetchGroups } from "../../store/group";
 import "./groupdetailevents.css";
 
-export const GroupDetailEvents = ({groupId}) => {
+export const GroupDetailEvents = ({ groupId }) => {
     const dispatch = useDispatch();
     console.log("THIS IS THE GROUPID", groupId);
     const events = useSelector((state) => state.event.list);
@@ -35,7 +35,8 @@ export const GroupDetailEvents = ({groupId}) => {
                     <div className="event-wrapper">
                         {events.map(
                             (event) =>
-                                (parseInt(event.groupId, 10) === parseInt(groupId, 10) && 
+                                parseInt(event.groupId, 10) ===
+                                    parseInt(groupId, 10) && (
                                     <Link
                                         style={{ textDecoration: "none" }}
                                         to={`/events/${event.id}`}
@@ -49,7 +50,7 @@ export const GroupDetailEvents = ({groupId}) => {
                                                 style={{
                                                     backgroundImage:
                                                         event.previewImage !==
-                                                        "no image"
+                                                        null
                                                             ? `url(${event.previewImage})`
                                                             : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
                                                 }}
