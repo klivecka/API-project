@@ -7,9 +7,9 @@ module.exports = {
             "Users",
             [
                 {
-                    firstName: "test1",
-                    lastName: "test1",
-                    username: "username1",
+                    firstName: "DemoUser",
+                    lastName: "LastName",
+                    username: "DemoUser",
                     email: "demo@user.io",
                     hashedPassword: bcrypt.hashSync("password"),
                 },

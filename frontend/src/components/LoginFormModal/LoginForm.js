@@ -28,6 +28,13 @@ function LoginForm({ setShowModal }) {
         );
     };
 
+    const demoUserClick = (e) => {
+        dispatch(sessionActions.login({
+            credential: "DemoUser",
+            password: "password"
+        }))
+    }
+
     return (
         
 
@@ -70,13 +77,11 @@ function LoginForm({ setShowModal }) {
                         required
                     />
                 </label>
-                <div className="login-button-div">
+
                 <button type="submit">Log In</button>
-                </div>
-                <div className="login-button-div">
-                <button type="submit" id="demo-user-button">Demo User</button>
-                </div>
+
             </form>
+                <button id="demo-user-button" onClick={e=> demoUserClick()}>Demo User</button>
             </div>
         </div>
 
