@@ -37,13 +37,11 @@ const CreateEventForm = () => {
                 const data = await res.json();
                 const errorsArray = Object.values(data.errors);
                 setErrors(errorsArray);
-                console.log("THIS IS THE ERRORS STATE", errors);
                 return;
             }
         );
-        console.log("THIS IS NEW EVENT", newEvent);
+
         if (newEvent) {
-            const eventId = newEvent.id;
             history.push(`/events/`);
         }
     };
