@@ -1,7 +1,7 @@
 .event-details-wrapper {
     display: grid;
     grid-template-columns: 1fr 880px 1fr;
-    grid-template-rows: 130px auto;
+    grid-template-rows: 130px 200px 300px;
 }
 .upper-color-section {
     grid-column: 1 / 4;
@@ -158,3 +158,6 @@
 }
 
 
+.event-detail-description {
+    grid-row: 3;
+}

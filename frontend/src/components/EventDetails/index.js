@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams, NavLink, useHistory } from "react-router-dom";
-import { fetchEvents, deleteEvent } from "../../store/event";
+import { fetchEvents, deleteEvent, fetchOneEvent } from "../../store/event";
 import { fetchOneGroup } from "../../store/group";
 import "./eventdetails.css";
 
@@ -11,7 +11,8 @@ const EventDetails = () => {
     const { eventId } = useParams();
 
     const event = useSelector((state) => state.event[eventId]);
-    const group = useSelector((state) => state.group?.GroupDetails);
+    const eventDeets = useSelector((state) => state.event.EventDetails.description)
+    const group = useSelector((state) => state.group.GroupDetails);
     const userId = useSelector((state) => state.session.user.id);
 
     const [isLoaded, setIsLoaded] = useState(false);
@@ -29,7 +30,7 @@ const EventDetails = () => {
     event.newDate = dateString;
 
     useEffect(() => {
-        dispatch(fetchEvents())
+        dispatch(fetchOneEvent(eventId))
             .then(() => dispatch(fetchOneGroup(event.Group.id)))
             .then(() => setIsLoaded(true));
     }, []);
@@ -112,6 +113,9 @@ const EventDetails = () => {
                                     </button>
                                 </div>
                             )}
+                        </div>
+                        <div className="event-detail-description">
+                            {eventDeets}
                         </div>
                     </div>
                 </div>

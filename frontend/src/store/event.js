@@ -111,6 +111,7 @@ const eventReducer = (state = initialState, action) => {
             eventList.forEach((event) => {
                 events[event.id] = event;
             });
+            events.EventDetails = {}
             return {
                 ...events,
                 ...state,
@@ -118,9 +119,9 @@ const eventReducer = (state = initialState, action) => {
             };
         case ONE_EVENT:
             newState = {
-                ...state,
-                [action.payload.id]: action.payload,
+                ...state
             };
+            newState.EventDetails = action.payload
             return newState;
         case ADD_EVENT:
             newState = {
