@@ -72,9 +72,18 @@ const CreateGroupForm = () => {
         e.preventDefault();
         setErrors([]);
         const reqBody = { name, about, type, private: isPrivate, city, state };
-        
-        const newGroup = await dispatch(createGroup(reqBody));
-        history.push(`/groups/`);
+
+        const newGroup = await dispatch(createGroup(reqBody)).catch(
+            async (res) => {
+                const data = await res.json();
+                const errorsArray = data.errors;
+                setErrors(Object.values(errorsArray));
+                return;
+            }
+        );
+        if (newGroup) {
+            history.push(`/groups/`);
+        }
     };
 
     return (
@@ -85,7 +94,11 @@ const CreateGroupForm = () => {
             </div>
 
             <form className="create-group-form" onSubmit={handleSubmit}>
-                <ul></ul>
+                <ul>
+                    {errors.map((error, idx) => (
+                        <li key={idx}>{error}</li>
+                    ))}
+                </ul>
                 <label id="name-label">
                     Name
                     <input
