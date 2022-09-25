@@ -5,12 +5,12 @@ module.exports = {
         return queryInterface.bulkInsert("EventImages", [
             {
                 eventId: 1,
-                url: "url.com",
+                url: "https://i.ibb.co/259bqrK/Screen-Shot-2022-09-24-at-7-32-48-PM.png",
                 preview: true,
             },
             {
                 eventId: 2,
-                url: "url.com",
+                url: "https://i.ibb.co/1R0c0fn/Screen-Shot-2022-09-24-at-7-35-29-PM.png",
                 preview: true,
             },
         ]);

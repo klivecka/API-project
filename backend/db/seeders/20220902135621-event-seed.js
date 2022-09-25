@@ -7,7 +7,7 @@ module.exports = {
       [
         {
           venueId: 1,
-          groupId: 1,
+          groupId: 3,
           name: "D and D mondays",
           type: "Online",
           capacity: 100,
