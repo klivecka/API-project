@@ -43,7 +43,7 @@ const CreateEventForm = () => {
         console.log("THIS IS NEW EVENT", newEvent);
         if (newEvent) {
             const eventId = newEvent.id;
-            history.push(`/events/${eventId}`);
+            history.push(`/events/`);
         }
     };
     return (

@@ -71,8 +71,7 @@ const CreateGroupForm = () => {
         e.preventDefault();
         const reqBody = { name, about, type, private: isPrivate, city, state };
         const newGroup = await dispatch(createGroup(reqBody));
-        const groupId = newGroup.id;
-        history.push(`/groups/${groupId}`);
+        history.push(`/groups/`);
     };
 
     return (

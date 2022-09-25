@@ -8,7 +8,8 @@ import "./eventdetails.css";
 const EventDetails = () => {
     const dispatch = useDispatch();
     const { eventId } = useParams();
-    const event = useSelector((state) => state.event[eventId]);
+    const event = useSelector((state) => state?.event[eventId]);
+    const group = useSelector((state) => state.group?.GroupDetails);
     const [isLoaded, setIsLoaded] = useState(false);
     console.log("THIS IS THE EVENT", event);
 
@@ -22,13 +23,12 @@ const EventDetails = () => {
         hour % 12
     }:${minute} ${m}`;
     event.newDate = dateString;
-
-    const group = useSelector((state) => state.group.GroupDetails);
-
+    
     useEffect(() => {
-        dispatch(fetchEvents()).then(() => setIsLoaded(true));
-        dispatch(fetchOneGroup(event.Group.id));
-    }, [event.Group.id]);
+        dispatch(fetchEvents())
+            .then(() => dispatch(fetchOneGroup(event.Group.id)))
+            .then(() => setIsLoaded(true));
+    }, []);
 
     return (
         <>
@@ -85,7 +85,8 @@ const EventDetails = () => {
                                 <div className="inside-location">
                                     <i className="fa-solid fa-location-dot"></i>{" "}
                                     {event.type === "Online" && "Online"}
-                                    {event.type !== "Online" && `${group.city}, ${group.state}`}
+                                    {event.type !== "Online" &&
+                                        `${group.city}, ${group.state}`}
                                 </div>
                             </div>
                         </div>
