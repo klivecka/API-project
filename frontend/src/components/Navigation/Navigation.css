@@ -1,7 +1,7 @@
 .header-nav-wrapper {
     display: grid;
     grid-template-columns: 100px 1fr;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(172, 172, 172);
 }
 
 
@@ -9,8 +9,9 @@
 .meetup-logo {
     background-image: url("https://i.ibb.co/BcPDH9Q/meetup.png");
     width: 150px;
-    background-repeat: none;
-    margin-bottom: 5px
+    background-repeat: no-repeat;
+    background-size:contain;
+    height: 60px;
 }
 
 .nav-link-wrapper {
@@ -22,4 +23,41 @@
 
 .nav-link {
     padding-left: 20px;
+}
+
+#profile-button {
+    border: none;
+    height: 30px;
+    width: 120px;
+    margin-right: 10px;
+    border-radius: 8px;
+    font-family: "Noto Sans";
+    font-weight: bold;
+    color: white;
+    background-color: #ff5946;
+}
+
+#create-group-navlink {
+    text-decoration: none;
+    margin-right: 20px;
+    font-family: "Oxygen";
+    font-weight: 600;
+    border-bottom: 2px solid #6e6c6c;
+    padding-bottom: 2px;
+    color:#6e6c6c
+}
+
+#profile-logout{
+    border: none;
+    margin-top: 10px;
+    width: 150px;
+    height: 40px;
+    border-radius: 8px;
+
+}
+
+.profile-dropdown {
+    list-style: none;
+    font-family: "Oxygen";
+    font-weight: 100;
 }

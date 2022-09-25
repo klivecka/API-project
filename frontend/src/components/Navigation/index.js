@@ -14,8 +14,10 @@ function Navigation({ isLoaded }) {
     if (sessionUser && Object.keys(sessionUser).length !== 0) {
         sessionLinks = 
         <>
+        <NavLink 
+        id="create-group-navlink"
+        to="/group/create">Create a Group</NavLink>
         <ProfileButton user={sessionUser} />
-        <NavLink to="/group/create">Create a Group</NavLink>
         </>
     } else {
         sessionLinks = (
