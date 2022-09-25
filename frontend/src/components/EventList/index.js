@@ -23,14 +23,15 @@ export const EventList = () => {
                         to={`/events/${event.id}`}
                     >
                         <div key={event.id} className="event-div">
-                            <div className="event-image">
-                            style={{
+                            <div
+                                className="event-image"
+                                style={{
                                     backgroundImage:
                                         event.previewImage !== "no image"
                                             ? `url(${event.previewImage})`
                                             : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
                                 }}
-                            </div>
+                            ></div>
                             <div className="event-date">{event.startDate}</div>
                             <div className="event-title">{event.name}</div>
                             <div className="event-group-city">
