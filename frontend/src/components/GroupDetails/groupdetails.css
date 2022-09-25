@@ -5,13 +5,14 @@ a:visited {
 .group-details-wrapper {
     display: grid;
     grid-template-columns: 1fr 880px 1fr;
+
 }
-.outer-wrapper {
+.outer-wrapper-group-details {
     grid-column: 2;
     display: grid;
     grid-template-columns: 7fr 4fr;
     grid-template-rows: 11fr 2fr auto;
-    max-width: 900px
+    max-width: 900px;
 }
 
 .group-detail-image {
@@ -21,6 +22,7 @@ a:visited {
     border-radius: 10px;
     margin: 12px;
     height: 300px;
+    max-width: 550px
 }
 .group-detail-text-wrapper {
     margin-top: 12px;

@@ -10,6 +10,7 @@ import {
 import { deleteGroup, fetchGroups, fetchOneGroup } from "../../store/group";
 import "./groupdetails.css";
 import { EventList } from "../EventList";
+import GroupDetailEvents from "../GroupDetailEvents/GroupDetailEvents";
 
 export const GroupDetails = () => {
     const history = useHistory();
@@ -34,7 +35,7 @@ export const GroupDetails = () => {
         <>
             <div className="group-details-wrapper">
                 {isLoaded && (
-                    <div className="outer-wrapper">
+                    <div className="outer-wrapper-group-details">
                         <div
                             className="group-detail-image"
                             style={{
@@ -162,7 +163,7 @@ export const GroupDetails = () => {
                         )}
                         <div className="group-details-nav-click">
                             {linkValue === "about" && group.about}
-                            {linkValue === "events" && <EventList />}
+                            {linkValue === "events" && <GroupDetailEvents groupId={groupId}/>}
                             {linkValue === "members" && "members TBD"}
                             {linkValue === "photos" && group.GroupImages[0].url}
                         </div>
