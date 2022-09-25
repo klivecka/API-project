@@ -39,7 +39,17 @@ function SignupForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <div className="signup-form-wrapper">
+            <div className="signup-upper-text">
+                <div id="meetup-logo-group-form"></div>
+                <div id="signup-title">Sign up to use Meetup</div>
+            </div>
+
+
+
+        <form 
+        className="signup-form"
+        onSubmit={handleSubmit}>
             <ul>
                 {errors.map((error, idx) => (
                     <li key={idx}>{error}</li>
@@ -48,6 +58,7 @@ function SignupForm() {
             <label>
                 First Name
                 <input
+                id="name-input"
                     type="text"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
@@ -57,6 +68,7 @@ function SignupForm() {
             <label>
                 Last Name
                 <input
+                id="name-input"
                     type="text"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
@@ -66,6 +78,7 @@ function SignupForm() {
             <label>
                 Email
                 <input
+                id="name-input"
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -75,6 +88,7 @@ function SignupForm() {
             <label>
                 Username
                 <input
+                id="name-input"
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -84,6 +98,7 @@ function SignupForm() {
             <label>
                 Password
                 <input
+                id="name-input"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -93,14 +108,18 @@ function SignupForm() {
             <label>
                 Confirm Password
                 <input
+                id="name-input"
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                 />
             </label>
-            <button type="submit">Sign Up</button>
+            <button 
+            id="signup-button"
+            type="submit">Sign Up</button>
         </form>
+        </div>
     );
 }
 
