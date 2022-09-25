@@ -50,7 +50,11 @@ const EventDetails = () => {
                         <div
                             className="event-detail-image"
                             style={{
-                                backgroundImage: `url(${event.previewImage})`,
+                                backgroundImage:
+                                event.previewImage !==
+                                null
+                                    ? `url(${event.previewImage})`
+                                    : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
                             }}
                         ></div>
                         <div className="event-detail-text-wrapper">

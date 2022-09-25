@@ -26,7 +26,7 @@ export const EventList = () => {
     console.log("these are the new dates", newDates);
 
     useEffect(() => {
-        dispatch(fetchEvents()).then(() => setIsLoaded(true));
+        dispatch(fetchEvents()).then(()=> dispatch(fetchGroups())).then(() => setIsLoaded(true));
     }, [fetchEvents]);
 
     return (
@@ -45,7 +45,7 @@ export const EventList = () => {
                                         style={{
                                             backgroundImage:
                                                 event.previewImage !==
-                                                "no image"
+                                                null
                                                     ? `url(${event.previewImage})`
                                                     : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
                                         }}
