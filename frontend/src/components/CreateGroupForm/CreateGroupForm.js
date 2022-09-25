@@ -66,10 +66,13 @@ const CreateGroupForm = () => {
     const [isPrivate, setIsPrivate] = useState(false);
     const [city, setCity] = useState("");
     const [state, setState] = useState(states[0]);
+    const [errors, setErrors] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrors([]);
         const reqBody = { name, about, type, private: isPrivate, city, state };
+        
         const newGroup = await dispatch(createGroup(reqBody));
         history.push(`/groups/`);
     };
