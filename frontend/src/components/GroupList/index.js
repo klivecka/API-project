@@ -8,7 +8,6 @@ export const GroupList = () => {
     const dispatch = useDispatch();
     const groups = useSelector((state) => state.group.list);
 
-
     // console.log("THIS THE THE GROUPS FROM STATE", groups);
 
     useEffect(() => {
@@ -17,41 +16,44 @@ export const GroupList = () => {
     }, [fetchGroups]);
 
     return (
-        <div className="group-wrapper">
-            {groups.map((group) => (
-                <Link
-                    style={{ textDecoration: "none" }}
-                    to={`/groups/${group.id}`}
-                >
-                    <div className="group-div" key={group.id}>
-                        <div
-                            className="internal-image"
-                            style={{
-                                backgroundImage: group.previewImage !== "no image"
-                                    ? `url(${group.previewImage})`
-                                    : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
-                            }}
-                        ></div>
-                        <div className="group-title">
-                            <h3>{group.name}</h3>
-                        </div>
-                        <div className="group-city-state">
-                            <h3>
-                                {group.city}, {group.state}
-                            </h3>
-                        </div>
-                        <div className="group-about">
-                            <p>{group.about}</p>
-                        </div>
+        <div className="group-alignment-wrapper">
+            <div className="group-wrapper">
+                {groups.map((group) => (
+                    <Link
+                        style={{ textDecoration: "none" }}
+                        to={`/groups/${group.id}`}
+                    >
+                        <div className="group-div" key={group.id}>
+                            <div
+                                className="internal-image"
+                                style={{
+                                    backgroundImage:
+                                        group.previewImage !== "no image"
+                                            ? `url(${group.previewImage})`
+                                            : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
+                                }}
+                            ></div>
+                            <div className="group-title">
+                                <h3>{group.name}</h3>
+                            </div>
+                            <div className="group-city-state">
+                                <h3>
+                                    {group.city}, {group.state}
+                                </h3>
+                            </div>
+                            <div className="group-about">
+                                <p>{group.about}</p>
+                            </div>
 
-                        <div className="group-members">
-                            {group.numMembers} members ·{" "}
-                            {group.private && "private"}{" "}
-                            {!group.private && "public"}
+                            <div className="group-members">
+                                {group.numMembers} members ·{" "}
+                                {group.private && "private"}{" "}
+                                {!group.private && "public"}
+                            </div>
                         </div>
-                    </div>
-                </Link>
-            ))}
+                    </Link>
+                ))}
+            </div>
         </div>
     );
 };
