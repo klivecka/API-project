@@ -28,8 +28,35 @@
 }
 
 .delete-event-button {
-    grid-row: 1;
+    grid-row: 3;
     grid-column: 3;
+    margin-top: 20px
+}
+
+#delete-event-button-button {
+    color: rgb(21, 129, 120);
+    background-color: rgb(246, 246, 245);
+    border-radius: 8px;
+    margin-left: 20px;
+    width: 150px;
+    height: 30px;
+    border: none;
+    font-family: "Oxygen";
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+#delete-event-button-button:hover {
+    color: white;
+    background-color: #ff5946;
+    border-radius: 8px;
+    margin-left: 20px;
+    width: 150px;
+    height: 30px;
+    border: none;
+    font-family: "Oxygen";
+    font-size: 14px;
+    font-weight: 300;
 }
 
 .event-detail-image {
@@ -129,4 +156,5 @@
     margin-left: 5px;
     color: rgb(118, 117, 115);
 }
+
 

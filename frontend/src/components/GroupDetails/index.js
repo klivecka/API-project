@@ -71,7 +71,8 @@ export const GroupDetails = () => {
                             </div>
                             {userId === group.organizerId && (
                                 <>
-                                    <div className="join-group-div">
+                                <div className="org-buttons-wrapper">
+                                    <div className="edit-group-div">
                                         <Link to={`/groups/edit/${groupId}`}>
                                             <button id="function-button">
                                                 Edit this group
@@ -94,6 +95,7 @@ export const GroupDetails = () => {
                                         >
                                             Delete this group
                                         </button>
+                                    </div>
                                     </div>
                                 </>
                             )}
@@ -163,7 +165,9 @@ export const GroupDetails = () => {
                         )}
                         <div className="group-details-nav-click">
                             {linkValue === "about" && group.about}
-                            {linkValue === "events" && <GroupDetailEvents groupId={groupId}/>}
+                            {linkValue === "events" && (
+                                <GroupDetailEvents groupId={groupId} />
+                            )}
                             {linkValue === "members" && "members TBD"}
                             {linkValue === "photos" && group.GroupImages[0].url}
                         </div>

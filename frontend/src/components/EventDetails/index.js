@@ -51,10 +51,9 @@ const EventDetails = () => {
                             className="event-detail-image"
                             style={{
                                 backgroundImage:
-                                event.previewImage !==
-                                null
-                                    ? `url(${event.previewImage})`
-                                    : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
+                                    event.previewImage !== null
+                                        ? `url(${event.previewImage})`
+                                        : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
                             }}
                         ></div>
                         <div className="event-detail-text-wrapper">
@@ -103,15 +102,18 @@ const EventDetails = () => {
                                         `${group.city}, ${group.state}`}
                                 </div>
                             </div>
+                            {userId === group.Organizer.id && (
+                                <div className="delete-event-button">
+                                    <button
+                                    id="delete-event-button-button"
+                                        onClick={(e) => deleteSubmit(eventId)}
+                                    >
+                                        Delete event
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
-                    {userId === group.Organizer.id && (
-                        <div className="delete-event-button">
-                            <button onClick={(e) => deleteSubmit(eventId)}>
-                                delete event
-                            </button>
-                        </div>
-                    )}
                 </div>
             )}
         </>
