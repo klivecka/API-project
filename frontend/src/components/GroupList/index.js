@@ -47,8 +47,8 @@ export const GroupList = () => {
 
                             <div className="group-members">
                                 {group.numMembers} members ·{" "}
-                                {group.private && "private"}{" "}
-                                {!group.private && "public"}
+                                {group.private && "Private"}{" "}
+                                {!group.private && "Public"}
                             </div>
                         </div>
                     </Link>

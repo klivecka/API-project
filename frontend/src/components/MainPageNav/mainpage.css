@@ -1,15 +1,24 @@
+.main-nav-align-wrap {
+    display: grid;
+    grid-template-columns: 1fr 780px 1fr;
+}
+
 .main-page-nav-wrapper {
+    margin-top: 20px;
+    grid-column: 2;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     height: 50px;
+    margin-left: 20px;
 }
 
 .main-page-nav-link {
-    padding-right: 10px;
+    margin-right: 10px;
     font-size: large;
     font-family: "Noto Sans";
     font-weight:600;
     color: gray;
     text-decoration: none;
+    color:#0b7880
 }
 

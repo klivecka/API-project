@@ -20,14 +20,15 @@ const MainPageNav = () => {
     }
     return (
         <>
+        <div className="main-nav-align-wrap">
             <div className="main-page-nav-wrapper">
                 <NavLink
                     className="main-page-nav-link"
                     to="/groups"
                     style={{
-                        color: clickState === "groups" ? "green" : "gray",
-                        textDecoration:
-                            clickState === "groups" ? "underline" : "none",
+                        color: clickState === "groups" ? "#0b7880" : "gray",
+                        borderBottom:
+                            clickState === "groups" ? "3px #0b7880 solid" : "3px white solid",
                     }}
                 >
                     Groups
@@ -36,13 +37,14 @@ const MainPageNav = () => {
                     className="main-page-nav-link"
                     to="/events"
                     style={{
-                        color: clickState === "events" ? "green" : "gray",
-                        textDecoration:
-                            clickState === "events" ? "underline" : "none",
+                        color: clickState === "events" ? "#0b7880" : "gray",
+                        borderBottom:
+                            clickState === "events" ? "3px #0b7880 solid" : "3px white solid",
                     }}
                 >
                     Events
                 </NavLink>
+            </div>
             </div>
         </>
     );
