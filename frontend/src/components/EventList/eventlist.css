@@ -24,7 +24,7 @@ h3 {
 .event-div {
     display: grid;
     grid-template-columns: 178px 1fr;
-    grid-template-rows: 30px 32px 80px 30px;
+    grid-template-rows: 30px 32px 60px 30px;
     bottom: 30px;
     box-sizing: border-box;
     padding-top: 20px;
@@ -51,6 +51,7 @@ h3 {
     grid-row: 1;
     color: rgb(98, 79, 29);
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 .event-title {
@@ -60,11 +61,11 @@ h3 {
     font-size: 20px
 }
 
-.event-city-state {
+.event-group-city {
     grid-column: 2;
     grid-row: 2;
+    color: rgb(97, 97, 97);
     font-size: medium;
-    color:
 }
 
 .event-about {
@@ -84,4 +85,7 @@ h3 {
 
 .event-attendance {
     grid-column: 2;
+    font-size: 15px;
+    font-family: "Roboto";
+    color: rgb(160, 160, 160);
 }

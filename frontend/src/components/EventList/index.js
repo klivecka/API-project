@@ -55,6 +55,9 @@ export const EventList = () => {
                                 {event.numAttending > 1 && " attendees"}
                                 {event.numAttending === 0 && " attendees"}
                                 {event.numAttending === 1 && "attendee"}
+                                {" · "}
+                                {event.type}
+
                             </div>
                         </div>
                     </Link>

@@ -60,8 +60,6 @@ h3 {
     grid-row: 2;
     display: flex;
     align-items: flex-end;
-    font-size: medium;
-
     text-transform: uppercase;
     color: rgb(97, 97, 97);
     font-size: 11px;
