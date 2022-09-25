@@ -15,7 +15,7 @@ function Navigation({ isLoaded }) {
         sessionLinks = (
             <>
                 <NavLink id="create-group-navlink" to="/group/create">
-                    Create a Group
+                    Start a new group!
                 </NavLink>
                 <ProfileButton user={sessionUser} />
             </>
