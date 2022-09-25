@@ -37,7 +37,6 @@
     height: 300px;
 }
 
-
 .event-detail-text-wrapper {
     grid-column: 1;
     margin-top: 12px;
@@ -70,6 +69,16 @@
     border-radius: 8px;
     display: flex;
     align-items: center;
+    background-color: white;
+}
+
+.details-group-name {
+    color: black;
+    margin-bottom: 5px;
+}
+
+.details-public {
+    font-weight: 300;
 }
 
 .tiny-group-img {
@@ -77,12 +86,13 @@
     width: 50px;
     /* border: 1px red solid; */
     margin: 5px;
+    margin-left: 20px;
     border-radius: 8px;
     background-size: cover;
     background-position: 50%;
     background-repeat: no-repeat;
 }
-.event-detail-date {
+.event-detail-date-wrapper {
     color: rgb(118, 117, 115);
     font-weight: bold;
     margin-top: 20px;
@@ -90,7 +100,20 @@
     height: 80px;
     /* border: solid red 1px; */
     border-radius: 8px;
-    margin-left: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left; 
+}
+
+.inside-date {
+    margin-left: 20px;
+    margin-bottom: 10px;;
+}
+
+.inside-location {
+    margin-left: 20px;
 }
 
 .fa-regular fa-clock {
@@ -98,6 +121,7 @@
 }
 
 .event-group-details {
-margin-left: 5px;
-color:rgb(118, 117, 115)
+    margin-left: 5px;
+    color: rgb(118, 117, 115);
 }
+

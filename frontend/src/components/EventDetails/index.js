@@ -24,12 +24,11 @@ const EventDetails = () => {
     event.newDate = dateString;
 
     const group = useSelector((state) => state.group.GroupDetails);
-    let groupType;
 
     useEffect(() => {
         dispatch(fetchEvents()).then(() => setIsLoaded(true));
         dispatch(fetchOneGroup(event.Group.id));
-    }, []);
+    }, [event.Group.id]);
 
     return (
         <>
@@ -68,15 +67,26 @@ const EventDetails = () => {
                                     }}
                                 ></div>
                                 <div className="event-group-details">
-                                    {group.name} <br></br>
-                                    {group.private && "Private group"}
-                                    {!group.private && "Public group"}
+                                    <div className="details-group-name">
+                                        {group.name}
+                                    </div>
+                                    <div className="details-public">
+                                        {group.private && "Private group"}
+                                        {!group.private && "Public group"}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="event-detail-date">
-                                <i className="fa-regular fa-clock"></i>
-                                {" "}
-                                {event.newDate}
+                            <div className="event-detail-date-wrapper">
+                                <div className="inside-date">
+                                    <i className="fa-regular fa-clock"></i>
+                                    {"  "}
+                                    {event.newDate}
+                                </div>
+                                <div className="inside-location">
+                                    <i className="fa-solid fa-location-dot"></i>{" "}
+                                    {event.type === "Online" && "Online"}
+                                    {event.type !== "Online" && `${group.city}, ${group.state}`}
+                                </div>
                             </div>
                         </div>
                     </div>
