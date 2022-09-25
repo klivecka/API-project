@@ -75,59 +75,80 @@ const CreateGroupForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <ul></ul>
-            <label>
-                Name
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
-            </label>
-            <label>
-                About
-                <textarea
-                    value={about}
-                    onChange={(e) => setAbout(e.target.value)}
-                    required
-                />
-            </label>
-            <label>
-                Type
-                <select onChange={(e) => setType(e.target.value)}>
-                    <option value="In person">In person</option>
-                    <option value="Online">Online</option>
-                </select>
-            </label>
-            <label>
-                Private?
-                <select onChange={(e) => setIsPrivate(e.target.value)}>
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
-                </select>
-            </label>
-            <label>
-                City
-                <input
-                    type="text"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                ></input>
-            </label>
-            <label>
-                State
-                <select onChange={(e) => setState(e.target.value)}>
-                    {states.map((state) => (
-                        <option key={state} value={state}>
-                            {state}
-                        </option>
-                    ))}
-                </select>
-            </label>
-            <button type="submit">Create a New Group</button>
-        </form>
+        <div className="create-group-form-wrapper">
+            <div className="create-group-upper-text">
+                <div id="meetup-logo-group-form"></div>
+                <div id="create-group-title">Create a group</div>
+            </div>
+
+            <form className="create-group-form" onSubmit={handleSubmit}>
+                <ul></ul>
+                <label id="name-label">
+                    Name
+                    <input
+                        id="name-input"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    About
+                    <textarea
+                        id="about-input"
+                        value={about}
+                        onChange={(e) => setAbout(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    Type
+                    <select
+                        id="type-select"
+                        onChange={(e) => setType(e.target.value)}
+                    >
+                        <option value="In person">In person</option>
+                        <option value="Online">Online</option>
+                    </select>
+                </label>
+                <label>
+                    Private?
+                    <select
+                        id="type-select"
+                        onChange={(e) => setIsPrivate(e.target.value)}
+                    >
+                        <option value={true}>Yes</option>
+                        <option value={false}>No</option>
+                    </select>
+                </label>
+                <label>
+                    City
+                    <input
+                        id="name-input"
+                        type="text"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                    ></input>
+                </label>
+                <label>
+                    State
+                    <select
+                        id="type-select"
+                        onChange={(e) => setState(e.target.value)}
+                    >
+                        {states.map((state) => (
+                            <option key={state} value={state}>
+                                {state}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+                <button id="create-group-button" type="submit">
+                    Create a New Group
+                </button>
+            </form>
+        </div>
     );
 };
 
