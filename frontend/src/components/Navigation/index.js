@@ -12,25 +12,33 @@ function Navigation({ isLoaded }) {
 
     let sessionLinks;
     if (sessionUser && Object.keys(sessionUser).length !== 0) {
-        sessionLinks = 
-        <>
-        <NavLink 
-        id="create-group-navlink"
-        to="/group/create">Create a Group</NavLink>
-        <ProfileButton user={sessionUser} />
-        </>
+        sessionLinks = (
+            <>
+                <NavLink id="create-group-navlink" to="/group/create">
+                    Create a Group
+                </NavLink>
+                <ProfileButton user={sessionUser} />
+            </>
+        );
     } else {
         sessionLinks = (
             <>
                 <LoginFormModal />
-                <NavLink to='/signup'> <button>Sign Up</button></NavLink>
+                <NavLink to="/signup">
+                    {" "}
+                    <button
+                    className="nav-signup-button"
+                    >Sign Up</button>
+                </NavLink>
             </>
         );
     }
 
     return (
         <div className="header-nav-wrapper">
-            <Link to ='/' className="meetup-logo"><div className="meetup-logo"></div></Link>
+            <Link to="/" className="meetup-logo">
+                <div className="meetup-logo"></div>
+            </Link>
             <div className="nav-link-wrapper">{isLoaded && sessionLinks}</div>
         </div>
     );
