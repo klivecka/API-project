@@ -2,8 +2,12 @@ a:visited {
     text-decoration: none;
     color: black;
 }
-
+.group-details-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 880px 1fr;
+}
 .outer-wrapper {
+    grid-column: 2;
     display: grid;
     grid-template-columns: 7fr 4fr;
     grid-template-rows: 11fr 2fr auto;
@@ -36,16 +40,20 @@ a:visited {
     grid-column: 1;
     align-items: center;
     justify-content: space-around;
-    font-family: "Oxygen";
-    font-size: 16px;
-    font-weight: 300;
     border-top: 1px solid rgb(214, 214, 214)
     /* border: 1px red solid; */
 }
 
+.detail-nav-link {
+    font-family: "Noto Sans";
+    font-weight: 400;
+    cursor: pointer;
+}
+
+
 
 .group-detail-location {
-    color: rgb(97, 97, 97);
+    color: #616161;
     font-size: 15px;
     font-family: "Noto Sans";
     font-weight: 400;
@@ -66,15 +74,23 @@ a:visited {
     font-family: "Noto Sans";
     font-weight: 400;
 }
+
+.about-text {
+    grid-column: 1;
+    font-weight: 400;
+    font-size: 20px;
+    margin-left: 10px
+}
+
 .group-details-nav-click {
     grid-column: 1;
     display: flex;
     justify-content: left;
     align-items: flex-end;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-left: 10px;
     margin-right: 20px;
-    font-family: "Roboto";
+    font-family: "Noto Sans";
     font-size: 16px;
     font-weight: 300;
 }
