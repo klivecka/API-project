@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useParams, NavLink } from "react-router-dom";
-import { fetchEvents } from "../../store/event";
+import { Redirect, useParams, NavLink, useHistory } from "react-router-dom";
+import { fetchEvents, deleteEvent } from "../../store/event";
 import { fetchOneGroup } from "../../store/group";
 import "./eventdetails.css";
 
 const EventDetails = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const { eventId } = useParams();
-    const event = useSelector((state) => state?.event[eventId]);
+
+    const event = useSelector((state) => state.event[eventId]);
     const group = useSelector((state) => state.group?.GroupDetails);
+    const userId = useSelector((state) => state.session.user.id);
+
     const [isLoaded, setIsLoaded] = useState(false);
     console.log("THIS IS THE EVENT", event);
 
@@ -23,12 +27,18 @@ const EventDetails = () => {
         hour % 12
     }:${minute} ${m}`;
     event.newDate = dateString;
-    
+
     useEffect(() => {
         dispatch(fetchEvents())
             .then(() => dispatch(fetchOneGroup(event.Group.id)))
             .then(() => setIsLoaded(true));
     }, []);
+
+    const deleteSubmit = (eventId) => {
+        dispatch(deleteEvent(eventId));
+        alert("Successfully Deleted");
+        history.push("/events");
+    };
 
     return (
         <>
@@ -91,6 +101,13 @@ const EventDetails = () => {
                             </div>
                         </div>
                     </div>
+                    {userId === group.Organizer.id && (
+                        <div className="delete-event-button">
+                            <button onClick={(e) => deleteSubmit(eventId)}>
+                                delete event
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </>

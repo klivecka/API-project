@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 const LOAD_EVENTS = "events/loadEvents";
 const ONE_EVENT = "events/oneEvent";
 const ADD_EVENT = "events/addEvent";
+const DELETE_ONE = "events/deleteEvent";
 
 const loadEvents = (events) => {
     return {
@@ -25,6 +26,13 @@ const addEvent = (event) => {
     };
 };
 
+const deleteOneEvent = (eventId) => {
+    return {
+        type: DELETE_ONE,
+        payload: eventId,
+    };
+};
+
 //FETCH ALL EVENTS THUNK
 export const fetchEvents = () => async (dispatch) => {
     const response = await fetch("/api/events");
@@ -44,21 +52,51 @@ export const fetchOneEvent = (eventId) => async (dispatch) => {
 
 //ADD EVENT THUNK
 export const addOneEvent = (data) => async (dispatch) => {
-    const {groupId, name, type, capacity, price, description, startDate, endDate } = data
+    const {
+        groupId,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate,
+    } = data;
     const venueId = 1;
-    const req = {venueId, name, type, capacity, price, description, startDate, endDate }
-    console.log('THIS IS THE THUKN EVENT REQ', req)
-    const response = await csrfFetch(`/api/groups/${groupId}/events`,{
+    const req = {
+        venueId,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate,
+    };
+    console.log("THIS IS THE THUKN EVENT REQ", req);
+    const response = await csrfFetch(`/api/groups/${groupId}/events`, {
         method: "post",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(req),
-    })
-    const newEvent = await response.json()
-    dispatch(addEvent(newEvent))
+    });
+    const newEvent = await response.json();
+    dispatch(addEvent(newEvent));
     return newEvent;
-}
+};
+
+//Delete Event Thunk
+export const deleteEvent = (eventId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/events/${eventId}`, {
+        method: "delete",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    dispatch(deleteOneEvent(eventId));
+    return;
+};
 
 const initialState = {
     list: [],
@@ -89,6 +127,12 @@ const eventReducer = (state = initialState, action) => {
                 ...state,
             };
             newState.list.push(action.payload);
+            return newState;
+        case DELETE_ONE:
+            newState = {
+                ...state,
+            };
+            delete newState[action.payload];
             return newState;
         default:
             return state;
