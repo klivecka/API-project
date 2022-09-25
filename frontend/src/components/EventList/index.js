@@ -10,6 +10,18 @@ export const EventList = () => {
     const events = useSelector((state) => state.event.list);
     // console.log("THESE ARE THE EVENTS IN THE LIST", events);
 
+    const newDates = events.map(event => {
+        const date = new Date(event.startDate)
+        const newDate = date.toString()
+        const dateParse = newDate.split(' ')
+        const hour = dateParse[4].split(':')[0]
+        const minute = dateParse[4].split(':')[0]
+        let m = hour > 12 ? "PM" : "AM"
+        const dateString = `${dateParse[0]}, ${dateParse[1]} ${dateParse[2]} · ${hour % 12}:${minute} ${m}`
+        return event.newDate = dateString
+    })
+    console.log('these are the new dates',newDates)
+
     useEffect(() => {
         dispatch(fetchEvents());
     }, [fetchEvents]);
@@ -32,7 +44,7 @@ export const EventList = () => {
                                             : `url("https://i.ibb.co/4tMJkBY/group-default.png")`,
                                 }}
                             ></div>
-                            <div className="event-date">{event.startDate}</div>
+                            <div className="event-date">{event.newDate}</div>
                             <div className="event-title">{event.name}</div>
                             <div className="event-group-city">
                                 {event.Group.name} · {event.Group.city},{" "}
