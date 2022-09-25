@@ -35,6 +35,8 @@ const EventDetails = () => {
         <>
             {isLoaded && (
                 <div className="event-details-wrapper">
+                    <div className="upper-color-section"></div>
+                    <div className="lower-color-section"></div>
                     <div className="outer-wrapper">
                         <div
                             className="event-detail-image"
@@ -72,6 +74,8 @@ const EventDetails = () => {
                                 </div>
                             </div>
                             <div className="event-detail-date">
+                                <i className="fa-regular fa-clock"></i>
+                                {" "}
                                 {event.newDate}
                             </div>
                         </div>
