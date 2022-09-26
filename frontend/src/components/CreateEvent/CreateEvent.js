@@ -93,6 +93,7 @@ const CreateEventForm = () => {
                     <input
                     id="name-input"
                         type="number"
+                        min="0"
                         value={capacity}
                         onChange={(e) => setCapacity(e.target.value)}
                     ></input>
@@ -102,6 +103,7 @@ const CreateEventForm = () => {
                     <input
                     id="name-input"
                         type="number"
+                        min="0"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                     ></input>
