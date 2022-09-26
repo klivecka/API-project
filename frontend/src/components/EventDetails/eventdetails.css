@@ -81,6 +81,17 @@
     font-size: 28px;
     font-weight: 800;
     margin-bottom: 15px;
+    color:rgb(65, 65, 63)
+}
+
+.event-detail-attendance {
+    color:rgb(97, 97, 94);
+
+}
+
+.event-detail-organized-by {
+    color:rgb(97, 97, 94);
+    margin-top: 10px;
 }
 
 .mid-right-wrapper {
@@ -160,4 +171,7 @@
 
 .event-detail-description {
     grid-row: 3;
+    font-family: "Oxygen";
+    margin-left: 20px;
+    margin-top: 20px;
 }

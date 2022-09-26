@@ -68,6 +68,9 @@ const EventDetails = () => {
                                 {event.numAttending === 0 && " attendees"}
                                 {event.numAttending === 1 && "attendee"}
                             </div>
+                            <div className="event-detail-organized-by">
+                                Organized by {group.Organizer.firstName} {group.Organizer.lastName}
+                            </div>
                         </div>
                         <div className="mid-right-wrapper">
                             <div className="event-detail-group">
