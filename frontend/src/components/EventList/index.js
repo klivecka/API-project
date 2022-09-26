@@ -36,6 +36,7 @@ export const EventList = () => {
                     <div className="event-wrapper">
                         {events.map((event) => (
                             <Link
+                            className="single-event"
                                 style={{ textDecoration: "none" }}
                                 to={`/events/${event.id}`}
                             >

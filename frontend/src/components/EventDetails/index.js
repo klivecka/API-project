@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useParams, NavLink, useHistory } from "react-router-dom";
+import { Redirect, useParams, NavLink, useHistory, Link } from "react-router-dom";
 import { fetchEvents, deleteEvent, fetchOneEvent } from "../../store/event";
 import { fetchOneGroup } from "../../store/group";
 import "./eventdetails.css";
@@ -73,6 +73,7 @@ const EventDetails = () => {
                             </div>
                         </div>
                         <div className="mid-right-wrapper">
+                                <Link id="group-link-event-detail" to={`/groups/${group.id}`}>
                             <div className="event-detail-group">
                                 <div
                                     className="tiny-group-img"
@@ -93,6 +94,7 @@ const EventDetails = () => {
                                     </div>
                                 </div>
                             </div>
+                                </Link>
                             <div className="event-detail-date-wrapper">
                                 <div className="inside-date">
                                     <i className="fa-regular fa-clock"></i>

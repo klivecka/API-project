@@ -13,6 +13,10 @@ h3 {
     grid-template-columns: 1fr 680px 1fr;
 }
 
+.single-event {
+    color: rgb(61, 58, 58);
+}
+
 .event-wrapper {
     grid-column: 2;
     flex-direction: column; 

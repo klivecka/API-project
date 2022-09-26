@@ -113,6 +113,11 @@
     display: flex;
     align-items: center;
     background-color: white;
+
+}
+
+#group-link-event-detail {
+    text-decoration: none;
 }
 
 .details-group-name {

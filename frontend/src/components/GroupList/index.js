@@ -20,6 +20,7 @@ export const GroupList = () => {
             <div className="group-wrapper">
                 {groups.map((group) => (
                     <Link
+                        className="single-group"
                         style={{ textDecoration: "none" }}
                         to={`/groups/${group.id}`}
                     >
