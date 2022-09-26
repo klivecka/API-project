@@ -11,7 +11,7 @@ the project is written in Javascript with HTML/CSS, with the backend built on Ex
 
 <h2>Features</h2>
 
-via the site a User can perform the following actions (click on "Demo User" on the Login modal to use the site):
+via the site a User can perform the following actions 
 
 **Groups**- 
 
@@ -32,6 +32,10 @@ via the site a User can perform the following actions (click on "Demo User" on t
 <img src="images/Screen Shot 2022-09-26 at 6.53.23 AM.png">
 <img src="images/Screen Shot 2022-09-26 at 6.53.34 AM.png">
 <img src="images/Screen Shot 2022-09-26 at 6.53.45 AM.png">
+
+<h2>Get Started</h2>
+
+If you are not logged in, click any link on the splash page.  Then click on "Demo User" on the Login modal to use the site. You can only add an event to, or edit, a group that you are the organizer of (Demo User is organizer of Soccer Meetup, but you can create a new group). You can only delete events and groups that you are the organizer of.
 
 <h2>Roadmap</h2>
 
