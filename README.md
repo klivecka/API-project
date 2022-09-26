@@ -24,7 +24,7 @@ via the site a User can perform the following actions
 **Events**- 
 
 -Create an event for a specific group</br>
--Get all events associated with an event  </br>
+-Get all details associated with an event  </br>
 -Edit an event  </br>
 
 
