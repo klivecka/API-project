@@ -45,7 +45,12 @@ const SplashPage = () => {
                                 <NavLink to="/groups">Join a Group</NavLink>
                             )}
                             {!user && (
-                                <div onClick={() => setShowModal(true)}>
+                                <div onClick={() => setShowModal(true)}
+                                style={{
+                                    cursor: "pointer",
+                                    textDecoration: "underline"
+                                }}
+                                >
                                     Join a Group
                                 </div>
                             )}
@@ -60,7 +65,12 @@ const SplashPage = () => {
                                 <NavLink to="/events">Find an Event</NavLink>
                             )}
                             {!user && (
-                                <div onClick={() => setShowModal(true)}>
+                                <div onClick={() => setShowModal(true)}
+                                style={{
+                                    cursor: "pointer",
+                                    textDecoration: "underline"
+                                }}
+                                >
                                     Find an Event
                                 </div>
                             )}
@@ -72,7 +82,12 @@ const SplashPage = () => {
                                 </NavLink>
                             )}
                             {!user && (
-                                <div onClick={() => setShowModal(true)}>
+                                <div onClick={() => setShowModal(true)}
+                                style={{
+                                    cursor: "pointer",
+                                    textDecoration: "underline"
+                                }}
+                                >
                                     Start a Group
                                 </div>
                             )}
