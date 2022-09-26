@@ -16,7 +16,7 @@ const EventDetails = () => {
     const userId = useSelector((state) => state.session.user.id);
 
     const [isLoaded, setIsLoaded] = useState(false);
-    console.log("THIS IS THE EVENT", event);
+
 
     const date = new Date(event.startDate);
     const newDate = date.toString();

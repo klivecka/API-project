@@ -149,7 +149,7 @@ const groupReducer = (state = initialState, action) => {
                 ...state,
                 GroupDetails: { ...action.payload },
             };
-            console.log("THIS IS THE NEW STATE FROM THE REDUCER", newState);
+            
             return newState;
         case ADD_ONE:
             newState = {

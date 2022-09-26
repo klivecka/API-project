@@ -23,7 +23,7 @@ export const EventList = () => {
         } · ${hour % 12}:${minute} ${m}`;
         return (event.newDate = dateString);
     });
-    console.log("these are the new dates", newDates);
+
 
     useEffect(() => {
         dispatch(fetchEvents()).then(()=> dispatch(fetchGroups())).then(() => setIsLoaded(true));

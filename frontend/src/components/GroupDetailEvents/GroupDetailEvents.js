@@ -7,7 +7,7 @@ import "./groupdetailevents.css";
 
 export const GroupDetailEvents = ({ groupId }) => {
     const dispatch = useDispatch();
-    console.log("THIS IS THE GROUPID", groupId);
+
     const events = useSelector((state) => state.event.list);
     const [isLoaded, setIsLoaded] = useState(false);
 

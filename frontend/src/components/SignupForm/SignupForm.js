@@ -28,9 +28,9 @@ function SignupForm() {
                 sessionActions.signup({ firstName, lastName, email, username, password })
             ).catch(async (res) => {
                 const data = await res.json();               
-                 console.log('THIS IS THE DATA ERRORS', data.errors)
+                
                 setErrors(Object.values(data.errors));
-                console.log('THIS IS THE ERROS', errors)
+            
             });
         }
         return setErrors([

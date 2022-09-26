@@ -36,7 +36,6 @@ export const login = (user) => async (dispatch) => {
   else {
     const resJson = await response.json()
     const resBody = resJson.body
-    console.log(resBody)
     return resBody
   }
 };
