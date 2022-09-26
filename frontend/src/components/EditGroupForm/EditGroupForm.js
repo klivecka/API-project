@@ -68,74 +68,112 @@ const EditGroupForm = () => {
     const [isPrivate, setIsPrivate] = useState(group.private);
     const [city, setCity] = useState(group.city);
     const [state, setState] = useState(group.state);
+    const [errors, setErrors] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("this is group id", groupId)
-        const reqBody = { id: groupId, name, about, type, private: isPrivate, city, state };
-        console.log('THIS IS REQUEST BODY', reqBody)
-        const newGroup = await dispatch(updateGroup(reqBody));
-        console.log('THIS IS RESPONSE', newGroup)
-        history.push(`/groups/${groupId}`);
+        const reqBody = {
+            id: groupId,
+            name,
+            about,
+            type,
+            private: isPrivate,
+            city,
+            state,
+        };
+        const newGroup = await dispatch(updateGroup(reqBody)).catch(
+            async (res) => {
+                const data = await res.json();
+                const errorsArray = data.errors;
+                setErrors(Object.values(errorsArray));
+                return;
+            }
+        );
+        if (newGroup) {
+            history.push(`/groups/`);
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <ul></ul>
-            <label>
-                Name
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
-            </label>
-            <label>
-                About
-                <textarea
-                    value={about}
-                    onChange={(e) => setAbout(e.target.value)}
-                    required
-                />
-            </label>
-            <label>
-                Type
-                <select value={type} onChange={(e) => setType(e.target.value)}>
-                    <option value="In person">In person</option>
-                    <option value="Online">Online</option>
-                </select>
-            </label>
-            <label>
-                Private?
-                <select
-                    value={isPrivate}
-                    onChange={(e) => setIsPrivate(e.target.value)}
-                >
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
-                </select>
-            </label>
-            <label>
-                City
-                <input
-                    type="text"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                ></input>
-            </label>
-            <label>
-                State
-                <select onChange={(e) => setState(e.target.value)}>
-                    {states.map((state) => (
-                        <option key={state} value={state}>
-                            {state}
-                        </option>
+        <div className="create-group-form-wrapper">
+            <div className="create-group-upper-text">
+                <div id="meetup-logo-group-form"></div>
+                <div id="create-group-title">Edit a group</div>
+            </div>
+            <form className="create-group-form" onSubmit={handleSubmit}>
+                <ul>
+                    {errors.map((error, idx) => (
+                        <li key={idx}>{error}</li>
                     ))}
-                </select>
-            </label>
-            <button type="submit">Edit this Group</button>
-        </form>
+                </ul>
+                <label id="name-label">
+                    Name
+                    <input
+                        id="name-input"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    About
+                    <textarea
+                        id="about-input"
+                        value={about}
+                        onChange={(e) => setAbout(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    Type
+                    <select
+                        id="type-select"
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}
+                    >
+                        <option value="In person">In person</option>
+                        <option value="Online">Online</option>
+                    </select>
+                </label>
+                <label>
+                    Private?
+                    <select
+                        id="type-select"
+                        value={isPrivate}
+                        onChange={(e) => setIsPrivate(e.target.value)}
+                    >
+                        <option value={true}>Yes</option>
+                        <option value={false}>No</option>
+                    </select>
+                </label>
+                <label>
+                    City
+                    <input
+                        id="name-input"
+                        type="text"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                    ></input>
+                </label>
+                <label>
+                    State
+                    <select
+                        id="type-select"
+                        onChange={(e) => setState(e.target.value)}
+                    >
+                        {states.map((state) => (
+                            <option key={state} value={state}>
+                                {state}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+                <button id="create-group-button" type="submit">
+                    Edit this Group
+                </button>
+            </form>
+        </div>
     );
 };
 
