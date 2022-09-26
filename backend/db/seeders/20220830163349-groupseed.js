@@ -7,7 +7,7 @@ module.exports = {
                 {
                     name: "Guitar Hero Meetup",
                     organizerId: 3,
-                    about: "lets hang out and play guitar hero my guys! awesome fun times or everyone and free soda",
+                    about: "Lets hang out and play guitar hero my guys! Awesome fun times or everyone and free soda",
                     type: "In person",
                     private: true,
                     city: "Salt Lake City",
@@ -16,9 +16,9 @@ module.exports = {
 
                 },
                 {
-                    name: "Lets play some soccer",
+                    name: "Soccer Meetup",
                     organizerId: 1,
-                    about: "this is an awesome soccer meetup we meet on the field by the elementary school on wednesdays",
+                    about: "This is an awesome soccer meetup we meet on the field by the elementary school on Wednesdays",
                     type: "In person",
                     private: false,
                     city: "Cottonwood Heights",
@@ -26,9 +26,9 @@ module.exports = {
                     numMembers: 30,
                 },
                 {
-                    name: "d and d meetup",
+                    name: "D and D Online Meetup Group ",
                     organizerId: 2,
-                    about: "this is an online group that meets to play dungeions and dragons on zoom. its really fun come hang with us fellow nerds,",
+                    about: "This is an online group that meets to play dungeons and dragons on zoom. its really fun come hang with us fellow nerds,",
                     type: "Online",
                     private: true,
                     city: "Any City",
