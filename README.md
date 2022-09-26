@@ -28,7 +28,10 @@ via the site a User can perform the following actions:
 -Edit an event  </br>
 
 
-<h2>Images of site to be uploaded</h2>
+<h2>Images of site</h2>
+images/Screen Shot 2022-09-26 at 6.53.23 AM.png
+images/Screen Shot 2022-09-26 at 6.53.34 AM.png
+images/Screen Shot 2022-09-26 at 6.53.45 AM.png
 
 <h2>Roadmap</h2>
 
